@@ -1,0 +1,102 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+
+    font-family: Tahoma;
+}
+
+.page-title {
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+    border: 2px black solid;
+}
+
+.btn {
+    display: block;
+    margin: 10px auto;
+    padding: 5px;
+    background-color: white;
+    border: 2px black solid;
+}
+
+/* LOG IN */
+
+/* HOME PAGE/SNOOP */
+
+ul {
+    margin: 10px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+li {
+    display: block;
+    margin: auto;
+    padding: 2px;
+    width: 75px;
+
+
+    text-align: center;
+    text-decoration: none;
+    list-style-type: none;
+    border: 2px black solid;
+
+}
+
+label {
+    display: block;
+    text-align: center;
+}
+
+input {
+    display: block;
+    margin: 10px auto;
+    width: 250px;
+}
+
+textarea {
+    display: block;
+    margin: 10px auto;
+    resize:none;
+}
+
+#post-entry {
+    display: block;
+    padding: 5px;
+    margin: 10px auto;
+}
+
+.entry-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    margin: auto;
+    padding: 2px;
+    width: 475px;
+}
+
+.entries {
+    margin: auto;
+    padding: 5px;
+    width: 425px;
+    border: 2px black solid;
+}
+
+.entries-snoop {
+    margin: 2px auto;
+    padding: 5px;
+    width: 475px;
+    border: 2px black solid;
+}
+
+.delete {
+    color: lightcoral;
+    background-color: white;
+    border: 2px red solid;
+}
+
+.current-entry-title {
+    display: block;
+    font-weight: bold;
+}
