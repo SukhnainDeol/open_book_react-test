@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
-import { useState } from "react" 
+import { useState } from "react"
+import book from '../assets/book.png'; // BOOK IMAGE FOR HEADER 
 
 export function HomePage() {
 
@@ -28,12 +29,17 @@ export function HomePage() {
 
 
     return <>
-       
-    <ul>
-        <li><Link to="/homepage" style={{ textDecoration: 'none', color: 'black' }}>Home</Link></li>
-        <li><Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>"Snoop"</Link></li>
-        <li><Link to="/" style={{ textDecoration: 'none', color: 'black' }}>Log Out</Link></li>
-    </ul>
+
+    <header className="page-title">
+        <img src={book} className="logo"/>
+       <h1>open_book</h1>
+
+        <nav>
+            <Link to="/homepage" style={{ textDecoration: 'none', color: 'black' }}>Home</Link>
+            <Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>"Snoop"</Link>
+            <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>Log Out</Link>
+        </nav>
+    </header>
 
     <form id="new-entry-form" onSubmit={handleEntry}>
 
