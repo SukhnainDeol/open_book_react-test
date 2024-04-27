@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom"
-import { useState } from "react"
-import book from '../assets/book.png'; // BOOK IMAGE FOR HEADER 
+import { useState, useEffect } from "react"
 
 export function HomePage() {
 
     const [newTitle, setNewTitle] = useState("")
     const [newEntry, setNewEntry] = useState("")
     const [entries, setEntries] = useState([])
+    const [color, setColor] = useState(["black"])
 
     function handleEntry(e) {
 
@@ -27,19 +27,28 @@ export function HomePage() {
         })
     }
 
+    // functions to turn text red when user is over 100 characters
+
+    useEffect(() => {
+        document.getElementById("entry").style.color = color;
+    }, [color])
+
+    function checkEntry(ent) {
+        console.log(ent.length);
+        if(ent.length > 10) {
+            setColor("red")
+        } else {
+            setColor("black")
+        }
+    }
 
     return <>
 
-    <header className="page-title">
-        <img src={book} className="logo"/>
-       <h1>open_book</h1>
-
-        <nav>
-            <Link to="/homepage" style={{ textDecoration: 'none', color: 'black' }}>Home</Link>
-            <Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>"Snoop"</Link>
-            <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>Log Out</Link>
-        </nav>
-    </header>
+    <nav>
+        <Link to="/homepage" style={{ textDecoration: 'none', color: 'black' }}>Home</Link>
+        <Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>"Snoop"</Link>
+        <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>Log Out</Link>
+    </nav>
 
     <form id="new-entry-form" onSubmit={handleEntry}>
 
@@ -52,7 +61,7 @@ export function HomePage() {
        <label htmlFor="entry">Entry Content</label>
        <textarea placeholder="Write About Your Day..." id="entry" cols="50" rows="5" 
        value={newEntry}
-       onChange={e => setNewEntry(e.target.value)}></textarea>
+       onChange={e => {setNewEntry(e.target.value); checkEntry(newEntry + 1)}}></textarea>
 
        <button id="post-entry" className="btn">Post Journal Entry</button>
     </form>
