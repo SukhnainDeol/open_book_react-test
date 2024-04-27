@@ -3,11 +3,13 @@ import { Login } from "./pages/Login.jsx"
 import { HomePage } from "./pages/HomePage.jsx"
 import { Snoop } from "./pages/Snoop.jsx"
 import "./styles.css"
+import logo from './assets/logo.png'; // with import
 
 function App() {
  return <>
- <header>
-       <h1 className="page-title">open_book</h1>
+ <header className="page-title">
+        <img src={logo} className="logo"/>
+       <h1>open_book</h1>
   </header>
   <Routes>
       <Route path="/" element={<Login />} />
