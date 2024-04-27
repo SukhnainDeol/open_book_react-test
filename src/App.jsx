@@ -3,7 +3,7 @@ import { Login } from "./pages/Login.jsx"
 import { HomePage } from "./pages/HomePage.jsx"
 import { Snoop } from "./pages/Snoop.jsx"
 import "./styles.css"
-import logo from './assets/logo.png'; // with import
+import logo from './assets/logo.png'; // BOOK LOGO FOR HEADER
 
 function App() {
  return <>
