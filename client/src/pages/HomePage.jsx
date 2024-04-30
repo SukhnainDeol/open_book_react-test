@@ -14,7 +14,7 @@ export function HomePage() {
         ).then(
         data => {
             setbackendData(data)
-        }).then( console.log(backendData))
+        })
     }, [])
 
     // ----------------------------------------------------------------------------------------
