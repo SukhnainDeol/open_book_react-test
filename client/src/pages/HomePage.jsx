@@ -13,7 +13,7 @@ export function HomePage() {
             response => response.json()
         ).then(
         data => {
-            setbackendData(date)
+            setbackendData(data)
         })
     }, [])
 
