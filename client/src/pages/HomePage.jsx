@@ -9,11 +9,11 @@ export function HomePage() {
     const [backendData, setbackendData] = useState([{}]) // DB INFORMATION
 
     useEffect(() => {
-        fetch("/api").then(
+        fetch("http://localhost:5000/api").then(
             response => response.json()
         ).then(
         data => {
-            setbackendData(data)
+            setbackendData(date)
         })
     }, [])
 
