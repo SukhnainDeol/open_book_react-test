@@ -1,4 +1,4 @@
-***In Development***
+*In Development*
 
 # Open Book
 This is website that allows users to anonymously write a public diary that others can read. Users create an account to post on and have the ability to "Snoop" others' profiles.
