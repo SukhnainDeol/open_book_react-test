@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose')
 
 const replySchema = mongoose.Schema(
     {
@@ -20,5 +20,7 @@ const replySchema = mongoose.Schema(
         },
     }
 );
+ 
+const Reply = mongoose.model('Reply', replySchema);
 
-export const Reply = mongoose.model('Reply', replySchema);
+module.exports = Reply;
