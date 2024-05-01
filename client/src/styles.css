@@ -255,6 +255,11 @@ body {
     color: #ffffff !important;
 }
 
+.dark-theme textarea,
+.dark-theme textarea::placeholder {
+    color: #ffffff !important; 
+}
+
 .dark-theme .btn:hover,
 .dark-theme #post-entry:hover,
 .dark-theme li:hover {
@@ -268,5 +273,6 @@ body {
 .dark-theme li:active {
     background-color: #7dc0ae !important;
 }
+
 
 
