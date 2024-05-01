@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import moment from "moment"
+import { ToggleTheme } from "./ToggleTheme" // toggle theme
 
 
 export function Snoop() {
@@ -28,6 +29,7 @@ export function Snoop() {
                 </div>
         </div>
     })}
-
+    <br></br>
+    <ToggleTheme />
     </>
    }
