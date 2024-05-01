@@ -1,4 +1,10 @@
-# Running the Project Locally
+# ***In Development***
+
+# Open Book
+This is website that allows users to anonymously write a public diary that others can read. Users create an account to post on and have the ability to "Snoop" others' profiles.
+
+
+## Running the Project Locally
 - `git clone <project link>`
 - open 2 terminals
 - in terminal 1, navigate to the server folder and run `npm install`
