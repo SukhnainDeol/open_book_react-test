@@ -11,3 +11,9 @@ This is website that allows users to anonymously write a public diary that other
 - in terminal 2, navigate to the client folder and run `npm install`
 - next, run `npm dev` in *both* terminals, the server folder terminal first
 - If it all works you'll see the website at `http://localhost:5173/`
+
+
+#### Todo
+- [ ] decide on database schema(s)' structure
+- [ ] give team members `.env` file data & add it to `.gitignore`
+- [ ] write async functions for MongoDB database
