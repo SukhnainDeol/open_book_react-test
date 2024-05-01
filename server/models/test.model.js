@@ -1,14 +1,22 @@
+import { Timestamp } from "mongodb";
 import mongoose from "mongoose";
 
-const userSchema = mongoose.Schema(
+const Schema = mongoose.Schema;
+
+const userSchema = new Schema(
     {
         username: {
             type: String,
             required: true,
+            unique: true,
+            trim: true,
+            minLength: 5
         },
         password : {
             type: String,
             required: true,
+            trim: true,
+            minLength: 5
         },
         entries : [{
             id : {
@@ -64,7 +72,9 @@ const userSchema = mongoose.Schema(
                 },
             }]
         }],
-    }
+    }, { timestamps: true }
 );
 
-export const User = mongoose.model('Test', userSchema);
+const Test = mongoose.model('Test'.userSchema)
+
+module.exports = Test;
