@@ -1,19 +1,16 @@
 * {
     box-sizing: border-box;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     font-family: Tahoma;
-}
-
-body {
-    background-color: white;
 }
 
 .page-title {
     margin: 5px;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
-    border: 2px black solid;
+    border: 2px solid black;
+    border-radius: 5px;
 }
 
 .page-title .logo {
@@ -33,7 +30,20 @@ body {
     margin: 10px auto;
     padding: 5px;
     background-color: white;
-    border: 2px black solid;
+    border: 2px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn:hover {
+    background-color: #c7e0c7;
+    color:#000000;
+}
+
+.btn:active {
+    background-color: #588c7e; 
+    color: #ffffff; 
 }
 
 /* LOG IN */
@@ -51,6 +61,11 @@ nav {
     column-gap: 15px;
 }
 
+nav a:hover {
+    font-weight: bolder;
+}
+
+
 label {
     display: block;
     text-align: center;
@@ -60,34 +75,65 @@ input {
     display: block;
     margin: 10px auto;
     width: 250px;
+    border-radius: 5px;
+    border: 2px solid black;
+    background-color:#fdfdf3;
+    padding: 5px;
 }
 
 textarea {
     display: block;
     margin: 10px auto;
+    width: 250px;
+    border-radius: 5px;
+    border: 2px solid black;
+    background-color: #fdfdf3;
     padding: 5px;
-    resize:none;
+    resize: none;
+}
+
+input:focus,
+textarea:focus {
+    background-color: #ffffc6;
 }
 
 #post-entry {
     display: block;
-    padding: 5px;
     margin: 10px auto;
+    padding: 5px;
+    background-color: #ffffff;
+    border: 2px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
 }
+
+#post-entry:hover {
+    background-color: #c7e0c7;
+    color:#000000;
+}
+
+#post-entry:active {
+    background-color: #588c7e; 
+    color: #ffffff;
+}
+
 
 .entry-container {
     display: grid;
     grid-template-columns: auto auto;
     margin: auto;
     padding: 2px;
-    width: 500px;
+    width: 475px;
 }
 
 .entry-container .entries {
     margin: auto;
     padding: 5px;
     width: 425px;
-    border: 2px black solid;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: #fdfdf3;
 }
 
 .entry-container .current-entry-title {
@@ -98,6 +144,12 @@ textarea {
 .entry-container .delete {
     color: lightcoral;
     background-color: white;
+    border: 2px red solid;
+}
+
+.entry-container .delete:hover {
+    color: white;
+    background-color: red;
     border: 2px red solid;
 }
 
@@ -115,7 +167,106 @@ textarea {
     color: lightgreen;
 }
 
+.entry-container .like:hover {
+    font-weight: bolder;
+}
+
 .entry-container .dislike  {
     font-size: 20px;
     color: lightcoral;
 }
+
+.entry-container .dislike:hover {
+    font-weight: bolder;
+}
+
+:root {
+    --light-background-color: #ffffff; 
+    --light-text-color: #000000; 
+    --dark-background-color: #1f1f1f; 
+    --dark-text-color: #ffffff; 
+    --background-color: var(--light-background-color);
+    --text-color: var(--light-text-color);
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Light Mode */
+.light-theme {
+    --background-color: var(--light-background-color);
+    --text-color: var(--light-text-color);
+}
+
+/* Dark Mode */
+.dark-theme {
+    --background-color: var(--dark-background-color);
+    --text-color: var(--dark-text-color);
+}
+
+.dark-theme .page-title {
+    border-color: #ffffff;
+}
+
+.dark-theme nav a {
+    color: white !important;
+}
+
+.dark-theme input,
+.dark-theme textarea {
+    color: #ffffff;
+    background-color: grey;
+    border-color: #ffffff;
+}
+
+.dark-theme .entries,
+.dark-theme .entries-snoop,
+.dark-theme input:focus,
+.dark-theme textarea:focus {
+    background-color: rgb(100, 100, 100);
+    border-color: #ffffff;
+}
+
+.dark-theme #post-entry,
+.dark-theme .btn {
+    background-color: var(--dark-background-color);
+    border-color: #ffffff;
+    color: white;
+}
+
+
+.dark-theme .delete {
+    background-color: var(--dark-background-color);
+}
+
+.dark-theme .delete:hover {
+    background-color: red
+}
+
+.dark-theme li {
+    border-color: #ffffff;
+}
+
+.dark-theme li a,
+.dark-theme textarea::placeholder {
+    color: #ffffff !important;
+}
+
+.dark-theme .btn:hover,
+.dark-theme #post-entry:hover,
+.dark-theme li:hover {
+    background-color: #588c7e !important;
+    border-color: #ffffff;
+    color: white;
+}
+
+.dark-theme .btn:active,
+.dark-theme #post-entry:active,
+.dark-theme li:active {
+    background-color: #7dc0ae !important;
+}
+
+
