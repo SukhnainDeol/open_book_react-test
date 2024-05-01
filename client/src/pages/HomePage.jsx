@@ -70,11 +70,16 @@ export function HomePage() {
     return <>
 
     <nav>
-        <Link to="/homepage" style={{ textDecoration: 'none', color: 'black' }}>Home</Link>
-        <Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>"Snoop"</Link>
-        <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>Log Out</Link>
+        <ul className="nav-list">
+            <li><Link to="/homepage" style={{ textDecoration: 'none', color: 'black' }}>Home</Link></li>
+            <li><Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>Snoop</Link></li>
+            <li><ToggleTheme /></li>
+            <li><Link to="/" style={{ textDecoration: 'none', color: 'black' }}>Log Out</Link></li>
+        </ul>  
     </nav>
-
+    <div className = "homepage-container">
+    <aside className="left-aside">Left Aside Content</aside>
+    <div>
     <form id="new-entry-form" onSubmit={handleEntry}>
 
        <label htmlFor="title">Entry Title</label>
@@ -101,6 +106,8 @@ export function HomePage() {
         </div>
     })}
     <br></br>
-    <ToggleTheme /> 
+    </div>
+    <aside className="right-aside">Right Aside Content</aside>
+    </div>
     </>
    }
