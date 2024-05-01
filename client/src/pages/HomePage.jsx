@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { useState, useEffect } from "react"
+import { ToggleTheme } from "./ToggleTheme" // imports the new toggle theme file
 import moment from "moment"
 
 export function HomePage() {
@@ -99,5 +100,7 @@ export function HomePage() {
             <button className="delete" onClick={() => deleteEntry(entry.id)}>Delete</button>
         </div>
     })}
+    <br></br>
+    <ToggleTheme /> 
     </>
    }
