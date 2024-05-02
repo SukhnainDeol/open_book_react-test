@@ -12,6 +12,26 @@ router.route('/').get((request, response) => {
         err => response.status(400).json('Error: ' + err)); // if there's an error return that instead
 })
 
+// GET REQUEST TO GET SPECIFIC USER
+router.route('/:username').get( async (request, response) => {
+    try {
+        // get user by filtering
+        const username = request.params.username;
+        const user = await User.find({username: {$eq: username}});
+
+        // check if it worked
+        if (!user) {
+            return response.status(404).json({message: "User not found"});
+        }
+
+        // success response
+        return response.status(200).json(user);
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
 // POST REQUEST TO ADD USER
 router.route('/').post((request, response) => {
     const username = request.body.username;
@@ -26,29 +46,56 @@ router.route('/').post((request, response) => {
 
 
 // PUT REQUEST TO EDIT USER
-// app.put('/users/:id', async (request, response) => {
-//     try {
-//         if (
-//             !request.body.username ||
-//             !request.body.password
-//         ) {
-//             return response.status(400).send({
-//                 message: "Username and Password fields are required",
-//             });
-//         }
-//         const id = request.params.id;
-        
-//         const user = await User.findByIdAndUpdate(id, request.body);
+router.route('/:id').put( async (request, response) => {
+    try {
+        // check params
+        if (
+            !request.body.username ||
+            !request.body.password
+        ) {
+            return response.status(400).send({
+                message: "Username and Password fields are required",
+            });
+        }
 
-//         if (!user) {
-//             return response.status(404).json({message: "User not found"});
-//         }
+        // get user
+        const id = request.params.id;
+        const user = await User.findByIdAndUpdate(id, request.body);
 
-//         return response.status(201).send({message: "User update success!"});
-//     } catch (error) {
-//         console.log("ERROR:", error.message);
-//         response.status(500).send({message: error.message});
-//     }
-// });
+        // check if it worked
+        if (!user) {
+            return response.status(404).json({message: "User not found"});
+        }
+
+        // success response
+        return response.status(201).send({message: "User Updated Successfully!"});
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
+
+// DELETE REQUEST TO DELETE USER
+router.route('/:id').delete( async (request, response) => {
+    try {
+        // get user
+        const id = request.params.id;
+        const user = await User.findByIdAndDelete(id);
+
+        // check if it worked
+        if (!user) {
+            return response.status(404).json({message: "User not found"});
+        }
+
+        // success response
+        return response.status(201).send({message: "User Deleted Successfully!"});
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
+
 
 module.exports = router

@@ -26,6 +26,7 @@ const postSchema = mongoose.Schema(
         text : {
             type: String,
             required: true,
+            trim: true,
         },
         date : {
             type: Date,
