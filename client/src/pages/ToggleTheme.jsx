@@ -15,8 +15,8 @@ export function ToggleTheme() {
     }
 
     return (
-        <button onClick={toggleTheme} className="btn">
+        <span onClick={toggleTheme} className="nav-link">
             {isDarkMode ? "Light Mode" : "Dark Mode"}
-        </button>
+        </span>
     );
 }
