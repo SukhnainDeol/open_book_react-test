@@ -1,20 +1,32 @@
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
+import { useAuth } from '../contexts/auth-context'
 import axios from "axios"
 
 export function Login() {
 
+    const navigate = useNavigate();
+
+    const {
+        user, 
+        setUser,
+        loggedIn,
+        setLoggedIn
+    } = useAuth()
+
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
-    function Try() {
+    function In(e) {
+        e.preventDefault()
 
-        console.log(username);
-        console.log(password);
+        setLoggedIn(true)
+        setUser({Username: username})
 
-        axios.post('http://localhost:5000/users/', {username: username, password: password})
+        // axios.post('http://localhost:5000/users/', {username: username, password: password})
 
-        window.location = '/homepage'
+        navigate('/homepage') // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
+
     }
 
 
@@ -23,6 +35,6 @@ export function Login() {
         <input type="text" value={username} onChange={e => setUsername(e.target.value)}/>
         <label>Password</label>
         <input type="password" value={password} onChange={e => setPassword(e.target.value)}/>
-        < Link to="#" style={{ textDecoration: 'none', color: 'black' }}><button id="login-button" className="btn" onClick={() => Try()} >Login!</button></Link>
+        <button id="login-button" className="btn" onClick={(e) => {In(e)}}>Login!</button>
     </>
    }
