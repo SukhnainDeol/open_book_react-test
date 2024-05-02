@@ -1,11 +1,11 @@
 const router = require('express').Router()
 
-let User2 = require('../models/user.model2.js')
+let User = require('../models/user.model.js')
 
 // GET REQUESTS TO GET USERS
 router.route('/').get((request, response) => {
     // mongoose function to find all users
-    User2.find()
+    User.find()
     .then(
         users => response.json(users)) // returns all the users from the database
     .catch(
@@ -17,7 +17,7 @@ router.route('/').post((request, response) => {
     const username = request.body.username;
     const password = request.body.password;
 
-    const newUser = new User2({username, password});
+    const newUser = new User({username, password});
 
     newUser.save()
     .then(() => response.json('User Added!')) // IF USER IS SUCCESSFULLY ADDED
