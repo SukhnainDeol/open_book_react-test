@@ -13,6 +13,8 @@ export function Login() {
         console.log(password);
 
         axios.post('http://localhost:5000/users/', {username: username, password: password})
+
+        window.location = '/homepage'
     }
 
 
