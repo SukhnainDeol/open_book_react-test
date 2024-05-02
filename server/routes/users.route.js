@@ -1,16 +1,19 @@
 const router = require('express').Router()
-
 let User = require('../models/user.model.js')
 
+
 // GET REQUESTS TO GET USERS
-router.route('/').get((request, response) => {
-    // mongoose function to find all users
-    User.find()
-    .then(
-        users => response.json(users)) // returns all the users from the database
-    .catch(
-        err => response.status(400).json('Error: ' + err)); // if there's an error return that instead
+router.route('/').get( async (request, response) => {
+    try {
+        // get users & return them
+        const users = await User.find({});
+        return response.status(200).json(users);
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
 })
+
 
 // GET REQUEST TO GET SPECIFIC USER
 router.route('/:username').get( async (request, response) => {
@@ -32,16 +35,30 @@ router.route('/:username').get( async (request, response) => {
     }
 })
 
+
 // POST REQUEST TO ADD USER
-router.route('/').post((request, response) => {
-    const username = request.body.username;
-    const password = request.body.password;
+router.route('/').post( async (request, response) => {
+    try {
+        // if fields are not filled
+        if (!( request.body.username && request.body.password )) {
+            return response.status(400).send({
+                message: "Username and Password fields are required",
+            });
+        }
 
-    const newUser = new User({username, password});
+        // create new user 
+        const newUser = {
+            username: request.body.username,
+            password: request.body.password,
+        }
 
-    newUser.save()
-    .then(() => response.json('User Added!')) // IF USER IS SUCCESSFULLY ADDED
-    .catch(err => response.status(400).json('Error: ' + err)); // if there's an error return that instead
+        // add new user
+        await User.create(newUser);
+        return response.status(201).send({ message: "User Created Successfully!"})
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
 })
 
 
