@@ -44,11 +44,7 @@ app.put('/users/:id', async (request, response) => {
                 message: "Username and Password fields are required",
             });
         }
-        const newUser = {
-            username: request.body.username,
-            password: request.body.password, 
-        }
-        const id = request.params;
+        const id = request.params.id;
         
         const user = await User.findByIdAndUpdate(id, request.body);
 
