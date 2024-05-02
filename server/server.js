@@ -16,13 +16,22 @@ app.use(express.json())
 
 // MONGODB
 const uri = process.env.REACT_APP_ATLAS_URI; // CONNECTION SHOULD BE PLACED IN .env FILE
-mongoose.connect(uri)
 
-const connection = mongoose.connection;
-connection.once('open', () => { // once the connection is open, give message letting us know it was connected!
-    console.log("database connection established successfully!");
-});
+// connect to MongoDB Atlas Cluster
+mongoose.connect(uri,{
+    dbName: 'openBook', // name of database
+}).then(() => { 
+     
+    console.log("Database connection established successfully!");
 
+    // once the connection is open, give message letting us know it was connected!
+    mongoose.connection.once('open', () => { 
+        console.log("database connection established successfully!");
+    });
+    
+}).catch((err) => {
+    console.log("Database connection FAILED! ", err);
+})
 
 // API ROUTE FILES
 const usersRouter = require('./routes/users.route')
