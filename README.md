@@ -14,6 +14,8 @@ This is website that allows users to anonymously write a public diary that other
 
 
 #### Todo
-- [ ] decide on database schema(s)' structure
-- [ ] give team members `.env` file data & add it to `.gitignore`
-- [ ] write async functions for MongoDB database
+- [ ] testing backend routes for functionality & security
+- [ ] properly setting up interactions between server and MongoDB Atlas
+- [ ] Cleaning up backend codebase
+- [ ] Research Cloud hosting solutions
+- [ ] Integrated backend and frontend
