@@ -14,6 +14,8 @@ const replySchema = mongoose.Schema(
             type: Date,
             required: true,
         },
+    }, {
+        timestamps: true
     }
 );
 
@@ -55,6 +57,8 @@ const postSchema = mongoose.Schema(
             },
         },
         replies: [replySchema],
+    }, {
+        timestamps: true
     }
 );
 
