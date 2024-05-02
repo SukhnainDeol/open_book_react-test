@@ -37,6 +37,37 @@ app.listen(port, () => {
 
 // USER MODEL METHODS
 
+
+// PUT request for user (NOT WORKING)
+app.put('/users/:id', async (request, response) => {
+    try {
+        if (
+            !request.body.username ||
+            !request.body.password
+        ) {
+            return response.status(400).send({
+                message: "Username and Password fields are required",
+            });
+        }
+        const newUser = {
+            username: request.body.username,
+            password: request.body.password, 
+        }
+        const id = request.params;
+        
+        const user = await User.findByIdAndUpdate(id, request.body);
+
+        if (!user) {
+            return response.status(404).json({message: "User not found"});
+        }
+
+        return response.status(201).send({message: "User update success!"});
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+});
+
 // POST request for user
 app.post("/users", async (request, response) => {
     try {
@@ -61,6 +92,7 @@ app.post("/users", async (request, response) => {
     }
 });
 
+
 // GET request for user 
 app.get("/users", async (request, response) => {
     try {
@@ -71,3 +103,5 @@ app.get("/users", async (request, response) => {
         response.status(500).send({message: error.message});
     }
 });
+
+
