@@ -1,9 +1,20 @@
 import { Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { ToggleTheme } from "./ToggleTheme" // imports the new toggle theme file
+import { useAuth } from '../contexts/auth-context'
 import moment from "moment"
 
 export function HomePage() {
+
+    const {
+        user, 
+        setUser,
+        loggedIn,
+        setLoggedIn
+    } = useAuth()
+
+    console.log("LOGGED IN STATUS: " + loggedIn);
+    console.log("USER: " + user.Username);
 
     // ------------------------------------------------------------------- DATABASE FETCH CODE
 
