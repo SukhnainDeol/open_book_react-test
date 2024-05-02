@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import moment from "moment"
-import { ToggleTheme } from "./ToggleTheme" // toggle theme
+import { ToggleTheme } from "./ToggleTheme"
 
 
 export function Snoop() {
@@ -12,10 +12,16 @@ export function Snoop() {
 
     return <>
         <nav>
-            <Link to="/homepage" style={{ textDecoration: 'none', color: 'black' }}>Home</Link>
-            <Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>"Snoop"</Link>
-            <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>Log Out</Link>
+            <ul className="nav-list">
+                <li><Link to="/homepage" style={{ textDecoration: 'none', color: 'black' }}>Home</Link></li>
+                <li><Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>Snoop</Link></li>
+                <li><ToggleTheme /></li>
+                <li><Link to="/" style={{ textDecoration: 'none', color: 'black' }}>Log Out</Link></li>
+            </ul>  
         </nav>
+        <div className = "homepage-container">
+        <aside className="left-aside">Left Aside Content</aside>
+        <div>
 
     {entries.reverse().map(entry => {
 
@@ -30,6 +36,8 @@ export function Snoop() {
         </div>
     })}
     <br></br>
-    <ToggleTheme />
+    </div>
+    <aside className="right-aside">Right Aside Content</aside>
+    </div>
     </>
    }
