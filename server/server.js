@@ -25,11 +25,6 @@ connection.once('open', () => { // once the connection is open, give message let
 
 // SERVER METHODS
 
-app.get("/api", (request, response) => {
-
-    response.json({"users": ["testUser", "testSnoop"]})
-})
-
 app.listen(port, () => {
     console.log(`Server started on PORT: ${port}`);
 })
