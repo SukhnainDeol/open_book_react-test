@@ -23,6 +23,12 @@ connection.once('open', () => { // once the connection is open, give message let
     console.log("database connection established successfully!");
 });
 
+
+// API ROUTE FILES
+
+const usersRouter = require('./routes/users2')
+app.use('/users2', usersRouter)
+
 // SERVER METHODS
 
 app.listen(port, () => {
