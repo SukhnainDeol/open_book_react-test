@@ -24,4 +24,4 @@ router.route('/add').post((request, response) => {
     .catch(err => response.status(400).json('Error: ' + err)); // if there's an error return that instead
 })
 
-modules.exports = router
+module.exports = router
