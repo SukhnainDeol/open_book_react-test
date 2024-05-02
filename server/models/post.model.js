@@ -1,5 +1,22 @@
 const mongoose = require('mongoose')
 
+const replySchema = mongoose.Schema(
+    {
+        author : {
+            type: String,
+            required: true,
+        },
+        text : {
+            type: String,
+            required: true,
+        },
+        date : {
+            type: Date,
+            required: true,
+        },
+    }
+);
+
 const postSchema = mongoose.Schema(
     {
         author : {
@@ -36,6 +53,7 @@ const postSchema = mongoose.Schema(
                 default: [],
             },
         },
+        repliTestes: [replySchema],
     }
 );
 

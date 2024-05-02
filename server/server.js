@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
-const User = require('./models/userModel')
+const User = require('./models/user.model')
 
 
 require('dotenv').config()
@@ -26,8 +26,8 @@ connection.once('open', () => { // once the connection is open, give message let
 
 // API ROUTE FILES
 
-const usersRouter = require('./routes/users2')
-app.use('/users2', usersRouter)
+// const usersRouter = require('./routes/users2')
+// app.use('/users2', usersRouter)
 
 // SERVER METHODS
 
@@ -100,5 +100,3 @@ app.get("/users", async (request, response) => {
         response.status(500).send({message: error.message});
     }
 });
-
-
