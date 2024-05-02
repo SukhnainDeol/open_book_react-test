@@ -29,6 +29,10 @@ connection.once('open', () => { // once the connection is open, give message let
 const usersRouter = require('./routes/users.route')
 app.use('/users', usersRouter)
 
+const postsRouter = require('./routes/posts.route')
+app.use('/posts', postsRouter)
+
+
 // SERVER METHODS
 
 app.listen(port, () => {
@@ -37,7 +41,6 @@ app.listen(port, () => {
 
 
 // USER MODEL METHODS
-
 
 // PUT request for user (NOT WORKING)
 app.put('/users/:id', async (request, response) => {

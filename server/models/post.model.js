@@ -53,7 +53,7 @@ const postSchema = mongoose.Schema(
                 default: [],
             },
         },
-        repliTestes: [replySchema],
+        replies: [replySchema],
     }
 );
 
