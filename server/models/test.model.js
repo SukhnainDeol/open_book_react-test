@@ -1,80 +1,62 @@
-import { Timestamp } from "mongodb";
 const mongoose = require('mongoose')
 
-const Schema = mongoose.Schema;
-
-const userSchema = new Schema(
+const replySchema = mongoose.Schema(
     {
-        username: {
+        author : {
             type: String,
             required: true,
-            unique: true,
-            trim: true,
-            minLength: 5
         },
-        password : {
+        text : {
             type: String,
             required: true,
-            trim: true,
-            minLength: 5
         },
-        entries : [{
-            id : {
-                type: String,
-                required: true,
-            },
-            text : {
-                type: String,
-                required: true,
-            },
-            date : {
-                type: Date,
-                required: true,
-            },
-            likes : {
-                count : {
-                    type: Number,
-                    required: true,
-                    default: 0,
-                },
-                users : {
-                    type: [String],
-                    default: [],
-                },
-            },
-            dislikes : {
-                count : {
-                    type: Number,
-                    required: true,
-                    default: 0,
-                },
-                users : {
-                    type: [String],
-                    default: [],
-                },
-            },
-            replies: [{
-                id: {
-                    type: String,
-                    required: true,
-                },
-                author : {
-                    type: String,
-                    required: true,
-                },
-                text : {
-                    type: String,
-                    required: true,
-                },
-                date : {
-                    type: Date,
-                    required: true,
-                },
-            }]
-        }],
-    }, { timestamps: true }
+        date : {
+            type: Date,
+            required: true,
+        },
+    }
 );
 
-const Test = mongoose.model('Test', userSchema)
+const postSchema = mongoose.Schema(
+    {
+        author : {
+            type: String,
+            required: true,
+        },
+        text : {
+            type: String,
+            required: true,
+        },
+        date : {
+            type: Date,
+            required: true,
+        },
+        likes : {
+            count : {
+                type: Number,
+                required: true,
+                default: 0,
+            },
+            users : {
+                type: [String],
+                default: [],
+            },
+        },
+        dislikes : {
+            count : {
+                type: Number,
+                required: true,
+                default: 0,
+            },
+            users : {
+                type: [String],
+                default: [],
+            },
+        },
+        replies: [replySchema],
+    }
+);
+
+const Post = mongoose.model('Test', postSchema);
 
 module.exports = Test;
