@@ -27,7 +27,7 @@ connection.once('open', () => { // once the connection is open, give message let
 // API ROUTE FILES
 
 const usersRouter = require('./routes/users.route')
-app.use('/users.route', usersRouter)
+app.use('/users', usersRouter)
 
 // SERVER METHODS
 
