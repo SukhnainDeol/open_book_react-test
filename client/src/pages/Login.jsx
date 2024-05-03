@@ -23,7 +23,7 @@ export function Login() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
-    function In(e) {
+    function HandleLogIn(e) {
         e.preventDefault()
 
         setLoggedIn(true)
@@ -40,6 +40,6 @@ export function Login() {
         <input type="text" value={username} onChange={e => setUsername(e.target.value)}/>
         <label>Password</label>
         <input type="password" value={password} onChange={e => setPassword(e.target.value)}/>
-        <button id="login-button" className="btn" onClick={(e) => {In(e)}}>Login!</button>
+        <button id="login-button" className="btn" onClick={(e) => {HandleLogIn(e)}}>Login!</button>
     </>
    }

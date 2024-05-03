@@ -19,9 +19,10 @@ export function Snoop() {
     console.log("LOGGED IN STATUS: " + loggedIn);
     console.log("USER: " + user.Username);
 
-    function Out(e) {
+    function HandleLogOut(e) {
         e.preventDefault()
 
+        // RESETS CONTEXT
         setLoggedIn(false)
         setUser({Username: ""})
 
@@ -40,7 +41,7 @@ export function Snoop() {
                 <li><Link to="/homepage" style={{ textDecoration: 'none', color: 'black' }}>Home</Link></li>
                 <li><Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>Snoop</Link></li>
                 <li><ToggleTheme /></li>
-                <li><Link to="#" style={{ textDecoration: 'none', color: 'black' }} onClick={(e) => {Out(e)}}>Log Out</Link></li>
+                <li><Link to="#" style={{ textDecoration: 'none', color: 'black' }} onClick={(e) => {HandleLogOut(e)}}>Log Out</Link></li>
             </ul>  
         </nav>
         <div className = "homepage-container">
