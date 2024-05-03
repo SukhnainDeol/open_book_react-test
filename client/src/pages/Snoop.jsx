@@ -17,7 +17,6 @@ export function Snoop() {
     } = useAuth()
 
     console.log("LOGGED IN STATUS: " + loggedIn);
-    console.log("USER: " + user.Username);
 
     function HandleLogOut(e) {
         e.preventDefault()
