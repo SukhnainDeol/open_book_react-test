@@ -90,8 +90,43 @@ nav a:hover {
     border: 2px solid black;
     border-radius: 5px;
     padding: 10px;
-    width: 200px;
+    width: 95%;
     margin: auto;
+    height: 90%;
+    position: relative; 
+    overflow: hidden; /* hides the overflow */
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+/* sample text for asides*/
+.sample-text {
+    animation: floatInOut 10s infinite;
+    white-space: nowrap;
+    overflow: hidden;
+    position: absolute; 
+    left: 0%; /* start at the left */
+    right: 0; 
+    text-align: center; 
+}
+
+@keyframes floatInOut {
+    0% {
+        transform: translateX(-100%); /* starts at left of aside*/
+    }
+    35% {
+        transform: translateX(0%); /* float to the middle */
+    }
+    65% {
+        transform: translateX(0%); /* holds in the middle */
+    }
+    85% {
+        transform: translateX(100%); /* floats off screen to the right */
+    }
+    100% {
+        transform: translateX(100%); /* resets back to starting position */
+    }
 }
 
 label {
