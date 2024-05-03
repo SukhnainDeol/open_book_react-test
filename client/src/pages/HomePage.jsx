@@ -101,7 +101,7 @@ export function HomePage() {
     <div className = "homepage-container">
     <aside className="left-aside">
             <p class="sample-text">Left Aside Content</p>
-        </aside>
+    </aside>
     <div>
     <form id="new-entry-form" onSubmit={handleEntry}>
 
