@@ -6,6 +6,8 @@ import moment from "moment"
 
 export function HomePage() {
 
+    // AUTH FUNCTIONS ------------------------------------------------------------------------------------------------------------------
+
     const navigate = useNavigate();
 
     const {

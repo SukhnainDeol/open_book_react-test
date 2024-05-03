@@ -7,6 +7,8 @@ import { ToggleTheme } from "./ToggleTheme"
 
 export function Snoop() {
 
+    // AUTH FUNCTIONS ----------------------------------------------------------------------------------------------------------------------
+
     const navigate = useNavigate();
 
     const {
