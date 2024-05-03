@@ -5,6 +5,8 @@ import axios from "axios"
 
 export function Login() {
 
+    // AUTH FUNCTIONS ------------------------------------------------------------------------------------------------------------------
+    
     const navigate = useNavigate();
 
     const {
