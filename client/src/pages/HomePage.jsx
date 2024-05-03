@@ -99,7 +99,9 @@ export function HomePage() {
         </ul>  
     </nav>
     <div className = "homepage-container">
-    <aside className="left-aside">Left Aside Content</aside>
+    <aside className="left-aside">
+            <p class="sample-text">Left Aside Content</p>
+        </aside>
     <div>
     <form id="new-entry-form" onSubmit={handleEntry}>
 
@@ -128,7 +130,9 @@ export function HomePage() {
     })}
     <br></br>
     </div>
-    <aside className="right-aside">Right Aside Content</aside>
+    <aside className="right-aside">
+        <p class="sample-text">Right Aside Content</p>
+    </aside>
     </div>
     </>
    }
