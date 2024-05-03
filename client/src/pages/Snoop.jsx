@@ -12,8 +12,6 @@ export function Snoop() {
     const navigate = useNavigate();
 
     const {
-        user, 
-        setUser,
         loggedIn,
         setLoggedIn
     } = useAuth()
@@ -26,8 +24,6 @@ export function Snoop() {
 
         // RESETS CONTEXT
         setLoggedIn(false)
-        setUser({Username: ""})
-
 
         navigate('/') // NAVIGATES TO LOGIN PAGE WHEN USER LOGS OUT
 

@@ -3,7 +3,6 @@ import { Login } from "./pages/Login.jsx"
 import { HomePage } from "./pages/HomePage.jsx"
 import { Snoop } from "./pages/Snoop.jsx"
 import { AuthProvider, useAuth } from "./contexts/auth-context.jsx";
-import { CookiesProvider, useCookies } from 'react-cookie'
 import "./styles.css"
 import book from './assets/book.png'; // BOOK IMAGE FOR HEADER 
 

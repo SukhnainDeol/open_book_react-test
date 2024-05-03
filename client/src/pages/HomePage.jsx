@@ -11,22 +11,17 @@ export function HomePage() {
     const navigate = useNavigate();
 
     const {
-        user, 
-        setUser,
         loggedIn,
         setLoggedIn
     } = useAuth()
 
     console.log("LOGGED IN STATUS: " + loggedIn);
-    console.log("USER: " + user.Username);
 
     function HandleLogOut(e) {
         e.preventDefault()
 
-        // RESETS CONTEXT
+        // RESETS CONTEXT/COOKIE
         setLoggedIn(false)
-        setUser({Username: ""})
-
 
         navigate('/') // NAVIGATES TO LOGIN PAGE WHEN USER LOGS OUT
 

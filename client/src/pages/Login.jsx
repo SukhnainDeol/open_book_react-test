@@ -1,4 +1,4 @@
-import { useNavigate, Navigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { useAuth } from '../contexts/auth-context'
 import axios from "axios"
@@ -10,8 +10,6 @@ export function Login() {
     const navigate = useNavigate();
 
     const {
-        user, 
-        setUser,
         loggedIn,
         setLoggedIn
     } = useAuth()
@@ -29,7 +27,6 @@ export function Login() {
         e.preventDefault()
 
         setLoggedIn(true)
-        setUser({Username: username})
 
         // axios.post('http://localhost:5000/users/', {username: username, password: password})
 
