@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { useAuth } from '../contexts/auth-context'
+import Cookies from 'js-cookie'
 import axios from "axios"
 
 export function Login() {
@@ -9,13 +9,10 @@ export function Login() {
     
     const navigate = useNavigate();
 
-    const {
-        loggedIn,
-        setLoggedIn
-    } = useAuth()
-
     useEffect(() => { // PREVENTS USER FROM GOING BACK TO LOGGIN PAGE IF ALREADY LOGGED IN
-        if(loggedIn) {
+        const user = Cookies.get("username");
+        if(user) {
+            console.log("should move to homepage");
             navigate('/homepage')
         }
     }, [])
@@ -26,7 +23,8 @@ export function Login() {
     function HandleLogIn(e) {
         e.preventDefault()
 
-        setLoggedIn(true)
+        // SETS COOKIE AND CONTEXT
+        Cookies.set("username", username);
 
         // axios.post('http://localhost:5000/users/', {username: username, password: password})
 

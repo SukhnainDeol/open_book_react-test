@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { ToggleTheme } from "./ToggleTheme" // imports the new toggle theme file
-import { useAuth } from '../contexts/auth-context'
 import moment from "moment"
+import Cookies from 'js-cookie'
 
 export function HomePage() {
 
@@ -10,22 +10,20 @@ export function HomePage() {
 
     const navigate = useNavigate();
 
-    const {
-        loggedIn,
-        setLoggedIn
-    } = useAuth()
-
-    console.log("LOGGED IN STATUS: " + loggedIn);
-
     function HandleLogOut(e) {
         e.preventDefault()
 
         // RESETS CONTEXT/COOKIE
-        setLoggedIn(false)
+        Cookies.remove("username")
 
         navigate('/') // NAVIGATES TO LOGIN PAGE WHEN USER LOGS OUT
 
     }
+
+    useEffect(() => {
+        const user = Cookies.get("username");
+        console.log("LOGGED IN AS: " + user)
+    })
 
     // ------------------------------------------------------------------- DATABASE FETCH CODE
 

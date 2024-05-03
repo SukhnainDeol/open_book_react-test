@@ -1,28 +1,30 @@
 import { Link, useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import moment from "moment"
-import { useAuth } from '../contexts/auth-context'
 import { ToggleTheme } from "./ToggleTheme"
+import Cookies from 'js-cookie'
 
 
 export function Snoop() {
 
     // AUTH FUNCTIONS ----------------------------------------------------------------------------------------------------------------------
 
+    useEffect(() => {
+        const user = Cookies.get("username");
+        if(user) {
+            console.log("LOGGED IN AS: " + user)
+        } else {
+            console.log("NOT LOGGED IN")
+        }
+    })
+
     const navigate = useNavigate();
-
-    const {
-        loggedIn,
-        setLoggedIn
-    } = useAuth()
-
-    console.log("LOGGED IN STATUS: " + loggedIn);
 
     function HandleLogOut(e) {
         e.preventDefault()
 
         // RESETS CONTEXT
-        setLoggedIn(false)
+        Cookies.remove("username")
 
         navigate('/') // NAVIGATES TO LOGIN PAGE WHEN USER LOGS OUT
 

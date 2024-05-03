@@ -2,14 +2,13 @@ import { Route, Routes, Outlet, Navigate } from "react-router-dom"
 import { Login } from "./pages/Login.jsx"
 import { HomePage } from "./pages/HomePage.jsx"
 import { Snoop } from "./pages/Snoop.jsx"
-import { AuthProvider, useAuth } from "./contexts/auth-context.jsx";
+import Cookies from 'js-cookie'
 import "./styles.css"
-import book from './assets/book.png'; // BOOK IMAGE FOR HEADER 
+import book from './assets/book.png'; // BOOK IMAGE FOR HEADER
 
 function App() {
 
     return <>
-        <AuthProvider>
             <header className="page-title">
                 <img src={book} className="logo"/>
                 <h1>open_book</h1>
@@ -21,13 +20,12 @@ function App() {
                 <Route path="/snoop" element={<Snoop />} />
                 <Route path="/" element={<Login />} />
             </Routes>
-        </AuthProvider>
  </>
 }
 
 const PrivateRoutes = () =>{ // ANY ATTEMPT TO ACCESS HOMEPAGE WITHOUT BEING LOGGED IN WILL NAVIGATE BACK TO LOGIN PAGE
-    const Auth = useAuth();
+    const user = Cookies.get("username"); // IF COOKIE DOESN'T EXIST USER CAN'T GO T HOMEPAGE
     return (
-        Auth.loggedIn ? <Outlet/> : <Navigate to="/"/>
+        user ? <Outlet/> : <Navigate to="/"/>
       )}
 export default App
