@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { ToggleTheme } from "./ToggleTheme" // imports the new toggle theme file
 import { useAuth } from '../contexts/auth-context'
 import moment from "moment"
 
 export function HomePage() {
+
+    const navigate = useNavigate();
 
     const {
         user, 
@@ -15,6 +17,17 @@ export function HomePage() {
 
     console.log("LOGGED IN STATUS: " + loggedIn);
     console.log("USER: " + user.Username);
+
+    function Out(e) {
+        e.preventDefault()
+
+        setLoggedIn(false)
+        setUser({Username: ""})
+
+
+        navigate('/') // NAVIGATES TO LOGIN PAGE WHEN USER LOGS OUT
+
+    }
 
     // ------------------------------------------------------------------- DATABASE FETCH CODE
 
@@ -86,7 +99,7 @@ export function HomePage() {
             <li><Link to="/homepage" style={{ textDecoration: 'none', color: 'black' }}>Home</Link></li>
             <li><Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>Snoop</Link></li>
             <li><ToggleTheme /></li>
-            <li><Link to="/" style={{ textDecoration: 'none', color: 'black' }}>Log Out</Link></li>
+            <li><Link to="#" style={{ textDecoration: 'none', color: 'black' }} onClick={(e) => {Out(e)}}>Log Out</Link></li>
         </ul>  
     </nav>
     <div className = "homepage-container">

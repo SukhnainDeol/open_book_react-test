@@ -1,10 +1,34 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import moment from "moment"
+import { useAuth } from '../contexts/auth-context'
 import { ToggleTheme } from "./ToggleTheme"
 
 
 export function Snoop() {
+
+    const navigate = useNavigate();
+
+    const {
+        user, 
+        setUser,
+        loggedIn,
+        setLoggedIn
+    } = useAuth()
+
+    console.log("LOGGED IN STATUS: " + loggedIn);
+    console.log("USER: " + user.Username);
+
+    function Out(e) {
+        e.preventDefault()
+
+        setLoggedIn(false)
+        setUser({Username: ""})
+
+
+        navigate('/') // NAVIGATES TO LOGIN PAGE WHEN USER LOGS OUT
+
+    }
 
     const currentDate = moment().format('l'); // CURRENT DATE FORMAT WITH MOMENT.JS
 
@@ -16,7 +40,7 @@ export function Snoop() {
                 <li><Link to="/homepage" style={{ textDecoration: 'none', color: 'black' }}>Home</Link></li>
                 <li><Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>Snoop</Link></li>
                 <li><ToggleTheme /></li>
-                <li><Link to="/" style={{ textDecoration: 'none', color: 'black' }}>Log Out</Link></li>
+                <li><Link to="#" style={{ textDecoration: 'none', color: 'black' }} onClick={(e) => {Out(e)}}>Log Out</Link></li>
             </ul>  
         </nav>
         <div className = "homepage-container">

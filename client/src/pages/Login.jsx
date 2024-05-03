@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Navigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { useAuth } from '../contexts/auth-context'
 import axios from "axios"
@@ -14,6 +14,12 @@ export function Login() {
         setLoggedIn
     } = useAuth()
 
+    useEffect(() => { // PREVENTS USER FROM GOING BACK TO LOGGIN PAGE IF ALREADY LOGGED IN
+        if(loggedIn) {
+            navigate('/homepage')
+        }
+    }, [])
+
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
@@ -28,7 +34,6 @@ export function Login() {
         navigate('/homepage') // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
 
     }
-
 
     return <>
         <label>Username</label>
