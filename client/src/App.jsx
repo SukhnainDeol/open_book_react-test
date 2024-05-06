@@ -24,7 +24,7 @@ function App() {
 }
 
 const PrivateRoutes = () =>{ // ANY ATTEMPT TO ACCESS HOMEPAGE WITHOUT BEING LOGGED IN WILL NAVIGATE BACK TO LOGIN PAGE
-    const user = Cookies.get("username"); // IF COOKIE DOESN'T EXIST USER CAN'T GO T HOMEPAGE
+    const user = Cookies.get("username"); // IF COOKIE DOESN'T EXIST USER CAN'T GO TO HOMEPAGE
     return (
         user ? <Outlet/> : <Navigate to="/"/>
       )}
