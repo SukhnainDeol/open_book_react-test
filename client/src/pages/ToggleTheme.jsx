@@ -24,12 +24,12 @@ export function ToggleTheme() {
 
         if(Theme) { // IF IT EXISTS DISPLAY PROPER MODE SETTING
 
-            setIsDarkMode(Boolean(Theme)); // SETS DARKMODE TO THEME VALUE
-
             if(Theme === 'true') {
+                setIsDarkMode(true); // SETS DARKMODE TO THEME VALUE
                 document.documentElement.classList.add("dark-theme");
                 document.documentElement.classList.remove("light-theme");
             } else if(Theme === 'false') {
+                setIsDarkMode(false); // SETS DARKMODE TO THEME VALUE
                 document.documentElement.classList.add("light-theme");
                 document.documentElement.classList.remove("dark-theme");
             }
