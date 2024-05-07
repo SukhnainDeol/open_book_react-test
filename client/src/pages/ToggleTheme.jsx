@@ -20,15 +20,16 @@ export function ToggleTheme() {
     // USEEFFECT() TO HANDLE COOKIES/MODE CONTEXT BUG
     useEffect(() => {
 
-        const Theme = Cookies.get("theme"); // CHECKS IF COOKIE EXISTS TO DISPLAY SELECTED MODE AFTER PAGE REFRESH
+        const Theme = Cookies.get("theme"); // COOKIE VALUE IF IT EXISTS, OR UNDECLARED
 
         if(Theme) { // IF IT EXISTS DISPLAY PROPER MODE SETTING
+
+            setIsDarkMode(Boolean(Theme)); // SETS DARKMODE TO THEME VALUE
+
             if(Theme === 'true') {
-                setIsDarkMode(true);
                 document.documentElement.classList.add("dark-theme");
                 document.documentElement.classList.remove("light-theme");
             } else if(Theme === 'false') {
-                setIsDarkMode(false);
                 document.documentElement.classList.add("light-theme");
                 document.documentElement.classList.remove("dark-theme");
             }
