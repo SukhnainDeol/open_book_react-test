@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 export function ToggleTheme() {
     const [isDarkMode, setIsDarkMode] = useState(false);
@@ -13,6 +13,13 @@ export function ToggleTheme() {
             document.documentElement.classList.remove("dark-theme");
         }
     }
+
+    // FIXES A BUG WHERE IS USER LOGS OUT IN DARKMODE AND LOGS BACK IN, IT'S STILL THE DARK MODE CLASS BUT TOGGLE DOESN'T RECOGNIZE IT
+    useEffect(() => {
+        if(document.documentElement.classList.contains("dark-theme")) {
+            setIsDarkMode(true);
+        }
+    }, [])
 
     return (
         <span onClick={toggleTheme} className="nav-link">
