@@ -23,8 +23,9 @@ export function Snoop() {
     function HandleLogOut(e) {
         e.preventDefault()
 
-        // RESETS CONTEXT
+        // DELETES COOKIES
         Cookies.remove("username")
+        Cookies.remove("theme")
 
         navigate('/') // NAVIGATES TO LOGIN PAGE WHEN USER LOGS OUT
 

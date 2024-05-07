@@ -13,8 +13,9 @@ export function HomePage() {
     function HandleLogOut(e) {
         e.preventDefault()
 
-        // RESETS CONTEXT/COOKIE
+        // DELETES COOKIES
         Cookies.remove("username")
+        Cookies.remove("theme")
 
         navigate('/') // NAVIGATES TO LOGIN PAGE WHEN USER LOGS OUT
 
