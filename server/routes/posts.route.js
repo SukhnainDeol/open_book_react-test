@@ -3,10 +3,12 @@ const Post = require('../models/post.model');
 
 // todo
     // look into api tokens
-    // PATCH methods
+    // PATCH methods text/title, dislikes/likes + users, 
         // test patch requests
+    // make POST/PUT user methods refuse usernames with spaces
     // security checks
     // method for least and most liked posts (of the day?)
+    // make POST/PUT methods create a new data object to prevent unneeded elements
 
 
 
@@ -57,8 +59,6 @@ router.route('/:id').put(async (request, response) => {
         // check if required fields are filled
         if (!(
             request.body.author && request.body.title && request.body.text && request.body.date 
-            && request.body.likes && request.body.likes.count 
-            && request.body.dislikes && request.body.dislikes.count
         )) {
             return response.status(400).send({
                 message: "Author, Title, Text, Date, Likes Count, and Dislikes Count fields are required",
