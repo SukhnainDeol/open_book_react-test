@@ -2,13 +2,14 @@ const router = require('express').Router()
 const Post = require('../models/post.model');
 
 // todo
-    // look into headers
     // look into api tokens
     // PATCH methods
         // test patch requests
     // security checks
-    // fix element-checking in methods
     // method for least and most liked posts (of the day?)
+
+
+
 
 
 // GET REQUESTS
@@ -24,6 +25,9 @@ router.route('/').get(async (request, response) => {
     }
 })
 
+// GET Most/Least liked Post
+
+
 
 // POST REQUESTS
 router.route('/').post(async (request, response) => {
@@ -31,14 +35,12 @@ router.route('/').post(async (request, response) => {
         // check if required fields are filled
         if (!(
             request.body.author && request.body.title && request.body.text && request.body.date 
-            && request.body.likes.count && request.body.dislikes.count
         )) {
             return response.status(400).send({
                 message: "Author, Title, Text, Date, Likes Count, and Dislikes Count fields are required",
             });
         }
         
-
         // add post to database
         await Post.create(request.body);
         return response.status(201).send({message: "Post Created Successfully!"});
@@ -86,9 +88,9 @@ router.route('/:id').put(async (request, response) => {
 router.route('/:postId/text').patch(async (request, response) => {
     try {
         // check if required fields are filled
-        if (!(request.body.text)) {
+        if (!(request.body.text && request.body.title)) {
             return response.status(400).send({
-                message: "Text field is required",
+                message: "Text and Title fields are required",
             });
         }
         
@@ -99,6 +101,7 @@ router.route('/:postId/text').patch(async (request, response) => {
             {
                 $set: { // update post
                     "text": request.body.text,
+                    "title": request.body.title,
                 }
             },
         );
@@ -109,13 +112,12 @@ router.route('/:postId/text').patch(async (request, response) => {
         }
 
         // success Response
-        return response.status(200).send({message: "Post Text Updated Successfully!"});
+        return response.status(200).send({message: "Post's Text and Title Updated Successfully!"});
     } catch (error) {
         console.log("ERROR:", error.message);
         response.status(500).send({message: error.message});
     }
 })
-
 
 
 // DELETE REQUESTS
