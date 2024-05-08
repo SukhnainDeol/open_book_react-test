@@ -7,6 +7,7 @@ router.route('/').get( async (request, response) => {
     try {
         // get users & return them
         const users = await User.find({});
+        response.setHeader('Content-Type', 'application/json');
         return response.status(200).json(users);
     } catch (error) {
         console.log("ERROR:", error.message);
@@ -26,6 +27,9 @@ router.route('/:username').get( async (request, response) => {
         if (!user) {
             return response.status(404).json({message: "User not found"});
         }
+
+        // set header
+        response.setHeader('Content-Type', 'application/json');
 
         // success response
         return response.status(200).json(user);
