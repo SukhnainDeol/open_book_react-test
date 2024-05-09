@@ -50,14 +50,17 @@ router.route('/').post( async (request, response) => {
             });
         }
 
-        // create new user 
-        const newUser = {
-            username: request.body.username,
-            password: request.body.password,
+        // check for spaces
+        const username = request.body.username;
+        const password = request.body.password;
+        if (username.indexOf(' ') >= 0 || password.indexOf(' ') >= 0) {
+            return response.status(400).send({
+                message: "Username and Password fields must not have spaces",
+            });
         }
 
         // add new user
-        await User.create(newUser);
+        await User.create(request.body);
         return response.status(201).send({ message: "User Created Successfully!"})
     } catch (error) {
         console.log("ERROR:", error.message);
@@ -76,6 +79,15 @@ router.route('/:id').put( async (request, response) => {
         ) {
             return response.status(400).send({
                 message: "Username and Password fields are required",
+            });
+        }
+
+        // check for spaces
+        const username = request.body.username;
+        const password = request.body.password;
+        if (username.indexOf(' ') >= 0 || password.indexOf(' ') >= 0) {
+            return response.status(400).send({
+                message: "Username and Password fields must not have spaces",
             });
         }
 

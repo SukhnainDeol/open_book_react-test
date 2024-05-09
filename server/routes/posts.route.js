@@ -3,12 +3,20 @@ const Post = require('../models/post.model');
 
 // todo
     // look into api tokens
-    // PATCH methods text/title, dislikes/likes + users, 
+    // password encryption / hashing
+    // PATCH methods dislikes/likes + users, replies
         // test patch requests
     // make POST/PUT user methods refuse usernames with spaces
     // security checks
     // method for least and most liked posts (of the day?)
     // make POST/PUT methods create a new data object to prevent unneeded elements
+    // make creating posts and replies check if author exists
+    // validaters
+        // likes / dislikes >= 0
+        // no space in author name
+        // text and title less than max
+        // author exists in database
+        // aboves things for replies
 
 
 
@@ -42,7 +50,7 @@ router.route('/').post(async (request, response) => {
                 message: "Author, Title, Text, Date, Likes Count, and Dislikes Count fields are required",
             });
         }
-        
+
         // add post to database
         await Post.create(request.body);
         return response.status(201).send({message: "Post Created Successfully!"});
@@ -64,7 +72,7 @@ router.route('/:id').put(async (request, response) => {
                 message: "Author, Title, Text, Date, Likes Count, and Dislikes Count fields are required",
             });
         }
-        
+
         // edit post
         const id = request.params.id;
         const post = await Post.findByIdAndUpdate(id, request.body);
