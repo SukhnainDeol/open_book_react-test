@@ -11,12 +11,16 @@ const Post = require('../models/post.model');
     // method for least and most liked posts (of the day?)
     // make POST/PUT methods create a new data object to prevent unneeded elements
     // make creating posts and replies check if author exists
+    // shorten methods with similar boilerplate
     // validaters
         // likes / dislikes >= 0
+            // likes count == users.count
+            // users cant like & dislike same post
         // no space in author name
         // text and title less than max
         // author exists in database
         // aboves things for replies
+        // arrays are strings
 
 
 
@@ -92,7 +96,7 @@ router.route('/:id').put(async (request, response) => {
 
 
 // PATCH REQUESTS
-// patch post text
+// patch post text/title
 router.route('/:postId/text').patch(async (request, response) => {
     try {
         // check if required fields are filled
@@ -121,6 +125,80 @@ router.route('/:postId/text').patch(async (request, response) => {
 
         // success Response
         return response.status(200).send({message: "Post's Text and Title Updated Successfully!"});
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
+// patch post likes
+router.route('/:postId/likes').patch(async (request, response) => {
+    try {
+        // check if required fields are filled
+        if (!(request.body.likes && request.body.likes.count && request.body.likes.users)) {
+            return response.status(400).send({
+                message: "Likes Count and Users fields are required",
+            });
+        }
+        
+        // edit post 
+        const postId = request.params.postId;
+        const post = await Post.findOneAndUpdate(
+            { _id: postId}, // get post
+            {
+                $set: { // update post
+                    "likes":{
+                        "count": request.body.likes.count,
+                        "users": request.body.likes.users,
+                    }
+                }
+            },
+        );
+
+        // not found Response
+        if (!post) {
+            return response.status(404).send({message: "Post not found"});
+        }
+
+        // success Response
+        return response.status(200).send({message: "Post's Like Count and Users Updated Successfully!"});
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
+// patch post dislikes
+router.route('/:postId/dislikes').patch(async (request, response) => {
+    try {
+        // check if required fields are filled
+        if (!(request.body.dislikes && request.body.dislikes.count && request.body.dislikes.users)) {
+            return response.status(400).send({
+                message: "Dislikes Count and Users fields are required",
+            });
+        }
+        
+        // edit post 
+        const postId = request.params.postId;
+        const post = await Post.findOneAndUpdate(
+            { _id: postId}, // get post
+            {
+                $set: { // update post
+                    "dislikes":{
+                        "count": request.body.dislikes.count,
+                        "users": request.body.dislikes.users,
+                    }
+                }
+            },
+        );
+
+        // not found Response
+        if (!post) {
+            return response.status(404).send({message: "Post not found"});
+        }
+
+        // success Response
+        return response.status(200).send({message: "Post's Dislike Count and Users Updated Successfully!"});
     } catch (error) {
         console.log("ERROR:", error.message);
         response.status(500).send({message: error.message});
