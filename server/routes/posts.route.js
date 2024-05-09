@@ -319,6 +319,45 @@ router.route('/:id/reply/:replyId').put(async (request, response) => {
 })
 
 
+// PATCH REPLY REQUESTS
+// patch reply text
+router.route('/:id/reply/:replyId/text').patch(async (request, response) => {
+    try {
+        // check if required fields are filled
+        if (!(request.body.text)) {
+            return response.status(400).send({
+                message: "Text field is required",
+            });
+        }
+        
+        // find post & its reply then update
+        const postId = request.params.id;
+        const replyId = request.params.replyId;
+        const post = await Post.findOneAndUpdate(
+            { _id: postId, "replies._id": replyId}, // get specific reply in post
+            {
+                $set: { // update reply
+                    "replies.$.text": request.body.text,
+                },
+            },
+            {
+                new: true,
+            }
+        );
+
+        // not found Response
+        if (!post) {
+            return response.status(404).send({message: "Post not found"});
+        }
+        
+        return response.status(201).send({message: "Reply Updated Successfully"});
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
+
 // DELETE REPLY REQUESTS
 router.route('/:id/reply/:replyId').delete(async (request, response) => {
     try {
