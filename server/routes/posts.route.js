@@ -1,17 +1,17 @@
 const router = require('express').Router()
 const Post = require('../models/post.model');
+const User = require('../models/user.model');
+
 
 // todo
     // look into api tokens
     // password encryption / hashing
-    // PATCH methods dislikes/likes + users, replies
-        // test patch requests
-    // make POST/PUT user methods refuse usernames with spaces
+    // test patch requests
     // security checks
     // method for least and most liked posts (of the day?)
-    // make POST/PUT methods create a new data object to prevent unneeded elements
     // make creating posts and replies check if author exists
     // shorten methods with similar boilerplate
+    // disallow special characters in username
     // validaters
         // likes / dislikes >= 0
             // likes count == users.count
@@ -22,6 +22,24 @@ const Post = require('../models/post.model');
         // aboves things for replies
         // arrays are strings
 
+
+/** (Currently not working)
+ * 
+ * @param {*} username - string of username in database 
+ * 
+ * @returns - true/false if user exists
+ */
+async function userExists(username) {
+    try {
+        let user = await User.find({username: username});
+        console.log(user);
+        user = user ? true : false
+        return user;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+}
 
 
 
@@ -40,6 +58,11 @@ router.route('/').get(async (request, response) => {
 })
 
 // GET Most/Least liked Post
+router.route('/').get(async (request, response) => {
+    // get posts from last day
+    // get max likes / dislikes
+    // return 200 + post JSON
+})
 
 
 
