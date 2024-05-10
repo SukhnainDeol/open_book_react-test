@@ -58,11 +58,44 @@ router.route('/').get(async (request, response) => {
 })
 
 // GET Most/Least liked Post
-router.route('/').get(async (request, response) => {
-    // get posts from last day
-    // get max likes / dislikes
-    // return 200 + post JSON
+router.route('/liked').get(async (request, response) => {
+    try {
+        
+        let mostLiked = await Post.findOne({
+            "date": 
+            {
+                // greater than date of (right now - 1 day)
+                $gte: new Date (new Date().getTime() - (24 * 60 * 60 * 1000))
+            }
+        }).sort({ "likes.count": -1}); // sort by likes
+       
+        return response.status(200).json(mostLiked);
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
 })
+
+
+// GET Most/Least liked Post
+router.route('/disliked').get(async (request, response) => {
+    try {
+        
+        let mostDisliked = await Post.findOne({
+            "date": 
+            {
+                // greater than date of (right now - 1 day)
+                $gte: new Date (new Date().getTime() - (24 * 60 * 60 * 1000))
+            }
+        }).sort({ "dislikes.count": -1}); // sort by likess
+       
+        return response.status(200).json(mostDisliked);
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
 
 
 
@@ -78,8 +111,6 @@ router.route('/').post(async (request, response) => {
             });
         }
         
-        console.log(User.exists({username: request.body.author}) === null);
-
         let doesExist = await User.exists({username: request.body.author});
         if (doesExist == null) {
             return response.status(400).send({
