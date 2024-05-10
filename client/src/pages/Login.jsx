@@ -24,7 +24,7 @@ export function Login() {
         e.preventDefault()
 
         // SETS COOKIE AND CONTEXT
-        Cookies.set("username", username);
+        Cookies.set("username", username, { expires: 7 });
 
         // axios.post('http://localhost:5000/users/', {username: username, password: password})
 
