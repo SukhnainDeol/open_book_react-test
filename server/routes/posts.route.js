@@ -77,6 +77,15 @@ router.route('/').post(async (request, response) => {
                 message: "Author, Title, Text, Date, Likes Count, and Dislikes Count fields are required",
             });
         }
+        
+        console.log(User.exists({username: request.body.author}) === null);
+
+        let doesExist = await User.exists({username: request.body.author});
+        if (doesExist == null) {
+            return response.status(400).send({
+                message: "Author does not exist",
+            });
+        }
 
         // add post to database
         await Post.create(request.body);
