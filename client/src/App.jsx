@@ -5,6 +5,7 @@ import { Snoop } from "./pages/Snoop.jsx"
 import Cookies from 'js-cookie'
 import "./styles.css"
 import book from './assets/book.png'; // BOOK IMAGE FOR HEADER
+//import menu_Icon from './assests/menu_Icon';//IMAGE FOR HAMBURGER MENU
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
             <Routes>
                 <Route element={<PrivateRoutes/>} >
                     <Route path="/homepage" element={<HomePage />} />
+            
                 </Route>
                 <Route path="/snoop" element={<Snoop />} />
                 <Route path="/" element={<Login />} />
