@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 import axios from "axios"
 import { ToggleTheme } from "./ToggleTheme";
 
-export function Login() {
+export function SignUp() {
 
     // AUTH FUNCTIONS ------------------------------------------------------------------------------------------------------------------
     
@@ -13,28 +13,24 @@ export function Login() {
     useEffect(() => { // PREVENTS USER FROM GOING BACK TO LOGGIN PAGE IF ALREADY LOGGED IN
         const user = Cookies.get("username");
         if(user) {
-            console.log("should move to homepage");
             navigate('/homepage')
         }
     }, [])
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [conPassword, setConPassword] = useState("")
 
-    function HandleLogIn(e) {
+    function HandleSignIn(e) {
         e.preventDefault()
-
-        if(username === "" || password === "") { // CHECKS TO SEE IF USERS PUT IN A USERNAME & PASSWORD
-            document.querySelector(".ls-warning").innerText = "Please provide a username & password";
-            document.querySelector(".ls-warning").style.color = "lightcoral";
-            return;
-        }
-
-        // axios.post('http://localhost:5000/users/', {username: username, password: password})
 
         // SETS COOKIE AND CONTEXT
         Cookies.set("username", username, { expires: 7 });
+
+        // axios.post('http://localhost:5000/users/', {username: username, password: password})
+
         navigate('/homepage') // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
+
     }
 
     return <>
@@ -43,12 +39,15 @@ export function Login() {
                 <li><ToggleTheme /></li>
             </ul>
         </nav>
-        <h3 className="sign-log"><Link to="/">Sign Up</Link> or Log In</h3>
-        <label>Username</label>
+        <h3 className="sign-log">Sign Up or <Link to="/login">Log In</Link></h3>
+        <label>Create Username</label>
         <input type="text" value={username} onChange={e => setUsername(e.target.value)}/>
-        <label>Password</label>
+        <label>Create Password</label>
         <input type="password" value={password} onChange={e => setPassword(e.target.value)}/>
+        <label>Confirm Password</label>
+        <input type="password" value={conPassword} onChange={e => setConPassword(e.target.value)}/>
         <p className="ls-warning">Sample Warning Message</p>
-        <button className="btn" onClick={(e) => {HandleLogIn(e)}}>Login</button>
+            <label id="terms-label">By Checking This Box You Agree To Our <Link to="#">Terms & Conditions</Link> <input type="checkbox" id="terms"/></label>
+        <button className="btn" onClick={(e) => {HandleSignIn(e)}}>Sign Up</button>
     </>
    }

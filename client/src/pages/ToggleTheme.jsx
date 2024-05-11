@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import Cookies from 'js-cookie'
 
 export function ToggleTheme() {
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(true);
 
     function toggleTheme() {
         setIsDarkMode((prevMode) => !prevMode);

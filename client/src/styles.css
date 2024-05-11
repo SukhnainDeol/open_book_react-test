@@ -46,8 +46,6 @@
     color: #ffffff; 
 }
 
-/* LOG IN */
-
 /* HOME PAGE/SNOOP */
 
 nav {
@@ -341,6 +339,35 @@ body {
     font-weight: bolder;
 }
 
+/* LOG IN/SIGN IN */
+
+.sign-log {
+    text-align: center;
+    margin: 20px;
+}
+
+.ls-warning {
+    text-align: center;
+    color: transparent;
+}
+
+#terms-container {
+    width: 675px;
+    border: 2px black solid;
+}
+
+#terms-label {
+    margin: auto;
+    padding: none;
+    width: 500px;
+}
+
+#terms {
+    display: inline;
+    margin: 0px;
+    padding: 0px;
+    width: auto;
+}
 
 
 

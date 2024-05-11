@@ -1,4 +1,5 @@
 import { Route, Routes, Outlet, Navigate } from "react-router-dom"
+import { SignUp } from "./pages/Signup.jsx"
 import { Login } from "./pages/Login.jsx"
 import { HomePage } from "./pages/HomePage.jsx"
 import { Snoop } from "./pages/Snoop.jsx"
@@ -20,7 +21,8 @@ function App() {
             
                 </Route>
                 <Route path="/snoop" element={<Snoop />} />
-                <Route path="/" element={<Login />} />
+                <Route path="/" element={<SignUp />} />
+                <Route path="/login" element={<Login />} />
             </Routes>
  </>
 }
