@@ -24,6 +24,13 @@ export function SignUp() {
     function HandleSignIn(e) {
         e.preventDefault()
 
+        if(username === "" || password === "" || conPassword === "") { // CHECKS TO SEE IF USERS PUT IN A USERNAME/PASSWORD/CONFIRM PASSWORD
+            document.querySelector(".ls-warning").innerText = "Please Fill Out the Sign Up Form";
+            document.querySelector(".ls-warning").style.color = "lightcoral";
+            return;
+        }
+
+        
         // SETS COOKIE AND CONTEXT
         Cookies.set("username", username, { expires: 7 });
 
@@ -40,14 +47,16 @@ export function SignUp() {
             </ul>
         </nav>
         <h3 className="sign-log">Sign Up or <Link to="/login">Log In</Link></h3>
-        <label>Create Username</label>
-        <input type="text" value={username} onChange={e => setUsername(e.target.value)}/>
-        <label>Create Password</label>
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)}/>
-        <label>Confirm Password</label>
-        <input type="password" value={conPassword} onChange={e => setConPassword(e.target.value)}/>
-        <p className="ls-warning">Sample Warning Message</p>
-            <label id="terms-label">By Checking This Box You Agree To Our <Link to="#">Terms & Conditions</Link> <input type="checkbox" id="terms"/></label>
-        <button className="btn" onClick={(e) => {HandleSignIn(e)}}>Sign Up</button>
+        <form className="ls-form" onSubmit={HandleSignIn}>
+            <label>Create Username</label>
+            <input type="text" value={username} onChange={e => setUsername(e.target.value)}/>
+            <label>Create Password</label>
+            <input type="password" value={password} onChange={e => setPassword(e.target.value)}/>
+            <label>Confirm Password</label>
+            <input type="password" value={conPassword} onChange={e => setConPassword(e.target.value)}/>
+            <p className="ls-warning">Sample Warning Message</p>
+            <p id="terms">By Creating an Account, You Agree To Our <Link to="#" onClick={() => alert("Currently There Are No Terms & Conditions")}>Terms & Conditions</Link>.</p>
+            <button className="btn">Sign Up</button>
+            </form>
     </>
    }

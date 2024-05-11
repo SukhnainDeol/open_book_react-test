@@ -13,7 +13,6 @@ export function Login() {
     useEffect(() => { // PREVENTS USER FROM GOING BACK TO LOGGIN PAGE IF ALREADY LOGGED IN
         const user = Cookies.get("username");
         if(user) {
-            console.log("should move to homepage");
             navigate('/homepage')
         }
     }, [])
@@ -25,7 +24,7 @@ export function Login() {
         e.preventDefault()
 
         if(username === "" || password === "") { // CHECKS TO SEE IF USERS PUT IN A USERNAME & PASSWORD
-            document.querySelector(".ls-warning").innerText = "Please provide a username & password";
+            document.querySelector(".ls-warning").innerText = "Please Provide a Username & Password";
             document.querySelector(".ls-warning").style.color = "lightcoral";
             return;
         }
@@ -44,11 +43,13 @@ export function Login() {
             </ul>
         </nav>
         <h3 className="sign-log"><Link to="/">Sign Up</Link> or Log In</h3>
-        <label>Username</label>
-        <input type="text" value={username} onChange={e => setUsername(e.target.value)}/>
-        <label>Password</label>
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)}/>
-        <p className="ls-warning">Sample Warning Message</p>
-        <button className="btn" onClick={(e) => {HandleLogIn(e)}}>Login</button>
+        <form className="ls-form" onSubmit={HandleLogIn}>
+            <label>Username</label>
+            <input type="text" value={username} onChange={e => setUsername(e.target.value)}/>
+            <label>Password</label>
+            <input type="password" value={password} onChange={e => setPassword(e.target.value)}/>
+            <p className="ls-warning">Sample Warning Message</p>
+            <button className="btn">Login</button>
+        </form>
     </>
    }

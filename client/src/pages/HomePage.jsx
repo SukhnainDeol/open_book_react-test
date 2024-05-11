@@ -19,29 +19,19 @@ export function HomePage() {
 
     useEffect(() => {
         const user = Cookies.get("username");
-        console.log("LOGGED IN AS: " + user);
+        document.querySelector("textarea").placeholder = `Hello, ${user}. What's On Your Mind?`;
     });
 
     // ------------------------------------------------------------------- DATABASE FETCH CODE
 
     const [backendData, setbackendData] = useState([{}]); // DB INFORMATION
 
-    useEffect(() => {
-        fetch("http://localhost:5000/users").then(
-            response => response.json()
-        ).then(
-            data => {
-                setbackendData(data);
-                console.log(data);
-            });
-    }, []);
-
     // ----------------------------------------------------------------------------------------
 
     const [newTitle, setNewTitle] = useState("");
     const [newEntry, setNewEntry] = useState("");
     const [entries, setEntries] = useState([]);
-    const [color, setColor] = useState(["black"]);
+    const [entryLength, setEntryLength] =useState(0);
     const currentDate = moment().format('l');
 
     function handleEntry(e) {
@@ -51,31 +41,13 @@ export function HomePage() {
         });
         setNewTitle("");
         setNewEntry("");
+        setEntryLength(0);
     }
 
     function deleteEntry(id) {
         setEntries(currentEntries => {
             return currentEntries.filter(entry => entry.id !== id);
         });
-    }
-
-    // FUNCTIONS TO TURN TEXTAREA TEXT RED AFTER HITTING CHARACTER LIMIT
-
-    useEffect(() => { // ONCE NEW COLOR IS SET BY CHECKENTRY(), COLOR CAN BE CHANGED FOR TEXTAREA USING USEEFFECT HOOK
-        document.getElementById("entry").style.color = color;
-    }, [color]);
-
-    function checkEntry(val) { // SETS COLOR BASED ON CHARACTER LIMIT
-        console.log(val.length);
-        if (val.length > 10) {
-            if (color !== "red") {
-                setColor("red");
-            }
-        } else {
-            if (color !== "black") {
-                setColor("black");
-            }
-        }
     }
 
     // initialize the new linked list for left
@@ -131,31 +103,33 @@ export function HomePage() {
                 <aside className="left-aside">
                     <p className="sample-text">{currentPrompts.left}</p>
                 </aside>
-                <div>
+                <div id="middle-container">
                     <form id="new-entry-form" onSubmit={handleEntry}>
                         <label htmlFor="title">Entry Title</label>
                         <input type="text" id="title"
                             value={newTitle}
                             onChange={e => setNewTitle(e.target.value)}
-                        />
+                         maxLength={40}/>
                         <label htmlFor="entry">Entry Content</label>
-                        <textarea placeholder="Write About Your Day..." id="entry" cols="50" rows="5"
-                            value={newEntry}
-                            onChange={e => { setNewEntry(e.target.value); checkEntry(e.target.value) }}></textarea>
+                        <textarea cols="50" rows="5"
+                            value={newEntry} maxLength={1000}
+                            onChange={e => { setNewEntry(e.target.value); setEntryLength(e.target.value.length) }}></textarea>
+                            <p id="entry-length">Character Limit: {entryLength}/1000</p>
                         <button id="post-entry" className="btn">Post Journal Entry</button>
                     </form>
-                    {entries.reverse().map((entry) => {
-                        return (
-                            <div className="entry-container" key={entry.id}>
-                                <p className="entries">
-                                    <span className="current-entry-title">{entry.title} ({entry.date}):</span>
-                                    <span className="current-entry">{entry.entry}</span>
-                                </p>
-                                <button className="delete" onClick={() => deleteEntry(entry.id)}>Delete</button>
-                            </div>
-                        );
-                    })}
-                    <br></br>
+                    <div id="entries-container">
+                        {entries.reverse().map((entry) => {
+                            return (
+                                <div className="entry-container" key={entry.id}>
+                                    <p className="entries">
+                                        <span className="current-entry-title">{entry.title} ({entry.date}):</span>
+                                        <span className="current-entry">{entry.entry}</span>
+                                    </p>
+                                    <button className="delete" onClick={() => deleteEntry(entry.id)}>Delete</button>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
                 <aside className="right-aside">
                     <p className="sample-text">{currentPrompts.right}</p>
