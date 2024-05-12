@@ -7,25 +7,14 @@ import Cookies from 'js-cookie'
 
 export function Snoop() {
 
-    // AUTH FUNCTIONS ----------------------------------------------------------------------------------------------------------------------
-
-    useEffect(() => {
-        const user = Cookies.get("username");
-        if(user) {
-            console.log("LOGGED IN AS: " + user)
-        } else {
-            console.log("NOT LOGGED IN")
-        }
-    })
-
     const navigate = useNavigate();
+    const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
 
     function HandleLogOut(e) {
         e.preventDefault()
 
         // DELETES COOKIES
         Cookies.remove("username")
-        Cookies.remove("theme")
 
         navigate('/') // NAVIGATES TO LOGIN PAGE WHEN USER LOGS OUT
 
@@ -38,10 +27,12 @@ export function Snoop() {
     return <>
         <nav>
             <ul className="nav-list">
-                <li><Link to="/homepage" style={{ textDecoration: 'none', color: 'black' }}>Home</Link></li>
-                <li><Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>Snoop</Link></li>
+                { user ? <li><Link to="/homepage" style={{ textDecoration: 'none', color: 'black' }}>Home</Link></li> : ""
+                }
                 <li><ToggleTheme /></li>
-                <li><Link to="#" style={{ textDecoration: 'none', color: 'black' }} onClick={(e) => {HandleLogOut(e)}}>Log Out</Link></li>
+                { // LOGOUT SHOULD ONLY APPEAR IF USER IS LOGGED IN
+                    user ? <li><Link to="#" style={{ textDecoration: 'none', color: 'black' }} onClick={(e) => {HandleLogOut(e)}}>Log Out</Link></li> : <li><Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>Log In</Link></li>
+                }
             </ul>  
         </nav>
         <div className = "homepage-container">

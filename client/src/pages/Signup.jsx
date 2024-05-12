@@ -30,7 +30,7 @@ export function SignUp() {
             return;
         }
 
-        
+
         // SETS COOKIE AND CONTEXT
         Cookies.set("username", username, { expires: 7 });
 
@@ -44,6 +44,7 @@ export function SignUp() {
         <nav>
             <ul className="nav-list">
                 <li><ToggleTheme /></li>
+                <li><Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>Snoop</Link></li>
             </ul>
         </nav>
         <h3 className="sign-log">Sign Up or <Link to="/login">Log In</Link></h3>

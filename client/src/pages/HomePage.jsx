@@ -7,7 +7,7 @@ import { LinkedList } from "./LinkedList";
 
 export function HomePage() {
 
-    // AUTH FUNCTIONS ------------------------------------------------------------------------------------------------------------------
+    // AUTH FUNCTIONS ------------------------------------- |
     
     const navigate = useNavigate();
 
@@ -18,8 +18,8 @@ export function HomePage() {
     }
 
     useEffect(() => {
-        const user = Cookies.get("username");
-        document.querySelector("textarea").placeholder = `Hello, ${user}. What's On Your Mind?`;
+        const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
+        document.querySelector("textarea").placeholder = `Hello, ${user}. What's On Your Mind?`; // SETS TEXTAREA PLACEHOLDER WITH USERNAME SO USER KNOWS LOGIN IS SUCCESSFULL
     });
 
     // ------------------------------------------------------------------- DATABASE FETCH CODE
@@ -93,7 +93,6 @@ export function HomePage() {
         <>
             <nav>
                 <ul className="nav-list">
-                    <li><Link to="/homepage" style={{ textDecoration: 'none', color: 'black' }}>Home</Link></li>
                     <li><Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>Snoop</Link></li>
                     <li><ToggleTheme /></li>
                     <li><Link to="#" style={{ textDecoration: 'none', color: 'black' }} onClick={(e) => { HandleLogOut(e) }}>Log Out</Link></li>

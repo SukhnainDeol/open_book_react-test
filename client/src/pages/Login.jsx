@@ -29,7 +29,9 @@ export function Login() {
             return;
         }
 
-        // axios.post('http://localhost:5000/users/', {username: username, password: password})
+        axios.get('http://localhost:5000/users/', {username: username, password: password}).then(
+
+        )
 
         // SETS COOKIE AND CONTEXT
         Cookies.set("username", username, { expires: 7 });
@@ -40,6 +42,7 @@ export function Login() {
         <nav>
             <ul className="nav-list">
                 <li><ToggleTheme /></li>
+                <li><Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>Snoop</Link></li>
             </ul>
         </nav>
         <h3 className="sign-log"><Link to="/">Sign Up</Link> or Log In</h3>
