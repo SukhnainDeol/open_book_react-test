@@ -28,16 +28,40 @@ export function SignUp() {
             document.querySelector(".ls-warning").innerText = "Please Fill Out the Sign Up Form";
             document.querySelector(".ls-warning").style.color = "lightcoral";
             return;
+        } else if(password !== conPassword) { // MAKES SURE PASSWORDS MATCH
+            document.querySelector(".ls-warning").innerText = "Password & Confirm Password Don't Match";
+            document.querySelector(".ls-warning").style.color = "lightcoral";
+            return;
+        } else if(username.length < 5 || password.length < 5) { // MAKES SURE USERNAME AND PASSWORD ARE THE SAME LENGTH
+            document.querySelector(".ls-warning").innerText = "Username & Password Must Each Be Atleast 5 Characters";
+            document.querySelector(".ls-warning").style.color = "lightcoral";
+            return;
         }
 
+        axios.get('http://localhost:5000/users/username', { 
+            params: {
+                username: username,
+            } 
+        } ).then( // CHECKS IF USER ALREADY EXISTS IN THE DATABASE
+            response => {
+                    if(response.data[0].username === username) { // IF PASSWORDS MATCH
+                        document.querySelector(".ls-warning").innerText = "That Username is Already Taken";
+                        document.querySelector(".ls-warning").style.color = "lightcoral";
+                        return;
+                    }
+            }
+        ).catch(error => { // ATTEMPTS TO ADD USER TO THE DATABASE
 
-        // SETS COOKIE AND CONTEXT
-        Cookies.set("username", username, { expires: 7 });
-
-        // axios.post('http://localhost:5000/users/', {username: username, password: password})
-
-        navigate('/homepage') // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
-
+            // ENCRYPTION FUNCTION GOES HERE
+            
+            axios.post('http://localhost:5000/users/', {username: username, password: password}).then( response => {
+                Cookies.set("username", username, { expires: 7 });
+                navigate('/homepage'); // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
+            }).catch(error => {
+                console.log(error.message)
+                console.log(error.response.data)
+            })
+        })
     }
 
     return <>
