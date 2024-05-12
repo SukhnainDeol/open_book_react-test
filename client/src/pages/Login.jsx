@@ -26,16 +26,39 @@ export function Login() {
         if(username === "" || password === "") { // CHECKS TO SEE IF USERS PUT IN A USERNAME & PASSWORD
             document.querySelector(".ls-warning").innerText = "Please Provide a Username & Password";
             document.querySelector(".ls-warning").style.color = "lightcoral";
+            setPassword("");
             return;
         }
 
-        axios.get('http://localhost:5000/users/', {username: username, password: password}).then(
+        axios.get('http://localhost:5000/users/username', { 
+            params: {
+                username: username,
+            } 
+        } ).then(
+            response => {
 
-        )
+                if(response.data[0].username) { // USER EXISTS IN OUR DATABASE
+                    if(response.data[0].password === password) { // IF PASSWORDS MATCH
+                        // SETS COOKIE AND CONTEXT
+                        Cookies.set("username", username, { expires: 7 });
+                        navigate('/homepage') // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
+                    } else {
+                        document.querySelector(".ls-warning").innerText = "Username & Password Do Not Match";
+                        document.querySelector(".ls-warning").style.color = "lightcoral";
+                        setPassword("");
+                        return;
+                    }
+                } else {
+                    document.querySelector(".ls-warning").innerText = "Username Does Not Exist";
+                    document.querySelector(".ls-warning").style.color = "lightcoral";
+                    setPassword("");
+                    return;
+                }
 
-        // SETS COOKIE AND CONTEXT
-        Cookies.set("username", username, { expires: 7 });
-        navigate('/homepage') // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
+            }
+        ).catch(error => {
+            console.log(error)
+        })
     }
 
     return <>

@@ -17,10 +17,10 @@ router.route('/').get( async (request, response) => {
 
 
 // GET REQUEST TO GET SPECIFIC USER
-router.route('/:username').get( async (request, response) => {
+router.route('/username').get( async (request, response) => {
     try {
         // get user by filtering
-        const username = request.params.username;
+        const username = request.query.username;
         const user = await User.find({username: {$eq: username}});
 
         // check if it worked
