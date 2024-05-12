@@ -61,13 +61,13 @@ router.route('/').get(async (request, response) => {
 router.route('/liked').get(async (request, response) => {
     try {
         
-        let mostLiked = await Post.findOne({
+        let mostLiked = await Post.find({
             "date": 
             {
                 // greater than date of (right now - 1 day)
-                $gte: new Date (new Date().getTime() - (24 * 60 * 60 * 1000))
+                $gte: new Date (new Date().getTime() - (24 * 60 * 60 * 1000)),
             }
-        }).sort({ "likes.count": -1}); // sort by likes
+        }).limit(10).sort({ "likes.count": -1}); // sort by most likes first
        
         return response.status(200).json(mostLiked);
     } catch (error) {
@@ -87,7 +87,7 @@ router.route('/disliked').get(async (request, response) => {
                 // greater than date of (right now - 1 day)
                 $gte: new Date (new Date().getTime() - (24 * 60 * 60 * 1000))
             }
-        }).sort({ "dislikes.count": -1}); // sort by likess
+        }).limit(10).sort({ "dislikes.count": -1}); // sort by most dislikes first
        
         return response.status(200).json(mostDisliked);
     } catch (error) {
