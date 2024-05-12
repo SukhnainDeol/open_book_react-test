@@ -36,8 +36,6 @@ export function Login() {
             } 
         } ).then(
             response => {
-
-                if(response.data[0].username) { // USER EXISTS IN OUR DATABASE
                     if(response.data[0].password === password) { // IF PASSWORDS MATCH
                         // SETS COOKIE AND CONTEXT
                         Cookies.set("username", username, { expires: 7 });
@@ -48,16 +46,13 @@ export function Login() {
                         setPassword("");
                         return;
                     }
-                } else {
-                    document.querySelector(".ls-warning").innerText = "Username Does Not Exist";
-                    document.querySelector(".ls-warning").style.color = "lightcoral";
-                    setPassword("");
-                    return;
-                }
-
             }
         ).catch(error => {
-            console.log(error)
+            console.log(error);
+            document.querySelector(".ls-warning").innerText = "Username Does Not Exist";
+            document.querySelector(".ls-warning").style.color = "lightcoral";
+            setPassword("");
+            return;
         })
     }
 
