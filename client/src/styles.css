@@ -244,6 +244,22 @@ textarea:focus {
     font-weight: bold;
 }
 
+.entry-container .current-entry {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.entry-container .cc {
+    font-weight: bold;
+}
+
+.entry-container .cool {
+    color: lightgreen;
+}
+.entry-container .cringe {
+    color: lightcoral;
+}
+
 .entry-container .delete {
     color: lightcoral;
     background-color: white;

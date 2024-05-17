@@ -123,6 +123,7 @@ export function HomePage() {
                                     <p className="entries">
                                         <span className="current-entry-title">{entry.title} ({entry.date}):</span>
                                         <span className="current-entry">{entry.entry}</span>
+                                        <span className="cc">Cool: <span className="cool">0</span> Cringe: <span className="cringe">0</span></span>
                                     </p>
                                     <button className="delete" onClick={() => deleteEntry(entry.id)}>Delete</button>
                                 </div>

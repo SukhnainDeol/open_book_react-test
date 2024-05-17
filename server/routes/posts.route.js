@@ -41,8 +41,32 @@ async function userExists(username) {
     }
 }
 
+// GET SPECIFIC USER'S POSTS REQUESTS
+router.route('/test').get(async (request, response) => {
+    try {
+        // get posts & and return them
+        const author = request.query.author;
+        const posts = await Post.find({author: {$eq: author}});
+        response.setHeader('Content-Type', 'application/json');
+        return response.status(200).json(posts);
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
 
-
+// GET RANDOM POST
+router.route('/random').get(async (request, response) => {
+    try {
+        // get posts & and return them
+        const posts = await Post.aggregate([{ $sample: { size: 1 } }]); // GETS A RANDOM POST
+        response.setHeader('Content-Type', 'application/json');
+        return response.status(200).json(posts);
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
 
 // GET REQUESTS
 router.route('/').get(async (request, response) => {
