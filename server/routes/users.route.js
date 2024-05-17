@@ -145,5 +145,37 @@ router.route('/:id').delete( async (request, response) => {
 })
 
 
+// PATCH REQUESTS
+
+// patch logged in
+
+router.route('/loggedin/username').patch( async (request, response) => {
+    try {
+        const status = request.body.loggedIn;
+        const username = request.query.username;
+
+        const user = await User.findOneAndUpdate(
+            { "username": username}, // get user
+            {
+                $set: { // update user
+                    "loggedIn": status,
+                }
+            },
+        );
+
+        // not found Response
+        if (!user) {
+            return response.status(404).send({message: "User not found"});
+        }
+
+        return response.status(201).send({message: "Login Status Changed Successfully!"});
+
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
+
 
 module.exports = router
