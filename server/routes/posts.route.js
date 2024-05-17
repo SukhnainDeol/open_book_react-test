@@ -33,6 +33,20 @@ router.route('/').get(async (request, response) => {
     }
 })
 
+// GET user's posts
+router.route('/username').get(async (request, response) => {
+    try {
+        const username = request.query.username;
+        // get posts & and return them
+        const posts = await Post.find({ "author": username }).sort({ date: 1 });
+        response.setHeader('Content-Type', 'application/json');
+        return response.status(200).json(posts);
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
 // GET Most/Least liked Post
 router.route('/liked').get(async (request, response) => {
     try {
