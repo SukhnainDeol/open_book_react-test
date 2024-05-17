@@ -419,6 +419,52 @@ body {
     width: 500px;
 }
 
+/* STYLING FOR THE HAMBURGER MENU */
+
+.menu-icon {
+    position: absolute;
+    top: 10px;
+    right: 200px;
+    cursor: pointer;
+    z-index: 999; /* Ensure the icon is above other elements */
+    width: 30px; /* Set the width */
+    height: auto; /* Automatically adjust height */
+}
+
+.hamburger-menu {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    background-color: var(--background-color);
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    display: none;
+}
+
+.hamburger-menu.active {
+    display: block;
+}
+
+.hamburger-menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.hamburger-menu ul li {
+    margin-bottom: 10px;
+}
+
+.hamburger-menu ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+    transition: color 0.3s;
+}
+
+.hamburger-menu ul li a:hover {
+    font-weight: bold;
+    color: #18755d;
+}
 
 
 
