@@ -4,22 +4,19 @@ const User = require('../models/user.model');
 
 
 // todo
-    // look into api tokens
     // password encryption / hashing
-    // test patch requests
+    // test requests
     // security checks
-    // method for least and most liked posts (of the day?)
-    // make creating posts and replies check if author exists
-    // shorten methods with similar boilerplate
-    // disallow special characters in username
+    // hosting
+    // request
+        // random user
+        // user's post
     // validaters
         // likes / dislikes >= 0
             // likes count == users.count
             // users cant like & dislike same post
         // no space in author name
         // text and title less than max
-        // author exists in database
-        // aboves things for replies
         // arrays are strings
 
 
@@ -41,38 +38,28 @@ async function userExists(username) {
     }
 }
 
-// GET SPECIFIC USER'S POSTS REQUESTS
-router.route('/test').get(async (request, response) => {
-    try {
-        // get posts & and return them
-        const author = request.query.author;
-        const posts = await Post.find({author: {$eq: author}});
-        response.setHeader('Content-Type', 'application/json');
-        return response.status(200).json(posts);
-    } catch (error) {
-        console.log("ERROR:", error.message);
-        response.status(500).send({message: error.message});
-    }
-})
 
-// GET RANDOM POST
-router.route('/random').get(async (request, response) => {
-    try {
-        // get posts & and return them
-        const posts = await Post.aggregate([{ $sample: { size: 1 } }]); // GETS A RANDOM POST
-        response.setHeader('Content-Type', 'application/json');
-        return response.status(200).json(posts);
-    } catch (error) {
-        console.log("ERROR:", error.message);
-        response.status(500).send({message: error.message});
-    }
-})
+
 
 // GET REQUESTS
 router.route('/').get(async (request, response) => {
     try {
         // get posts & and return them
         const posts = await Post.find({});
+        response.setHeader('Content-Type', 'application/json');
+        return response.status(200).json(posts);
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
+// GET user's posts
+router.route('/username').get(async (request, response) => {
+    try {
+        const username = request.query.username;
+        // get posts & and return them
+        const posts = await Post.find({ "author": username }).sort({ "createdAt": -1 });
         response.setHeader('Content-Type', 'application/json');
         return response.status(200).json(posts);
     } catch (error) {
