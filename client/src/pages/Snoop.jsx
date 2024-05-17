@@ -19,7 +19,9 @@ export function Snoop() {
         if (!initialized.current) {
             initialized.current = true
 
-            axios.get('http://localhost:5000/posts/random').then( // SEARCH FOR A RANDOM USER
+            axios.get('http://localhost:5000/posts/random', {params: {
+                username: user, // MAKES SURE YOU CAN'T SEE YOUR OWN POSTS
+                }}).then( // SEARCH FOR A RANDOM USER
             response => {
                 const username = response.data[0].author; // USERNAME VARIABLE FOR RANDOM USER
                 console.log("USERNAME: " + username);
