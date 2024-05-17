@@ -4,44 +4,20 @@ const User = require('../models/user.model');
 
 
 // todo
-    // look into api tokens
     // password encryption / hashing
-    // test patch requests
+    // test requests
     // security checks
-    // method for least and most liked posts (of the day?)
-    // make creating posts and replies check if author exists
-    // shorten methods with similar boilerplate
-    // disallow special characters in username
+    // hosting
+    // request
+        // random user
+        // user's post
     // validaters
         // likes / dislikes >= 0
             // likes count == users.count
             // users cant like & dislike same post
         // no space in author name
         // text and title less than max
-        // author exists in database
-        // aboves things for replies
         // arrays are strings
-
-
-/** (Currently not working)
- * 
- * @param {*} username - string of username in database 
- * 
- * @returns - true/false if user exists
- */
-async function userExists(username) {
-    try {
-        let user = await User.find({username: username});
-        console.log(user);
-        user = user ? true : false
-        return user;
-    } catch (error) {
-        console.log(error);
-        return false;
-    }
-}
-
-
 
 
 // GET REQUESTS

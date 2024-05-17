@@ -1,4 +1,5 @@
 const router = require('express').Router()
+// const bcrypt = require('bcrypt')
 let User = require('../models/user.model.js')
 
 
@@ -9,6 +10,20 @@ router.route('/').get( async (request, response) => {
         const users = await User.find({});
         response.setHeader('Content-Type', 'application/json');
         return response.status(200).json(users);
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
+
+// GET REQUESTS TO GET RANDOM USER
+router.route('/random').get( async (request, response) => {
+    try {
+        // get users & return them
+        const randomUser = await User.aggregate([{ $sample: { size: 1 } }])
+        response.setHeader('Content-Type', 'application/json');
+        return response.status(200).json(randomUser[0]);
     } catch (error) {
         console.log("ERROR:", error.message);
         response.status(500).send({message: error.message});
