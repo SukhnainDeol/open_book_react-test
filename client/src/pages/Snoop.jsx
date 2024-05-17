@@ -24,7 +24,7 @@ export function Snoop() {
                 const username = response.data[0].author; // USERNAME VARIABLE FOR RANDOM USER
                 console.log("USERNAME: " + username);
 
-                axios.get('http://localhost:5000/posts/test', { // PULL THEIR POSTS
+                axios.get('http://localhost:5000/posts/username', { // PULL THEIR POSTS
                 params: {
                 author: username, // SPECIFIC SEARCH FOR RANDOM USER
                 } 

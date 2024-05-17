@@ -38,14 +38,11 @@ async function userExists(username) {
     }
 }
 
-
-
-
-// GET REQUESTS
-router.route('/').get(async (request, response) => {
+// GET REQUEST FOR RANDOM USER POST
+router.route('/random').get(async (request, response) => {
     try {
         // get posts & and return them
-        const posts = await Post.find({});
+        const posts = await Post.aggregate([{ $sample: { size: 1 } }])
         response.setHeader('Content-Type', 'application/json');
         return response.status(200).json(posts);
     } catch (error) {
@@ -54,12 +51,24 @@ router.route('/').get(async (request, response) => {
     }
 })
 
-// GET user's posts
+// NEW GET REQUEST FOR SPECIFIC USER POSTS
 router.route('/username').get(async (request, response) => {
     try {
-        const username = request.query.username;
+        const author = request.query.author;
+        const posts = await Post.find({author: {$eq: author}});
+        response.setHeader('Content-Type', 'application/json');
+        return response.status(200).json(posts);
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
+// GET REQUESTS
+router.route('/').get(async (request, response) => {
+    try {
         // get posts & and return them
-        const posts = await Post.find({ "author": username }).sort({ "createdAt": -1 });
+        const posts = await Post.find({});
         response.setHeader('Content-Type', 'application/json');
         return response.status(200).json(posts);
     } catch (error) {
