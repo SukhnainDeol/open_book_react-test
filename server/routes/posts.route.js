@@ -38,7 +38,7 @@ router.route('/username').get(async (request, response) => {
     try {
         const username = request.query.username;
         // get posts & and return them
-        const posts = await Post.find({ "author": username }).sort({ date: 1 });
+        const posts = await Post.find({ "author": username }).sort({ "createdAt": -1 });
         response.setHeader('Content-Type', 'application/json');
         return response.status(200).json(posts);
     } catch (error) {
