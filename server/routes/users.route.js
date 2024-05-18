@@ -176,6 +176,34 @@ router.route('/loggedin/username').patch( async (request, response) => {
     }
 })
 
+router.route('/password/username').patch( async (request, response) => {
+    try {
+        const newPassword = request.body.password;
+        const username = request.query.username;
+
+        const user = await User.findOneAndUpdate(
+            { "username": username}, // get user
+            {
+                $set: { // update user
+                    "password": newPassword,
+                }
+            },
+        );
+
+        // not found Response
+        if (!user) {
+            return response.status(404).send({message: "User not found"});
+        }
+
+        return response.status(201).send({message: "Login Info Changed Successfully!"});
+
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
+
 
 
 module.exports = router
