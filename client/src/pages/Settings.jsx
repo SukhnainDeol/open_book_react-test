@@ -33,24 +33,7 @@ export function Settings() {
             return;
         }
 
-        /* AXIOS CALL GOES HERE
-        TIPS:
-        1. LOOK AT SERVER.JS API ROUTES TO FIGURE OUT WHICH ROUTE YOU ARE SENDING IT TO
-        2. GO TO USERS.ROUTE.JS OR POSTS.ROUTE.JS TO FIGURE OUT ROUTE EXTENSION
-
-        axios.(get/put/patch?)('http://localhost:5000/<ROUTE GOES HERE>/<ROUTE EXTENSION GOES HERE>', { BODY INFO GOES HERE... USERNAME CAN BE DERIVED BY THE COOKIE ON LINE 8}).then(
-            response => {
-                console.log(response);
-                PUT THIS IN THE RESPONSE: 
-                document.querySelector(".ls-warning").innerText = "Password Successfully Changed!";
-                document.querySelector(".ls-warning").style.color = "lightgreen";
-        }).catch(error => {
-            console.log(error);
-                return;
-        })
-
-        */
-
+        
         axios.get('http://localhost:5000/users/username', { // GET USER INFO
             params: {
                 username: user,
