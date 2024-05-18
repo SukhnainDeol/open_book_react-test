@@ -33,9 +33,11 @@ export function Settings() {
         }
 
         /* AXIOS CALL GOES HERE
+        TIPS:
+        1. LOOK AT SERVER.JS API ROUTES TO FIGURE OUT WHICH ROUTE YOU ARE SENDING IT TO
+        2. GO TO USERS.ROUTE.JS OR POSTS.ROUTE.JS TO FIGURE OUT ROUTE EXTENSION
 
-        axios.post('http://localhost:5000/posts/', { // MAKE A NEW POST
-        }).then(
+        axios.(get/put/patch?)('http://localhost:5000/<ROUTE GOES HERE>/<ROUTE EXTENSION GOES HERE>', { BODY INFO GOES HERE... USERNAME CAN BE DERIVED BY THE COOKIE ON LINE 8}).then(
             response => {
                 console.log(response);
                 PUT THIS IN THE RESPONSE: 
