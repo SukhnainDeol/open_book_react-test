@@ -41,8 +41,7 @@ export function Settings() {
                 PUT THIS IN THE RESPONSE: 
                 document.querySelector(".ls-warning").innerText = "Password Successfully Changed!";
                 document.querySelector(".ls-warning").style.color = "lightgreen";
-            }
-        ).catch(error => {
+        }).catch(error => {
             console.log(error);
                 return;
         })
