@@ -9,6 +9,7 @@ import "./styles.css";
 import book from './assets/book.png'; // BOOK IMAGE FOR HEADER
 import menuIcon from './assets/menuIcon.png'; // HAMBURGER MENU ICON
 import { ToggleTheme } from "./pages/ToggleTheme"
+import { Settings } from "./pages/Settings"
 
 function App() {
     const navigate = useNavigate();
@@ -43,13 +44,13 @@ function App() {
                             {/* Closes the menu after clicking on one of the options  */}
 
                             { // IF USER ISN'T SIGNED IN, DON'T SHOW HOME
-                                user ? <li><Link to="/homepage" onClick={() => setMenuOpen(false)}>Home</Link></li> : ""
+                                user && pName !== "/homepage" ? <li><Link to="/homepage" onClick={() => setMenuOpen(false)}>Home</Link></li> : ""
                             }
 
                             { // IF ON SNOOP PAGE, DON'T SHOW SNOOP LINK
                                 pName !== "/snoop" ? <li><Link to="/snoop" onClick={() => setMenuOpen(false)}>Snoop</Link></li> : ""
                             }
-                            <li onClick={() => setMenuOpen(false)}><ToggleTheme /></li>
+                            { user ? <li><Settings /></li> : <li><ToggleTheme /></li>}
                             { // IF USER ISN'T SIGNED IN, DON'T SHOW LOG OUT
                                 user ? <li><Link to="/login" onClick={(e) => {setMenuOpen(false), HandleLogOut(e)}}>Log Out</Link></li> : <li><Link to="/login" onClick={() => setMenuOpen(false)}>Log In</Link></li>
                             }

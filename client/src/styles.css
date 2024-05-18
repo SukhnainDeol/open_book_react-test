@@ -470,4 +470,33 @@ body {
 }
 
 
+/* STYLING FOR THE SETTINGS MENU */
+
+#settings-menu {
+    position: fixed;
+    display: none;
+    top: 75px;
+    right: 10px;
+    padding: 10px;
+    text-align: center;
+    width: 33%;
+    height: auto;
+    border: 2px black solid;
+    border-radius: 5px;
+}
+
+#settings-menu .delete {
+    color: lightcoral;
+    border: 2px red solid;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+#settings-menu .delete:hover {
+    color: white;
+    background-color: red;
+    border: 2px red solid;
+}
+
 
