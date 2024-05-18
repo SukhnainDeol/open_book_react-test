@@ -80,7 +80,18 @@ export function Settings() {
         } else { // AXIOS CALL GOES HERE 
 
             Cookies.remove("username"); // REMOVES COOKIE
-            navigate('/'); // SENDS THEM BACK TO SIGN IN PAGE
+
+            axios.delete('http://localhost:5000/users', {
+                params: {
+                    username: user,
+                }
+            }).then(
+                response => {
+                    navigate('/'); // SENDS THEM BACK TO SIGN IN PAGE
+            }).catch( error => {
+                console.log(error);
+                return;
+            })
 
         }
     }
