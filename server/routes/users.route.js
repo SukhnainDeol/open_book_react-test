@@ -161,10 +161,10 @@ router.route('/').delete( async (request, response) => {
 
 // patch logged in
 
-router.route('/loggedin/username').patch( async (request, response) => {
+router.route('/loggedin').patch( async (request, response) => {
     try {
         const status = request.body.loggedIn;
-        const username = request.query.username;
+        const username = request.body.username;
 
         const user = await User.findOneAndUpdate(
             { "username": username}, // get user
