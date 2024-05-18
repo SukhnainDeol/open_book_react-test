@@ -436,10 +436,10 @@ body {
 
 .hamburger-menu {
     position: fixed;
-    top: 5px;
+    top: 6px;
     right: 65px;
-    background-color: var(--background-color);
-    border: 2px solid black;
+    /* background-color: var(--background-color); */
+    /* border: 2px solid black; */
     border-radius: 5px;
     padding: 5px;
     display: none;

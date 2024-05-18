@@ -57,7 +57,7 @@ export function Login() {
 
     return <>
         <h3 className="sign-log"><Link to="/">Sign Up</Link> or Log In</h3>
-        <form className="ls-form" onSubmit={HandleLogIn}>
+        <form className="ls-form" onSubmit={(e)=>{HandleLogIn(e)}}>
             <label>Username</label>
             <input type="text" value={username} onChange={e => setUsername(e.target.value)}/>
             <label>Password</label>
