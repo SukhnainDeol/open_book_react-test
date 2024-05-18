@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { ToggleTheme } from "./ToggleTheme"
 import Cookies from 'js-cookie'
 import { Link } from "react-router-dom"
+import axios from "axios"
 
 export function Settings() {
 
@@ -49,8 +50,17 @@ export function Settings() {
         })
 
         */
-
-
+       axios.patch('https://localhost:5000/users/password', { 
+        username: user, password: newPass,
+        }).then (
+            response => {
+                console.log(response);
+                document.querySelector(".ls-warning").innerText = "Password Successfully Changed!";
+                document.querySelector(".ls-warning").style.color = "lightgreen";
+        }).catch(error => {
+            console.log(error);
+            return;
+        })
     }
 
     return (<>

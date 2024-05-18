@@ -176,13 +176,13 @@ router.route('/loggedin/username').patch( async (request, response) => {
     }
 })
 
-router.route('/password/username').patch( async (request, response) => {
+router.route('/password').patch( async (request, response) => {
     try {
         const newPassword = request.body.password;
-        const username = request.query.username;
+        const username = request.body.username;
 
         const user = await User.findOneAndUpdate(
-            { "username": username}, // get user
+            { "username": username }, // get user
             {
                 $set: { // update user
                     "password": newPassword,
