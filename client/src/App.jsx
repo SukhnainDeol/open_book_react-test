@@ -1,5 +1,5 @@
 import React, { useState } from "react";// UseStates from React
-import { Route, Routes, Outlet, Navigate, Link } from "react-router-dom";
+import { Route, Routes, Outlet, Navigate, Link, useNavigate, useLocation } from "react-router-dom";
 import { SignUp } from "./pages/Signup.jsx";
 import { Login } from "./pages/Login.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
@@ -8,23 +8,29 @@ import Cookies from 'js-cookie';
 import "./styles.css";
 import book from './assets/book.png'; // BOOK IMAGE FOR HEADER
 import menuIcon from './assets/menuIcon.png'; // HAMBURGER MENU ICON
+import { ToggleTheme } from "./pages/ToggleTheme"
 
 function App() {
+    const navigate = useNavigate();
+    const pName = useLocation().pathname;
+    const user = Cookies.get("username");
+
+
     const [menuOpen, setMenuOpen] = useState(false);
-    const [lightMode, setLightMode] = useState(false);
-    // Use of two state variables to track menu options and light/dark mode 
+
     const toggleMenu = () => {
         setMenuOpen(prevMenuOpen => !prevMenuOpen);
     };// Function for menu to open or revert to when it was closed
 
-    const toggleLightMode = () => {
-        setLightMode(!lightMode);
-        document.body.classList.toggle("dark-theme", lightMode);
-    };// Same idea as before but for light and dark modes
+    function HandleLogOut(e) {
+        e.preventDefault();
+        Cookies.remove("username");
+        navigate('/');
+    }
 
     return (
         <>  {/* Set up for the Main Header and top menus */}
-            <header className={`page-title ${lightMode ? 'light-mode' : 'dark-mode'}`}>
+            <header className={`page-title`}>
                 <img src={book} className="logo" alt="Book Logo" />
                 <h1>open_book</h1>
                 <button className="menu-icon" onClick={toggleMenu}>
@@ -32,21 +38,26 @@ function App() {
                 </button>
                 {/* Set up for hamburger menu and drop down link */}
                 {menuOpen && (
-                    <nav className={`hamburger-menu ${menuOpen ? 'active' : ''} ${lightMode ? 'light-mode' : 'dark-mode'}`}>
+                    <nav className={`hamburger-menu ${menuOpen ? 'active' : ''}`}>
                         <ul className="nav-list">
                             {/* Closes the menu after clicking on one of the options  */}
-                            <li><Link to="/homepage" onClick={() => setMenuOpen(false)}>Home</Link></li>
-                            <li><Link to="/snoop" onClick={() => setMenuOpen(false)}>Snoop</Link></li>
-                            <li><Link to="/login" onClick={() => setMenuOpen(false)}>Login</Link></li>
-                            <li>
-                                {/* Light/Dark mode toggle in drop down menu */}
-                                <button className="btn" onClick={toggleLightMode}>
-                                    {lightMode ? "Dark Mode" : "Light Mode"}
-                                </button>
-                            </li>
+
+                            { // IF USER ISN'T SIGNED IN, DON'T SHOW HOME
+                                user ? <li><Link to="/homepage" onClick={() => setMenuOpen(false)}>Home</Link></li> : ""
+                            }
+
+                            { // IF ON SNOOP PAGE, DON'T SHOW SNOOP LINK
+                                pName !== "/snoop" ? <li><Link to="/snoop" onClick={() => setMenuOpen(false)}>Snoop</Link></li> : ""
+                            }
+                            <li onClick={() => setMenuOpen(false)}><ToggleTheme /></li>
+                            { // IF USER ISN'T SIGNED IN, DON'T SHOW LOG OUT
+                                user ? <li><Link to="/login" onClick={(e) => {setMenuOpen(false), HandleLogOut(e)}}>Log Out</Link></li> : <li><Link to="/login" onClick={() => setMenuOpen(false)}>Log In</Link></li>
+                            }
                         </ul>
                     </nav>
                 )}
+                { /* INVISIBLE SPAN FOR THEME COOKIE */}
+                <span style={{visibility: 'hidden'}}><ToggleTheme /></span>
             </header>
             <Routes>
                 <Route element={<PrivateRoutes />} >

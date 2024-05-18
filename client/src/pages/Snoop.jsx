@@ -1,14 +1,11 @@
-import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect, useRef } from "react"
 import moment from "moment"
-import { ToggleTheme } from "./ToggleTheme"
 import Cookies from 'js-cookie'
 import axios from "axios"
 
 
 export function Snoop() {
 
-    const navigate = useNavigate();
     const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
     const initialized = useRef(false); // RE-USABLE HOOK TO MAKE SURE THINGS DON'T DOUBLE LOAD AT START
 
@@ -23,6 +20,7 @@ export function Snoop() {
                 username: user, // MAKES SURE YOU CAN'T SEE YOUR OWN POSTS
                 }}).then( // SEARCH FOR A RANDOM USER
             response => {
+                console.log(response.data);
                 const username = response.data[0].author; // USERNAME VARIABLE FOR RANDOM USER
                 console.log("USERNAME: " + username);
 
@@ -32,6 +30,7 @@ export function Snoop() {
                 } 
                 }).then(
                     response => {
+
                         console.log("NUMBER OF POSTS: " + response.data.length);
                         response.data.forEach(currentEntry => {
                             setEntries((entries) => {
@@ -51,27 +50,7 @@ export function Snoop() {
         }    
     }, [])
 
-    function HandleLogOut(e) {
-        e.preventDefault()
-
-        // DELETES COOKIES
-        Cookies.remove("username")
-
-        navigate('/') // NAVIGATES TO LOGIN PAGE WHEN USER LOGS OUT
-
-    }
-
     return <>
-        <nav>
-            <ul className="nav-list">
-                { user ? <li><Link to="/homepage" style={{ textDecoration: 'none', color: 'black' }}>Home</Link></li> : ""
-                }
-                <li><ToggleTheme /></li>
-                { // LOGOUT SHOULD ONLY APPEAR IF USER IS LOGGED IN
-                    user ? <li><Link to="#" style={{ textDecoration: 'none', color: 'black' }} onClick={(e) => {HandleLogOut(e)}}>Log Out</Link></li> : <li><Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>Log In</Link></li>
-                }
-            </ul>  
-        </nav>
         <div className = "homepage-container">
         <aside className="left-aside">
             <p className="sample-text">Left Aside Content</p>

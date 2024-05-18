@@ -1,21 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import moment from "moment";
-import { ToggleTheme } from "./ToggleTheme";
 import Cookies from 'js-cookie';
 import { LinkedList } from "./LinkedList";
 
 export function HomePage() {
 
     // AUTH FUNCTIONS ------------------------------------- |
-    
-    const navigate = useNavigate();
-
-    function HandleLogOut(e) {
-        e.preventDefault();
-        Cookies.remove("username");
-        navigate('/');
-    }
 
     useEffect(() => {
         const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
@@ -91,13 +81,6 @@ export function HomePage() {
 
     return (
         <>
-            <nav>
-                <ul className="nav-list">
-                    <li><Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>Snoop</Link></li>
-                    <li><ToggleTheme /></li>
-                    <li><Link to="#" style={{ textDecoration: 'none', color: 'black' }} onClick={(e) => { HandleLogOut(e) }}>Log Out</Link></li>
-                </ul>
-            </nav>
             <div className="homepage-container">
                 <aside className="left-aside">
                     <p className="sample-text">{currentPrompts.left}</p>

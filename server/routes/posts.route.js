@@ -44,7 +44,7 @@ router.route('/random').get(async (request, response) => {
         // get posts & and return them
         const username = request.query.username;
         const posts = await Post.aggregate([
-            { $match: { username: { $not: { $eq: username } } } }, { $sample: { size: 1 } }
+            { $match: { username: { $not: { $eq: username } } } },{ $sample: { size: 1  }}
         ])
         response.setHeader('Content-Type', 'application/json');
         return response.status(200).json(posts);

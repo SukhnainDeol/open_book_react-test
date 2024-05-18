@@ -2,7 +2,6 @@ import { useNavigate, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import Cookies from 'js-cookie'
 import axios from "axios"
-import { ToggleTheme } from "./ToggleTheme";
 
 export function Login() {
 
@@ -57,12 +56,6 @@ export function Login() {
     }
 
     return <>
-        <nav>
-            <ul className="nav-list">
-                <li><ToggleTheme /></li>
-                <li><Link to="/snoop" style={{ textDecoration: 'none', color: 'black' }}>Snoop</Link></li>
-            </ul>
-        </nav>
         <h3 className="sign-log"><Link to="/">Sign Up</Link> or Log In</h3>
         <form className="ls-form" onSubmit={HandleLogIn}>
             <label>Username</label>

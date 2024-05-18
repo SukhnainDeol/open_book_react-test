@@ -422,23 +422,25 @@ body {
 /* STYLING FOR THE HAMBURGER MENU */
 
 .menu-icon {
-    position: absolute;
+    position: fixed;
     top: 10px;
-    right: 200px;
+    right: 10px;
     cursor: pointer;
     z-index: 999; /* Ensure the icon is above other elements */
-    width: 30px; /* Set the width */
+    width: 60px; /* Set the width */
     height: auto; /* Automatically adjust height */
+    background-color: transparent;
+    border: none;
 }
 
 .hamburger-menu {
-    position: absolute;
-    top: 50px;
-    right: 10px;
+    position: fixed;
+    top: 5px;
+    right: 65px;
     background-color: var(--background-color);
     border: 2px solid black;
     border-radius: 5px;
-    padding: 10px;
+    padding: 5px;
     display: none;
 }
 
