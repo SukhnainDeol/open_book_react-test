@@ -92,9 +92,18 @@ export function HomePage() {
     }
 
     function deleteEntry(id) {
-        setEntries(currentEntries => {
-            return currentEntries.filter(entry => entry.id !== id);
-        });
+
+        axios.delete('http://localhost:5000/posts/id', {params: {id: id }}).then(
+            response => {
+                console.log(response.data);
+                setEntries(currentEntries => {
+                    return currentEntries.filter(entry => entry.id !== id);
+                });
+            }
+        ).catch(error => {
+            console.log(error);
+                return;
+        })
     }
 
     // initialize the new linked list for left

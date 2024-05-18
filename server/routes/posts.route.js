@@ -306,10 +306,10 @@ router.route('/:postId/dislikes').patch(async (request, response) => {
 
 
 // DELETE REQUESTS
-router.route('/:id').delete(async (request, response) => {
+router.route('/id').delete(async (request, response) => {
     try {
         // delete post
-        const id = request.params.id;
+        const id = request.query.id;
         const post = await Post.findByIdAndDelete(id);
 
         // not found Response
