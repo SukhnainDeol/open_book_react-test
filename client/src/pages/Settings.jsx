@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { ToggleTheme } from "./ToggleTheme"
 import Cookies from 'js-cookie'
 import { Link } from "react-router-dom"
@@ -7,6 +7,7 @@ import axios from "axios"
 export function Settings() {
 
     const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
+    const initialized = useRef(false); // RE-USABLE HOOK TO MAKE SURE THINGS DON'T DOUBLE LOAD AT START
     const [oldPass, setOldPass] = useState("")
     const [newPass, setNewPass] = useState("")
     const [conNewPass, setConNewPass] = useState("")
@@ -67,8 +68,28 @@ export function Settings() {
         
     }
 
+    function warnDelete(e) {
+        e.preventDefault() // PREVENTS FORM SUBMISSION TO NOTHING
+
+        if (!initialized.current) { // USER CAN'T DELETE ON FIRST PUSH
+            initialized.current = true
+            document.querySelector(".ls-warning").innerText = 'Click "Delete Account" Again To Confirm';
+            document.querySelector(".ls-warning").style.color = "lightcoral";
+        } else { // AXIOS CALL GOES HERE 
+
+            Cookies.remove("username"); // REMOVES COOKIE
+            navigate('/'); // SENDS THEM BACK TO SIGN IN PAGE
+
+        }
+    }
+
+    function Reset() {
+        document.querySelector(".ls-warning").style.color = "transparent"; // REMOVES WARNING MESSAGE
+        initialized.current = false; // RESETS DELETE TO 2 Clicks
+    }
+
     return (<>
-        <span className="nav-link"><Link to="#" onClick={() => {setViz(!viz)}}>Settings</Link></span>
+        <span className="nav-link"><Link to="#" onClick={() => {{Reset(), setViz(!viz)}}}>Settings</Link></span>
         <div id="settings-menu">
             <h4>Change Display: </h4>
             <button className="btn"><ToggleTheme /></button>
@@ -83,7 +104,7 @@ export function Settings() {
                 <button className="btn">Change</button>
                 <p className="ls-warning">Sample Warning Message</p>
             </form>
-            <button className="delete">Delete Account</button>
+            <button className="delete" onClick={(e)=>{warnDelete(e)}}>Delete Account</button>
         </div>
         </>
     );
