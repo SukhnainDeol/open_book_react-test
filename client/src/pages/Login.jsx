@@ -35,8 +35,15 @@ export function Login() {
             } 
         } ).then(
             response => {
-                    if(response.data[0].password === password) { // IF PASSWORDS MATCH
+                    if (response.data[0].loggedIn === true) { // SO TWO USERS CAN'T LOG IN ON THE SAME ACCOUNT
+                        document.querySelector(".ls-warning").innerText = "This Account is Already Logged in on Another Device";
+                        document.querySelector(".ls-warning").style.color = "lightcoral";
+                    } else if(response.data[0].password === password) { // IF PASSWORDS MATCH
                         // SETS COOKIE AND CONTEXT
+
+
+
+                        
                         Cookies.set("username", username, { expires: 7 });
                         navigate('/homepage') // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
                     } else {
