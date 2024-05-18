@@ -480,9 +480,10 @@ body {
     padding: 10px;
     text-align: center;
     width: 33%;
-    height: auto;
+    height: 90%;
     border: 2px black solid;
     border-radius: 5px;
+    background-color: var(--background-color);
 }
 
 #settings-menu .delete {
