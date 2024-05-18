@@ -79,14 +79,13 @@ export function Settings() {
             document.querySelector(".ls-warning").style.color = "lightcoral";
         } else { // AXIOS CALL GOES HERE 
 
-            Cookies.remove("username"); // REMOVES COOKIE
-
             axios.delete('http://localhost:5000/users', {
                 params: {
                     username: user,
                 }
             }).then(
                 response => {
+                    Cookies.remove("username"); // REMOVES COOKIE
                     navigate('/'); // SENDS THEM BACK TO SIGN IN PAGE
             }).catch( error => {
                 console.log(error);
