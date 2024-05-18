@@ -50,17 +50,38 @@ export function Settings() {
         })
 
         */
-       axios.patch('https://localhost:5000/users/password', { 
-        username: user, password: newPass,
-        }).then (
+
+        axios.get('http://localhost:5000/users/username', { // GET USER INFO
+            params: {
+                username: user,
+            }
+        }).then(
             response => {
-                console.log(response);
-                document.querySelector(".ls-warning").innerText = "Password Successfully Changed!";
-                document.querySelector(".ls-warning").style.color = "lightgreen";
+                if (response.data[0].password === oldPass) // CHECK IF PASSWORDS MATCH
+                {
+                    axios.patch('http://localhost:5000/users/password', { // UPDATE PASSWORD
+                        username: user, password: newPass,
+                    }).then (
+                        response => {
+                            console.log(response);
+                            document.querySelector(".ls-warning").innerText = response.data.message;
+                            document.querySelector(".ls-warning").style.color = "lightgreen";
+                    }).catch(error => {
+                        console.log(error);
+                        return;
+                    })
+                } 
+                else { // ERROR WARNING IF THEY DONT MATCH
+                    document.querySelector(".ls-warning").innerText = "Old Password is Incorrect!";
+                    document.querySelector(".ls-warning").style.color = "lightcoral";
+                    return;
+                }
         }).catch(error => {
             console.log(error);
             return;
         })
+
+        
     }
 
     return (<>
