@@ -492,6 +492,7 @@ body {
     border-radius: 5px;
     margin-top: 10px;
     padding: 5px;
+    background-color: var(--background-color);
 }
 
 #settings-menu .delete:hover {
