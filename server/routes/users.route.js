@@ -86,7 +86,7 @@ router.route('/').post( async (request, response) => {
 
 
 // PUT REQUEST TO EDIT USER
-router.route('/:id').put( async (request, response) => {
+router.route('/').put( async (request, response) => {
     try {
         // check params
         if (
@@ -108,7 +108,7 @@ router.route('/:id').put( async (request, response) => {
         }
 
         // get user
-        const id = request.params.id;
+        const id = request.query.id;
         const user = await User.findByIdAndUpdate(id, request.body);
 
         // check if it worked
