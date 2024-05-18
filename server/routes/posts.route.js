@@ -165,7 +165,7 @@ router.route('/').post(async (request, response) => {
 
 
 // PUT REQUESTS
-router.route('/:id').put(async (request, response) => {
+router.route('/id').put(async (request, response) => {
     try {
         // check if required fields are filled
         if (!(
@@ -177,7 +177,7 @@ router.route('/:id').put(async (request, response) => {
         }
 
         // edit post
-        const id = request.params.id;
+        const id = request.query.id;
         const post = await Post.findByIdAndUpdate(id, request.body);
 
         // not found Response
@@ -196,7 +196,7 @@ router.route('/:id').put(async (request, response) => {
 
 // PATCH REQUESTS
 // patch post text/title
-router.route('/:postId/text').patch(async (request, response) => {
+router.route('/text').patch(async (request, response) => {
     try {
         // check if required fields are filled
         if (!(request.body.text && request.body.title)) {
@@ -206,7 +206,7 @@ router.route('/:postId/text').patch(async (request, response) => {
         }
         
         // edit post text
-        const postId = request.params.postId;
+        const postId = request.query.postId;
         const post = await Post.findOneAndUpdate(
             { _id: postId}, // get post
             {
@@ -231,7 +231,7 @@ router.route('/:postId/text').patch(async (request, response) => {
 })
 
 // patch post likes
-router.route('/:postId/likes').patch(async (request, response) => {
+router.route('/likes').patch(async (request, response) => {
     try {
         // check if required fields are filled
         if (!(request.body.likes && request.body.likes.count && request.body.likes.users)) {
@@ -241,7 +241,7 @@ router.route('/:postId/likes').patch(async (request, response) => {
         }
         
         // edit post 
-        const postId = request.params.postId;
+        const postId = request.query.postId;
         const post = await Post.findOneAndUpdate(
             { _id: postId}, // get post
             {
@@ -268,7 +268,7 @@ router.route('/:postId/likes').patch(async (request, response) => {
 })
 
 // patch post dislikes
-router.route('/:postId/dislikes').patch(async (request, response) => {
+router.route('/dislikes').patch(async (request, response) => {
     try {
         // check if required fields are filled
         if (!(request.body.dislikes && request.body.dislikes.count && request.body.dislikes.users)) {
@@ -278,7 +278,7 @@ router.route('/:postId/dislikes').patch(async (request, response) => {
         }
         
         // edit post 
-        const postId = request.params.postId;
+        const postId = request.query.postId;
         const post = await Post.findOneAndUpdate(
             { _id: postId}, // get post
             {
@@ -327,10 +327,10 @@ router.route('/id').delete(async (request, response) => {
 
 
 // GET REPLY REQUESTS
-router.route('/:id').get(async (request, response) => {
+router.route('/id').get(async (request, response) => {
     try {
         // get replies from specific post & and return them
-        const replies = await Post.find({_id: request.params.id}).select("replies -_id");
+        const replies = await Post.find({_id: request.query.id}).select("replies -_id");
         response.setHeader('Content-Type', 'application/json');
         return response.status(200).json(replies);
     } catch (error) {
@@ -341,7 +341,7 @@ router.route('/:id').get(async (request, response) => {
 
 
 // POST REPLY REQUESTS
-router.route('/:id').post(async (request, response) => {
+router.route('/id').post(async (request, response) => {
     try {
         // check if required fields are filled
         if (!(
@@ -360,7 +360,7 @@ router.route('/:id').post(async (request, response) => {
         }
 
         // add reply
-        const id = request.params.id;
+        const id = request.query.id;
         const post = await Post.findByIdAndUpdate(id, { $push: { replies: newReply } });
 
         // not found Response
@@ -377,7 +377,7 @@ router.route('/:id').post(async (request, response) => {
 
 
 // PUT REPLY REQUESTS
-router.route('/:id/reply/:replyId').put(async (request, response) => {
+router.route('/reply').put(async (request, response) => {
     try {
         // check if required fields are filled
         if (!(
@@ -389,8 +389,8 @@ router.route('/:id/reply/:replyId').put(async (request, response) => {
         }
         
         // find post & its reply then update
-        const postId = request.params.id;
-        const replyId = request.params.replyId;
+        const postId = request.query.id;
+        const replyId = request.query.replyId;
         const post = await Post.findOneAndUpdate(
             { _id: postId, "replies._id": replyId}, // get specific reply in post
             {
@@ -420,7 +420,7 @@ router.route('/:id/reply/:replyId').put(async (request, response) => {
 
 // PATCH REPLY REQUESTS
 // patch reply text
-router.route('/:id/reply/:replyId/text').patch(async (request, response) => {
+router.route('/reply/text').patch(async (request, response) => {
     try {
         // check if required fields are filled
         if (!(request.body.text)) {
@@ -430,8 +430,8 @@ router.route('/:id/reply/:replyId/text').patch(async (request, response) => {
         }
         
         // find post & its reply then update
-        const postId = request.params.id;
-        const replyId = request.params.replyId;
+        const postId = request.query.id;
+        const replyId = request.query.replyId;
         const post = await Post.findOneAndUpdate(
             { _id: postId, "replies._id": replyId}, // get specific reply in post
             {
@@ -458,11 +458,11 @@ router.route('/:id/reply/:replyId/text').patch(async (request, response) => {
 
 
 // DELETE REPLY REQUESTS
-router.route('/:id/reply/:replyId').delete(async (request, response) => {
+router.route('/reply').delete(async (request, response) => {
     try {
         // find post & delete reply
-        const postId = request.params.id;
-        const replyId = request.params.replyId;
+        const postId = request.query.id;
+        const replyId = request.query.replyId;
         // Pulls specific reply from specific post
         const post = await Post.findOneAndUpdate({ _id: postId }, { $pull: { replies: { _id: replyId }} });
 
