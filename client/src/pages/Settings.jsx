@@ -86,6 +86,7 @@ export function Settings() {
             }).then(
                 response => {
                     Cookies.remove("username"); // REMOVES COOKIE
+                    Cookies.remove("theme"); // REMOVES COOKIE
                     navigate('/'); // SENDS THEM BACK TO SIGN IN PAGE
             }).catch( error => {
                 console.log(error);
