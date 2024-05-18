@@ -39,13 +39,18 @@ export function Login() {
                         document.querySelector(".ls-warning").innerText = "This Account is Already Logged in on Another Device";
                         document.querySelector(".ls-warning").style.color = "lightcoral";
                     } else if(response.data[0].password === password) { // IF PASSWORDS MATCH
-                        // SETS COOKIE AND CONTEXT
-
-
-
                         
-                        Cookies.set("username", username, { expires: 7 });
-                        navigate('/homepage') // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
+
+                        axios.patch('http://localhost:5000/users/loggedin', { // UPDATE PASSWORD
+                        username: username, status: true,
+                    }).then (
+                        response => {
+                            Cookies.set("username", username, { expires: 7 }); // SETS COOKIE AND CONTEXT
+                            navigate('/homepage') // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
+                    }).catch(error => {
+                        console.log(error);
+                        return;
+                    })
                     } else {
                         document.querySelector(".ls-warning").innerText = "Username & Password Do Not Match";
                         document.querySelector(".ls-warning").style.color = "lightcoral";
