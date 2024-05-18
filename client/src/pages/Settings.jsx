@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from "react"
 import { ToggleTheme } from "./ToggleTheme"
 import Cookies from 'js-cookie'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 
 export function Settings() {
 
     const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
+    const navigate = useNavigate();
+
     const initialized = useRef(false); // RE-USABLE HOOK TO MAKE SURE THINGS DON'T DOUBLE LOAD AT START
     const [oldPass, setOldPass] = useState("")
     const [newPass, setNewPass] = useState("")
