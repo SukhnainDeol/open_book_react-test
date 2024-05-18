@@ -1,6 +1,7 @@
 const router = require('express').Router()
 // const bcrypt = require('bcrypt')
 let User = require('../models/user.model.js')
+let Post = require('../models/post.model.js')
 
 
 // GET REQUESTS TO GET USERS
@@ -125,11 +126,22 @@ router.route('/:id').put( async (request, response) => {
 
 
 // DELETE REQUEST TO DELETE USER
-router.route('/:id').delete( async (request, response) => {
+router.route('/').delete( async (request, response) => {
     try {
         // get user
-        const id = request.params.id;
-        const user = await User.findByIdAndDelete(id);
+        const username = request.query.username;
+
+        if (username === "") { 
+            return response.status(404).json({message: "User not found"});
+        }
+
+        const user = await User.deleteMany(
+            { "username": username } 
+        );
+
+        await Post.deleteMany(
+            { "author": username }
+        );
 
         // check if it worked
         if (!user) {
