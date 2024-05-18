@@ -42,9 +42,10 @@ export function Login() {
                         
 
                         axios.patch('http://localhost:5000/users/loggedin', { // UPDATE PASSWORD
-                        username: username, status: true,
+                        username: username, loggedIn: true,
                     }).then (
                         response => {
+                            console.log(response.data);
                             Cookies.set("username", username, { expires: 7 }); // SETS COOKIE AND CONTEXT
                             navigate('/homepage') // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
                     }).catch(error => {
