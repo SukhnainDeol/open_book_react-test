@@ -10,6 +10,7 @@ import book from './assets/book.png'; // BOOK IMAGE FOR HEADER
 import menuIcon from './assets/menuIcon.png'; // HAMBURGER MENU ICON
 import { ToggleTheme } from "./pages/ToggleTheme"
 import { Settings } from "./pages/Settings"
+import axios from "axios"
 
 function App() {
     const navigate = useNavigate();
@@ -25,8 +26,18 @@ function App() {
 
     function HandleLogOut(e) {
         e.preventDefault();
-        Cookies.remove("username");
-        navigate('/');
+
+        axios.patch('http://localhost:5000/users/loggedin', 
+            {username: user, loggedIn: false},
+        ).then(
+            response => {
+                Cookies.remove("username");
+                navigate('/');
+        }).catch( error => {
+            console.log(error);
+            return;
+        })
+        
     }
 
     return (
