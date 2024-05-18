@@ -34,7 +34,7 @@ export function Snoop() {
                         console.log("NUMBER OF POSTS: " + response.data.length);
                         response.data.forEach(currentEntry => {
                             setEntries((entries) => {
-                                    return [...entries, { id: currentEntry._id, title: currentEntry.title, entry: currentEntry.text, date: currentEntry.createdAt, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count }];
+                                    return [...entries, { id: currentEntry._id, title: currentEntry.title, entry: currentEntry.text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count }];
                             });
                         });
                     }
@@ -59,7 +59,7 @@ export function Snoop() {
 
     {entries.reverse().map(entry => {
 
-        return <div className="entry-container" key={entry._id}>
+        return <div className="entry-container" key={entry.id}>
             <p className="entries">
                 <span className="current-entry-title">{entry.title} ({moment(entry.date).format('lll')}):</span>
                 <span className="current-entry">{entry.entry}</span>
