@@ -30,8 +30,6 @@ export function Snoop() {
                 } 
                 }).then(
                     response => {
-
-                        console.log("NUMBER OF POSTS: " + response.data.length);
                         response.data.forEach(currentEntry => {
                             setEntries((entries) => {
                                     return [...entries, { id: currentEntry._id, title: currentEntry.title, entry: currentEntry.text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count }];
@@ -39,12 +37,11 @@ export function Snoop() {
                         });
                     }
                     ).catch(error => {
-                        console.log(error);
+                        console.log(error.message);
                         return;
                         })
             }).catch(error => {
-                console.log(error);
-                console.log("random");
+                console.log(error.message);
             })  
 
         }    

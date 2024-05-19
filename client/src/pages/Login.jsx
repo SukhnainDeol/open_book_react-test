@@ -1,5 +1,5 @@
 import { useNavigate, Link } from "react-router-dom"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Cookies from 'js-cookie'
 import axios from "axios"
 
@@ -8,13 +8,16 @@ export function Login() {
     // AUTH FUNCTIONS ------------------------------------------------------------------------------------------------------------------
     
     const navigate = useNavigate();
+    const initialized = useRef(false); // RE-USABLE HOOK TO MAKE SURE THINGS DON'T DOUBLE LOAD AT START
 
     useEffect(() => { // PREVENTS USER FROM GOING BACK TO LOGGIN PAGE IF ALREADY LOGGED IN
-        const user = Cookies.get("username");
-        if(user) {
-            navigate('/homepage')
-        }
-    }, [])
+        if (!initialized.current) { // MAKES SURE USEFFECT TRIGGERS ONLY ONCE
+            initialized.current = true
+            const user = Cookies.get("username");
+            if(user) {
+             navigate('/homepage')
+            }
+    }}, [])
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -49,7 +52,7 @@ export function Login() {
                             Cookies.set("username", username, { expires: 7 }); // SETS COOKIE AND CONTEXT
                             navigate('/homepage') // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
                     }).catch(error => {
-                        console.log(error);
+                        console.log(error.message);
                         return;
                     })
                     } else {
@@ -60,7 +63,7 @@ export function Login() {
                     }
             }
         ).catch(error => {
-            console.log(error);
+            console.log(error.message);
             document.querySelector(".ls-warning").innerText = "Username Does Not Exist";
             document.querySelector(".ls-warning").style.color = "lightcoral";
             setPassword("");
@@ -72,9 +75,9 @@ export function Login() {
         <h3 className="sign-log"><Link to="/">Sign Up</Link> or Log In</h3>
         <form className="ls-form" onSubmit={(e)=>{HandleLogIn(e)}}>
             <label>Username</label>
-            <input type="text" value={username} onChange={e => setUsername(e.target.value)}/>
+            <input type="text" value={username} onChange={e => setUsername(e.target.value)} maxLength={10} />
             <label>Password</label>
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)}/>
+            <input type="password" value={password} onChange={e => setPassword(e.target.value)} maxLength={15} />
             <p className="ls-warning">Sample Warning Message</p>
             <button className="btn">Login</button>
         </form>

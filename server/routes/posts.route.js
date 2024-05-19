@@ -51,13 +51,13 @@ router.route('/username-recent').get(async (request, response) => {
     }
 })
 
-// GET REQUEST FOR RANDOM USER POST
+// GET REQUEST FOR RANDOM USER POST THAT ISN'T CURRENT USER
 router.route('/random').get(async (request, response) => {
     try {
         // get posts & and return them
         const username = request.query.username;
         const posts = await Post.aggregate([
-            { $match: { username: { $not: { $eq: username } } } },{ $sample: { size: 1  }}
+            { $match: { author: { $not: { $eq: username } } } },{ $sample: { size: 1  }}
         ])
         response.setHeader('Content-Type', 'application/json');
         return response.status(200).json(posts);

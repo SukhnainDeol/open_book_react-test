@@ -49,11 +49,11 @@ export function Settings() {
                         username: user, password: newPass,
                     }).then (
                         response => {
-                            console.log(response);
+                            console.log(response.data);
                             document.querySelector(".ls-warning").innerText = response.data.message;
                             document.querySelector(".ls-warning").style.color = "lightgreen";
                     }).catch(error => {
-                        console.log(error);
+                        console.log(error.message);
                         return;
                     })
                 } 
@@ -63,7 +63,7 @@ export function Settings() {
                     return;
                 }
         }).catch(error => {
-            console.log(error);
+            console.log(error.message);
             return;
         })
 
@@ -89,7 +89,7 @@ export function Settings() {
                     Cookies.remove("theme"); // REMOVES COOKIE
                     navigate('/'); // SENDS THEM BACK TO SIGN IN PAGE
             }).catch( error => {
-                console.log(error);
+                console.log(error.message);
                 return;
             })
 
@@ -109,11 +109,11 @@ export function Settings() {
             <form onSubmit={(e) => {changepass(e)}}>
                 <h4>Change Password:</h4><br/>
                 <label>Old Password:</label>
-                <input type="password" value={oldPass} onChange={e => setOldPass(e.target.value)} />
+                <input type="password" value={oldPass} onChange={e => setOldPass(e.target.value)} maxLength={15} />
                 <label>New Password:</label>
-                <input type="password" value={newPass} onChange={e => setNewPass(e.target.value)} />
+                <input type="password" value={newPass} onChange={e => setNewPass(e.target.value)} maxLength={15} />
                 <label>Confirm New Password:</label>
-                <input type="password" value={conNewPass} onChange={e => setConNewPass(e.target.value)} />
+                <input type="password" value={conNewPass} onChange={e => setConNewPass(e.target.value)} maxLength={15} />
                 <button className="btn">Change</button>
                 <p className="ls-warning">Sample Warning Message</p>
             </form>

@@ -38,7 +38,7 @@ function App() {
                 Cookies.remove("username");
                 navigate('/');
         }).catch( error => {
-            console.log(error);
+            console.log(error.message);
             return;
         })
         

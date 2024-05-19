@@ -31,7 +31,6 @@ export function HomePage() {
             } 
             }).then(
                 response => {
-                    console.log("NUMBER OF POSTS: " + response.data.length);
                     response.data.forEach(currentEntry => {
                             setEntries((entries) => {
                                 return [...entries, { id: currentEntry._id, title: currentEntry.title, entry: currentEntry.text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count }];
@@ -39,7 +38,7 @@ export function HomePage() {
                     });
                 }
             ).catch(error => {
-                console.log(error);
+                console.log(error.message);
                     return;
             })
 
@@ -65,8 +64,7 @@ export function HomePage() {
         date: currentDate
         }).then(
             response => {
-                console.log(response);
-
+                console.log(response.data);
                 axios.get('http://localhost:5000/posts/username-recent', { // GRABS THE POST WE JUST MADE TO THE DATABASE
                     params: {
                     author: user, // SPECIFIC SEARCH FOR RANDOM USER
@@ -81,12 +79,12 @@ export function HomePage() {
                         setNewEntry("");
                         setEntryLength(0);
                 }).catch(error => {
-                console.log(error);
+                console.log(error.message);
                     return;
                 })
             }
         ).catch(error => {
-            console.log(error);
+            console.log(error.message);
                 return;
         })
     }
@@ -101,7 +99,7 @@ export function HomePage() {
                 });
             }
         ).catch(error => {
-            console.log(error);
+            console.log(error.message);
                 return;
         })
     }
@@ -144,7 +142,7 @@ export function HomePage() {
                     <p className="sample-text">{currentPrompts.left}</p>
                 </aside>
                 <div id="middle-container">
-                    <form id="new-entry-form" onSubmit={handleEntry}>
+                    <form id="new-entry-form" onSubmit={(e) => {handleEntry(e)}}>
                         <label htmlFor="title">Entry Title</label>
                         <input type="text" id="title"
                             value={newTitle}

@@ -7,13 +7,15 @@ const userSchema = mongoose.Schema(
             required: true,
             unique: true,
             trim: true,
-            minLength: 5
+            minLength: 5,
+            maxLength: 10
         },
         password : {
             type: String,
             required: true,
             trim: true,
-            minLength: 5
+            minLength: 5,
+            maxLength: 30
         },
         loggedIn : {
             type: Boolean,
