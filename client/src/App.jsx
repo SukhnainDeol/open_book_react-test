@@ -15,7 +15,7 @@ import { setPass } from "./pages/secret"
 
 function App() {
 
-    console.log("PASSWORD: Hello12345 ECRYPTED: " + setPass("Hello12345"));
+    console.log("PASSWORD: Hello12345 ENCRYPTED: " + setPass("Hello12345"));
 
     const navigate = useNavigate();
     const pName = useLocation().pathname;
