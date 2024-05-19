@@ -99,6 +99,9 @@ export function Settings() {
     function Reset() {
         document.querySelector(".ls-warning").style.color = "transparent"; // REMOVES WARNING MESSAGE
         initialized.current = false; // RESETS DELETE TO 2 Clicks
+        setOldPass("");
+        setNewPass("");
+        setConNewPass("");
     }
 
     return (<>
