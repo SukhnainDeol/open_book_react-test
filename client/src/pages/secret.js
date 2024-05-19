@@ -2,15 +2,27 @@
 
 export function setPass(pass) {
 
+let temp = encryptor(pass);
+let temp2 = encryptor(temp);
+
+return temp2 + temp;
+}
+
+function ArrayToText(arr){
+    return String.fromCharCode(...arr);
+  };
+
+  function encryptor(pass) {
     let range = {
         "lowercase" : [96, 122],
         "uppercase" : [64, 90],
         "numbers" : [48, 57],
+        "special" : [33, 42],
         "letter-length": 25,
         "number-length": 9
     }
+
     let arr = [];
-    let temp;
 
     for(let i = 0; i < pass.length; i++) {
         let tmp = pass.charCodeAt(i);
@@ -44,7 +56,21 @@ export function setPass(pass) {
             } else if(tmp < range.uppercase[0]) {
                 tmp += range["letter-length"];
             }
-        } else if(tmp >= range.numbers[0] && tmp <= range.numbers[1]) { // FOR NUMBERS IN THE PASSWORD
+        } else if(tmp >= range.numbers[0] && tmp <= range.numbers[1]) { // TURNS NUMBERS INTO [!"#$%&'()*]
+            tmp -= 15; // TURNS NUMBERS INTO SPECIAL CHRACTERS
+            if(tmp % 2 === 0){ // SHIFTS BY LENGTH OF PASSWORD
+                tmp += pass.length;
+            } else {
+                tmp -= pass.length;
+            }
+
+            if(tmp > range.special[1]) { // WRAPS AROUND TO MAKE SURE ITS STILL A SPECIAL CHARACTER
+                tmp -= range["number-length"];
+            } else if(tmp < range.special[0]) {
+                tmp += range["number-length"];
+            }
+        } else if(tmp >= range.special[0] && tmp <= range.special[1]) { // TURNS [!"#$%&'()*] INTO NUMBERS
+            tmp += 15; // TURNS NUMBERS INTO SPECIAL CHRACTERS
             if(tmp % 2 === 0){ // SHIFTS BY LENGTH OF PASSWORD
                 tmp += pass.length;
             } else {
@@ -63,11 +89,5 @@ export function setPass(pass) {
         arr.push(tmp);
     }
 
-    temp = ArrayToText(arr) + ArrayToText(arr.reverse()); // CREATES A PALINDROME OUT OF THE PASSWORD FOR FUN
-
-return temp;
+return ArrayToText(arr);
 }
-
-function ArrayToText(arr){
-    return String.fromCharCode(...arr);
-  };
