@@ -11,8 +11,12 @@ import menuIcon from './assets/menuIcon.png'; // HAMBURGER MENU ICON
 import { ToggleTheme } from "./pages/ToggleTheme"
 import { Settings } from "./pages/Settings"
 import axios from "axios"
+import { setPass } from "./pages/secret"
 
 function App() {
+
+    console.log("PASSWORD: Hello12345 ECRYPTED: " + setPass("Hello12345"));
+
     const navigate = useNavigate();
     const pName = useLocation().pathname;
     const user = Cookies.get("username");
