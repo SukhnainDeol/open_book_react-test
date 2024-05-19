@@ -3,7 +3,7 @@
 export function setPass(pass) {
 
 let temp = encryptor(pass);
-let temp2 = encryptor(temp);
+let temp2 = encryptor(temp); // DOUBLE ENCRYPTED HALF
 
 return temp2 + temp;
 }
