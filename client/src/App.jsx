@@ -14,7 +14,9 @@ import axios from "axios"
 
 function App() {
 
-    axios.get('http://localhost:5000/encrypt/password').then(
+    axios.get('http://localhost:5000/encrypt',
+        { params: {password: "Hello123" }}
+    ).then(
         response => {
             console.log(response.data);
         }
