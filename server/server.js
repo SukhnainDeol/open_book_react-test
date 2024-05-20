@@ -40,6 +40,9 @@ app.use('/users', usersRouter)
 const postsRouter = require('./routes/posts.route')
 app.use('/posts', postsRouter)
 
+const encryptRouter = require('./routes/encrypt.route')
+app.use('/encrypt', encryptRouter)
+
 
 // SERVER METHODS
 app.listen(port, () => {
