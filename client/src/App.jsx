@@ -11,20 +11,14 @@ import menuIcon from './assets/menuIcon.png'; // HAMBURGER MENU ICON
 import { ToggleTheme } from "./pages/ToggleTheme"
 import { Settings } from "./pages/Settings"
 import axios from "axios"
-import { setPass } from "./pages/secret"
 
 function App() {
 
-    console.log("PASSWORD: Hello12345 ENCRYPTED: " + setPass("Hello12345"));
-
-    axios.get('http://localhost:5000/test', 
-            {pass: 'Hello World'},
-        ).then(
-            response => {
-        }).catch( error => {
-            console.log(error.message);
-            return;
-        })
+    axios.get('http://localhost:5000/encrypt/test').then(
+        response => {
+            console.log(response);
+        }
+    )
 
     const navigate = useNavigate();
     const pName = useLocation().pathname;

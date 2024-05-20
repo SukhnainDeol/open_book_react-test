@@ -40,16 +40,10 @@ app.use('/users', usersRouter)
 const postsRouter = require('./routes/posts.route')
 app.use('/posts', postsRouter)
 
-app.use('/test', () => {
-    try {
-        const pass = request.body.pass;
-        return response.status(200).json(pass);
-    } catch (error) {
-        console.log("ERROR:", error.message);
-        response.status(500).send({message: error.message});
-    }
-})
-
+app.get('/encrypt/:test', (request, response) => {
+    let password = request.params.test;
+    response.send(password);
+  })
 
 // SERVER METHODS
 app.listen(port, () => {
