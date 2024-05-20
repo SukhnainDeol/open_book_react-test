@@ -84,8 +84,6 @@ function ArrayToText(arr){
             }
         }
 
-
-
         arr.push(tmp);
     }
 
