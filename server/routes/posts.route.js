@@ -20,24 +20,6 @@ const User = require('../models/user.model');
         // arrays are strings
 
 
-/** (Currently not working)
- * 
- * @param {*} username - string of username in database 
- * 
- * @returns - true/false if user exists
- */
-async function userExists(username) {
-    try {
-        let user = await User.find({username: username});
-        console.log(user);
-        user = user ? true : false
-        return user;
-    } catch (error) {
-        console.log(error);
-        return false;
-    }
-}
-
 // GET REQUEST FOR MOST RECENT USER POST
 router.route('/username-recent').get(async (request, response) => {
     try {
@@ -85,6 +67,20 @@ router.route('/').get(async (request, response) => {
     try {
         // get posts & and return them
         const posts = await Post.find({});
+        response.setHeader('Content-Type', 'application/json');
+        return response.status(200).json(posts);
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
+// GET REQUESTS for specific post
+router.route('/id').get(async (request, response) => {
+    try {
+        // get posts & and return them
+        const id = request.query.id;
+        const posts = await Post.find({_id: {$eq: id}});
         response.setHeader('Content-Type', 'application/json');
         return response.status(200).json(posts);
     } catch (error) {
@@ -164,6 +160,8 @@ router.route('/').post(async (request, response) => {
 })
 
 
+
+
 // PUT REQUESTS
 router.route('/id').put(async (request, response) => {
     try {
@@ -192,6 +190,8 @@ router.route('/id').put(async (request, response) => {
         response.status(500).send({message: error.message});
     }
 })
+
+
 
 
 // PATCH REQUESTS
@@ -234,21 +234,21 @@ router.route('/text').patch(async (request, response) => {
 router.route('/likes').patch(async (request, response) => {
     try {
         // check if required fields are filled
-        if (!(request.body.likes && request.body.likes.count && request.body.likes.users)) {
+        if (!(request.body.count && request.body.users)) {
             return response.status(400).send({
                 message: "Likes Count and Users fields are required",
             });
         }
         
         // edit post 
-        const postId = request.query.postId;
+        const id = request.query.id;
         const post = await Post.findOneAndUpdate(
-            { _id: postId}, // get post
+            { _id: id}, // get post
             {
                 $set: { // update post
                     "likes":{
-                        "count": request.body.likes.count,
-                        "users": request.body.likes.users,
+                        "count": request.body.count,
+                        "users": request.body.users,
                     }
                 }
             },
@@ -270,22 +270,16 @@ router.route('/likes').patch(async (request, response) => {
 // patch post dislikes
 router.route('/dislikes').patch(async (request, response) => {
     try {
-        // check if required fields are filled
-        if (!(request.body.dislikes && request.body.dislikes.count && request.body.dislikes.users)) {
-            return response.status(400).send({
-                message: "Dislikes Count and Users fields are required",
-            });
-        }
         
         // edit post 
-        const postId = request.query.postId;
+        const id = request.query.id;
         const post = await Post.findOneAndUpdate(
-            { _id: postId}, // get post
+            { _id: id}, // get post
             {
                 $set: { // update post
                     "dislikes":{
-                        "count": request.body.dislikes.count,
-                        "users": request.body.dislikes.users,
+                        "count": request.body.count,
+                        "users": request.body.users,
                     }
                 }
             },
@@ -303,6 +297,8 @@ router.route('/dislikes').patch(async (request, response) => {
         response.status(500).send({message: error.message});
     }
 })
+
+
 
 
 // DELETE REQUESTS
@@ -376,6 +372,8 @@ router.route('/id').post(async (request, response) => {
 })
 
 
+
+
 // PUT REPLY REQUESTS
 router.route('/reply').put(async (request, response) => {
     try {
@@ -418,6 +416,8 @@ router.route('/reply').put(async (request, response) => {
 })
 
 
+
+
 // PATCH REPLY REQUESTS
 // patch reply text
 router.route('/reply/text').patch(async (request, response) => {
@@ -455,6 +455,8 @@ router.route('/reply/text').patch(async (request, response) => {
         response.status(500).send({message: error.message});
     }
 })
+
+
 
 
 // DELETE REPLY REQUESTS
