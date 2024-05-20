@@ -48,7 +48,9 @@ export function Snoop() {
     }, [])
 
 
-    function addLike(id) {
+    function addLikeDislike(e, id, isLike) {
+
+        e.preventDefault();
 
         axios.get('http://localhost:5000/posts/id', {
             params: {
@@ -69,7 +71,29 @@ export function Snoop() {
                                 id: id
                             }
                         }   
-                    )
+                    ).catch(error => {
+                        console.log(error.message);
+                        console.log("got to already liked");
+                        return;
+                    })
+
+                    if(!isLike) {
+                        // add dislike
+                    axios.patch('http://localhost:5000/posts/dislikes',
+                    {
+                        count: response.data[0].dislikes.count + 1, // INCREMENT
+                        users: [...response.data[0].dislikes.users, user] // ADD USER
+                    },
+                    {
+                        params: {
+                            id: id
+                        }
+                    }   
+                    ).catch(error => {
+                        console.log(error.message);
+                        return;
+                    })
+                }
                 }
                 // USER ALREADY DISLIKED
                 else if (response.data[0].dislikes.users.includes(user)) {
@@ -84,86 +108,42 @@ export function Snoop() {
                                 id: id
                             }
                         }   
-                    )
+                    ).catch(error => {
+                        console.log(error.message);
+                        console.log("got to already disliked");
+                        return;
+                    })
 
-                    // add like
+                    if(isLike) {
+                        // add like
                     axios.patch('http://localhost:5000/posts/likes',
-                        {
-                            count: response.data[0].likes.count + 1, // INCREMENT
-                            users: [...response.data[0].likes.users, user] // ADD USER
-                        },
-                        {
-                            params: {
-                                id: id
-                            }
-                        }   
-                    )
+                    {
+                        count: response.data[0].likes.count + 1, // INCREMENT
+                        users: [...response.data[0].likes.users, user] // ADD USER
+                    },
+                    {
+                        params: {
+                            id: id
+                        }
+                    }   
+                    )}
                 }
                 // USER HASNT LIKED/DISLIKED
                 else {
-                    // add like
+                    if(isLike) {
+                        // add like
                     axios.patch('http://localhost:5000/posts/likes',
-                        {
-                            count: response.data[0].likes.count + 1, // INCREMENT
-                            users: [...response.data[0].likes.users, user] // ADD USER
-                        },
-                        {
-                            params: {
-                                id: id
-                            }
-                        }   
-                    )
-                }
-
-                // reload post on front end
-            }
-        ).catch(error => {
-            console.log(error.message);
-            return;
-        })
-    }
-
-
-    function addDislike(id) {
-
-        axios.get('http://localhost:5000/posts/id', {
-            params: {
-                id: id
-            }
-        }).then (
-            response => {
-                // USER ALREADY DISLIKED
-                if (response.data[0].dislikes.users.includes(user)) {
-                    // remove like
-                    axios.patch('http://localhost:5000/posts/dislikes',
-                        {
-                            count: response.data[0].dislikes.count - 1, // DECREMENT
-                            users: response.data[0].dislikes.users.filter(u => u != user) // REMOVE USER
-                        },
-                        {
-                            params: {
-                                id: id
-                            }
-                        }   
-                    )
-                }
-                // USER ALREADY LIKED
-                else if (response.data[0].likes.users.includes(user)) {
-                    // remove like
-                    axios.patch('http://localhost:5000/posts/likes',
-                        {
-                            count: response.data[0].likes.count - 1, // DECREMENT
-                            users: response.data[0].likes.users.filter(u => u != user) // REMOVE USER
-                        },
-                        {
-                            params: {
-                                id: id
-                            }
-                        }   
-                    )
-
-                    // add dislike
-                    axios.patch('http://localhost:5000/posts/dislikes',
+                    {
+                        count: response.data[0].likes.count + 1, // INCREMENT
+                        users: [...response.data[0].likes.users, user] // ADD USER
+                    },
+                    {
+                        params: {
+                            id: id
+                        }
+                    }   
+                    )} else {
+                        axios.patch('http://localhost:5000/posts/dislikes',
                         {
                             count: response.data[0].dislikes.count + 1, // INCREMENT
                             users: [...response.data[0].dislikes.users, user] // ADD USER
@@ -173,22 +153,7 @@ export function Snoop() {
                                 id: id
                             }
                         }   
-                    )
-                }
-                // USER HASNT LIKED/DISLIKED
-                else {
-                    // add like
-                    axios.patch('http://localhost:5000/posts/dislikes',
-                        {
-                            count: response.data[0].dislikes.count + 1, // INCREMENT
-                            users: [...response.data[0].dislikes.users, user] // ADD USER
-                        },
-                        {
-                            params: {
-                                id: id
-                            }
-                        }   
-                    )
+                        )}
                 }
 
                 // reload post on front end
@@ -216,8 +181,8 @@ export function Snoop() {
                 <span className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></span>
             </p>
                 <div className="rating">
-                    <p className="like" onClick={()=>{addLike(entry.id)}}><a href="#">cool</a></p> 
-                    <p className="dislike" onClick={()=>{addDislike(entry.id)}}><a href="#">cringe</a></p>
+                    <p className="like" onClick={(e)=>{addLikeDislike(e, entry.id, true)}}><a href="#">cool</a></p> 
+                    <p className="dislike" onClick={(e)=>{addLikeDislike(e, entry.id, false)}}><a href="#">cringe</a></p>
                 </div>
         </div>
     })}

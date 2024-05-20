@@ -233,12 +233,6 @@ router.route('/text').patch(async (request, response) => {
 // patch post likes
 router.route('/likes').patch(async (request, response) => {
     try {
-        // check if required fields are filled
-        if (!(request.body.count && request.body.users)) {
-            return response.status(400).send({
-                message: "Likes Count and Users fields are required",
-            });
-        }
         
         // edit post 
         const id = request.query.id;
