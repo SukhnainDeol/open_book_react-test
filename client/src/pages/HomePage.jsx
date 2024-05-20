@@ -24,10 +24,9 @@ export function HomePage() {
 
         document.querySelector("textarea").placeholder = `Hello, ${user}. What's On Your Mind?`; // SETS TEXTAREA PLACEHOLDER WITH USERNAME SO USER KNOWS LOGIN IS SUCCESSFULL
 
-
         axios.get('http://localhost:5000/posts/username', { // PULL THEIR POSTS
             params: {
-                author: user, // SPECIFIC SEARCH FOR RANDOM USER
+                author: user, // SPECIFIC SEARCH FOR USER
             } 
             }).then(
                 response => {

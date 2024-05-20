@@ -1,3 +1,5 @@
+
+
 export function setPass(pass) {
 
 let temp = encryptor(pass);
