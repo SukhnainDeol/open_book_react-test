@@ -435,6 +435,11 @@ body {
     border: none;
 }
 
+.dark-theme .menu-icon {
+    filter: invert(); /* makes menu icon white in dark mode */
+}
+
+
 .hamburger-menu {
     position: fixed;
     top: 6px;
