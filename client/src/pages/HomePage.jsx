@@ -130,7 +130,7 @@ export function HomePage() {
     rightPromptsList.insert("How do you unwind after a busy day?");
     rightPromptsList.insert("What is the funniest thing that has ever happened to you?");
     rightPromptsList.insert("What are three things you are grateful for?");
-    rightPromptsList.insert("Reflect on a recent accomplishment?");
+    rightPromptsList.insert("Reflect on a recent accomplishment...");
     rightPromptsList.insert("What are you most passionate about?");
     rightPromptsList.insert("What are some of your guilty pleasures?");
     rightPromptsList.insert("What person made the biggest impact on your life and why?");
