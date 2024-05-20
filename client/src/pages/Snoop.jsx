@@ -31,8 +31,12 @@ export function Snoop() {
                 }).then(
                     response => {
                         response.data.forEach(currentEntry => {
+
+                            const didLike = currentEntry.likes.users.includes(user); // CHECKS TO SEE IF THE USER HAS LIKED THE POST
+                            const didDislike = currentEntry.dislikes.users.includes(user); // CHECKED TO SEE IF THE USER HAS DISLIKED THE POST
+
                             setEntries((entries) => {
-                                    return [...entries, { id: currentEntry._id, title: currentEntry.title, entry: currentEntry.text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count }];
+                                    return [...entries, { id: currentEntry._id, title: currentEntry.title, entry: currentEntry.text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, didL: didLike, didD: didDislike }];
                             });
                         });
                     }
@@ -52,6 +56,8 @@ export function Snoop() {
 
         e.preventDefault();
 
+        let option; // OPTION FOR HOW TO UPDATE THE PAGE AFTER CHANGE
+
         axios.get('http://localhost:5000/posts/id', {
             params: {
                 id: id
@@ -60,6 +66,7 @@ export function Snoop() {
             response => {
                 // USER ALREADY LIKED
                 if (response.data[0].likes.users.includes(user)) {
+                    option = 1;
                     // remove like
                     axios.patch('http://localhost:5000/posts/likes',
                         {
@@ -73,11 +80,11 @@ export function Snoop() {
                         }   
                     ).catch(error => {
                         console.log(error.message);
-                        console.log("got to already liked");
                         return;
                     })
 
                     if(!isLike) {
+                        option = 2;
                         // add dislike
                     axios.patch('http://localhost:5000/posts/dislikes',
                     {
@@ -97,6 +104,7 @@ export function Snoop() {
                 }
                 // USER ALREADY DISLIKED
                 else if (response.data[0].dislikes.users.includes(user)) {
+                    option = 3;
                     // remove dislike
                     axios.patch('http://localhost:5000/posts/dislikes',
                         {
@@ -110,11 +118,11 @@ export function Snoop() {
                         }   
                     ).catch(error => {
                         console.log(error.message);
-                        console.log("got to already disliked");
                         return;
                     })
 
                     if(isLike) {
+                        option = 4;
                         // add like
                     axios.patch('http://localhost:5000/posts/likes',
                     {
@@ -131,6 +139,7 @@ export function Snoop() {
                 // USER HASNT LIKED/DISLIKED
                 else {
                     if(isLike) {
+                        option = 5;
                         // add like
                     axios.patch('http://localhost:5000/posts/likes',
                     {
@@ -143,6 +152,7 @@ export function Snoop() {
                         }
                     }   
                     )} else {
+                        option = 6;
                         axios.patch('http://localhost:5000/posts/dislikes',
                         {
                             count: response.data[0].dislikes.count + 1, // INCREMENT
@@ -157,11 +167,46 @@ export function Snoop() {
                 }
 
                 // reload post on front end
+                updatePost(id, option);
+
+
             }
         ).catch(error => {
             console.log(error.message);
             return;
         })
+    }
+
+    function updatePost(id, option) {
+        const newArray = entries.map((entry) => {
+            if (id === entry.id){ // UPDATES USESTATE BASED ON WHICH ACTIONS WERE TAKEN IN THE DATABASE
+                if(option === 1) { // ALREADY LIKED
+                    entry.L--;
+                    entry.didL = false;
+                } else if(option === 2) { // ALREADY LIKED + NOW DISLIKED
+                    entry.L--;
+                    entry.didL = false;
+                    entry.D++;
+                    entry.didD = true;
+                } else if(option === 3) { // ALREADY DISLIKED
+                    entry.D--;
+                    entry.didD = false;
+                } else if(option === 4) { // ALREADY DISLIKED + NOW LIKED
+                    entry.D--;
+                    entry.didD = false;
+                    entry.L++;
+                    entry.didL = true;
+                } else if(option === 5) { // NOW LIKED
+                    entry.L++;
+                    entry.didL = true;
+                } else { // NOW DISLIKED
+                    entry.D++;
+                    entry.didD = true;
+                }
+            }
+            return entry;
+          });
+          setEntries(newArray);
     }
 
 
@@ -181,8 +226,8 @@ export function Snoop() {
                 <span className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></span>
             </p>
                 <div className="rating">
-                    <p className="like" onClick={(e)=>{addLikeDislike(e, entry.id, true)}}><a href="#">cool</a></p> 
-                    <p className="dislike" onClick={(e)=>{addLikeDislike(e, entry.id, false)}}><a href="#">cringe</a></p>
+                    <p className="like" style={ entry.didL ? {color: "lightgreen"} : {color: "inherit"}} onClick={(e)=>{addLikeDislike(e, entry.id, true)}}><a href="#">cool</a></p> 
+                    <p className="dislike" style={ entry.didD ? {color: "lightcoral"} : {color: "inherit"}} onClick={(e)=>{addLikeDislike(e, entry.id, false)}}><a href="#">cringe</a></p>
                 </div>
         </div>
     })}
