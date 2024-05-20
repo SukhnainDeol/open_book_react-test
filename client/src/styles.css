@@ -126,7 +126,8 @@ nav a:hover {
 /* sample text for asides*/
 .sample-text {
     animation: floatInOut 10s infinite;
-    white-space: nowrap;
+    white-space: normal;
+    word-wrap: break-word;
     overflow: hidden;
     position: absolute; 
     left: 0%; /* start at the left */

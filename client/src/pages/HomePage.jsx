@@ -107,17 +107,35 @@ export function HomePage() {
     const leftPromptsList = new LinkedList();
 
     //sample left prompts
-    leftPromptsList.insert("Sample Left Prompt 1");
-    leftPromptsList.insert("Sample Left Prompt 2");
-    leftPromptsList.insert("Sample Left Prompt 3");
+    leftPromptsList.insert("Write something about yourself...");
+    leftPromptsList.insert("What is a childhood memory that stands out to you?");
+    leftPromptsList.insert("What are some of your goals?");
+    leftPromptsList.insert("What is your biggest fear?");
+    leftPromptsList.insert("Write a letter to your future self...");
+    leftPromptsList.insert("If you could have any superpower, what would it be?");
+    leftPromptsList.insert("What are your favorite and least favorite foods?");
+    leftPromptsList.insert("Create a fake conspiracy theory...");
+    leftPromptsList.insert("If you could travel anywhere in the world, where would it be and why?");
+    leftPromptsList.insert("Write about your dream career...");
+    leftPromptsList.insert("You have been elected the leader of your country, what is the first thing you do?");
+    leftPromptsList.insert("What is the most embarrasing thing that has ever happened to you?");
 
     // initialize new linked list for right
     const rightPromptsList = new LinkedList();
 
     //right sample prompts
-    rightPromptsList.insert("Sample Right Prompt 1");
-    rightPromptsList.insert("Sample Right Prompt 2");
-    rightPromptsList.insert("Sample Right Prompt 3");
+    rightPromptsList.insert("Describe a dream you had recently...");
+    rightPromptsList.insert("Write a poem or short story...");
+    rightPromptsList.insert("How do you unwind after a busy day?");
+    rightPromptsList.insert("What is the funniest thing that has ever happened to you?");
+    rightPromptsList.insert("What are three things you are grateful for?");
+    rightPromptsList.insert("Reflect on a recent accomplishment...");
+    rightPromptsList.insert("What are you most passionate about?");
+    rightPromptsList.insert("What are some of your guilty pleasures?");
+    rightPromptsList.insert("What person made the biggest impact on your life and why?");
+    rightPromptsList.insert("What is the biggest challenge you have overcome?");
+    rightPromptsList.insert("What are three things you'd like the change about yourself?");
+    rightPromptsList.insert("What does a perfect day look like to you?");
 
     // gets the current prompts for the asides
     const [currentPrompts, setCurrentPrompts] = useState({
