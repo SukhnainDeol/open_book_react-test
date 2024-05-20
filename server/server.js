@@ -41,7 +41,13 @@ const postsRouter = require('./routes/posts.route')
 app.use('/posts', postsRouter)
 
 app.use('/test', () => {
-    console.log('Hello World');
+    try {
+        const pass = request.body.pass;
+        return response.status(200).json(pass);
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
 })
 
 

@@ -17,6 +17,15 @@ function App() {
 
     console.log("PASSWORD: Hello12345 ENCRYPTED: " + setPass("Hello12345"));
 
+    axios.get('http://localhost:5000/test', 
+            {pass: 'Hello World'},
+        ).then(
+            response => {
+        }).catch( error => {
+            console.log(error.message);
+            return;
+        })
+
     const navigate = useNavigate();
     const pName = useLocation().pathname;
     const user = Cookies.get("username");
