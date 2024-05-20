@@ -3,6 +3,8 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 require('dotenv').config()
 
+const Encrypt = require('./encryption/secret')
+
 
 // SERVER
 const app = express()
@@ -40,9 +42,10 @@ app.use('/users', usersRouter)
 const postsRouter = require('./routes/posts.route')
 app.use('/posts', postsRouter)
 
-app.get('/encrypt/:test', (request, response) => {
-    let password = request.params.test;
-    response.send(password);
+app.get('/encrypt/:password', (request, response) => {
+    let password = request.params.password;
+    let newPass = Encrypt.setPass(password);
+    response.send(newPass);
   })
 
 // SERVER METHODS

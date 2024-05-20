@@ -1,6 +1,4 @@
-
-
-export function setPass(pass) {
+function setPass(pass) {
 
 let temp = encryptor(pass);
 let temp2 = encryptor(temp); // DOUBLE ENCRYPTED HALF
@@ -8,7 +6,7 @@ let temp2 = encryptor(temp); // DOUBLE ENCRYPTED HALF
 return temp2 + temp;
 }
 
-function ArrayToText(arr){
+ function ArrayToText(arr){
     return String.fromCharCode(...arr);
   };
 
@@ -91,3 +89,5 @@ function ArrayToText(arr){
 
 return ArrayToText(arr);
 }
+
+module.exports = { setPass }
