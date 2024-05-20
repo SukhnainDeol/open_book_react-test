@@ -41,15 +41,15 @@ export function HomePage() {
                 console.log(error.message);
                     return;
             })
+        }
+    }, [])
 
-            // CODE FOR LINKED LIST?
-            
-            const intervalId = setInterval(promptNext, 10000); // calls promptNext every 10 seconds
+    useEffect(() => {
+        const intervalId = setInterval(promptNext, 10000); // calls promptNext every 10 seconds
 
             return () => {
                 clearInterval(intervalId); // clears the interval after unmount or useEffect dependancies change for cleanup purposes
             };
-        }
     }, [])
 
     // ----------------------------------------------------------------------------------------
