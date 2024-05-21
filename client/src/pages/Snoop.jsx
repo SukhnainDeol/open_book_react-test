@@ -228,7 +228,8 @@ export function Snoop() {
                     { 
                     user ? <p className="like" style={ entry.didL ? {color: "lightgreen"} : {color: "inherit"}} onClick={(e)=>{addLikeDislike(e, entry.id, true)}}><a href="#">cool</a></p> : ""
                     }
-                    { user ? <p className="dislike" style={ entry.didD ? {color: "lightcoral"} : {color: "inherit"}} onClick={(e)=>{addLikeDislike(e, entry.id, false)}}><a href="#">cringe</a></p> : ""
+                    { 
+                    user ? <p className="dislike" style={ entry.didD ? {color: "lightcoral"} : {color: "inherit"}} onClick={(e)=>{addLikeDislike(e, entry.id, false)}}><a href="#">cringe</a></p> : ""
                     }
                 </div>
         </div>
