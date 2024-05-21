@@ -40,10 +40,10 @@ export function HomePage() {
                 }
             ).catch(error => {
                 // THIS WOULD LIKELY MEAN THAT THE ACCOUNT DOESN'T EXIST AFTER DELETION
+                console.log(error.message);
                 Cookies.remove("username"); // REMOVING THE COOKIE
                 navigate('/');
-                console.log(error.message);
-                    return;
+                return;
             })
         }
     }, [])
