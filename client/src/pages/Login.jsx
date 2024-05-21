@@ -41,26 +41,34 @@ export function Login() {
                     if (response.data[0].loggedIn === true) { // SO TWO USERS CAN'T LOG IN ON THE SAME ACCOUNT
                         document.querySelector(".ls-warning").innerText = "This Account is Already Logged in on Another Device";
                         document.querySelector(".ls-warning").style.color = "lightcoral";
-                    } else if(response.data[0].password === password) { // IF PASSWORDS MATCH
-                        
+                        return;
+                    } 
 
-                        axios.patch('http://localhost:5000/users/loggedin', { // UPDATE PASSWORD
-                        username: username, loggedIn: true,
-                    }).then (
+                    const checkPass = response.data[0].password; // CURRENT DATABASE PASSWORD
+
+                    axios.get('http://localhost:5000/encrypt',{ params: {password: password }}).then(
                         response => {
-                            console.log(response.data);
-                            Cookies.set("username", username, { expires: 7 }); // SETS COOKIE AND CONTEXT
-                            navigate('/homepage') // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
-                    }).catch(error => {
-                        console.log(error.message);
-                        return;
-                    })
-                    } else {
-                        document.querySelector(".ls-warning").innerText = "Username & Password Do Not Match";
-                        document.querySelector(".ls-warning").style.color = "lightcoral";
-                        setPassword("");
-                        return;
-                    }
+                            if(checkPass === response.data) { // IF PASSWORDS MATCH
+                        
+                            axios.patch('http://localhost:5000/users/loggedin', { // UPDATE LOGGED IN STATUS
+                                username: username, loggedIn: true,
+                            }).then (
+                                response => {
+                                    console.log(response.data);
+                                    Cookies.set("username", username, { expires: 7 }); // SETS COOKIE AND CONTEXT
+                                    navigate('/homepage') // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
+                            }).catch(error => {
+                                console.log(error.message);
+                                return;
+                            })
+                            } else {
+                                document.querySelector(".ls-warning").innerText = "Username & Password Do Not Match";
+                                document.querySelector(".ls-warning").style.color = "lightcoral";
+                                setPassword("");
+                                return;
+                            }
+                        }
+                    )
             }
         ).catch(error => {
             console.log(error.message);

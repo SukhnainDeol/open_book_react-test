@@ -14,14 +14,15 @@ import axios from "axios"
 
 function App() {
 
+    /*
     axios.get('http://localhost:5000/encrypt',
-        { params: {password: "Hello123" }}
+        { params: {password: "SSSSSSS" }}
     ).then(
         response => {
             console.log(response.data);
         }
     )
-
+    */
     const navigate = useNavigate();
     const pName = useLocation().pathname;
     const user = Cookies.get("username");

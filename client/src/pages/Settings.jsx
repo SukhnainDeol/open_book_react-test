@@ -43,25 +43,37 @@ export function Settings() {
             }
         }).then(
             response => {
-                if (response.data[0].password === oldPass) // CHECK IF PASSWORDS MATCH
-                {
-                    axios.patch('http://localhost:5000/users/password', { // UPDATE PASSWORD
-                        username: user, password: newPass,
-                    }).then (
-                        response => {
-                            console.log(response.data);
-                            document.querySelector(".ls-warning").innerText = response.data.message;
-                            document.querySelector(".ls-warning").style.color = "lightgreen";
-                    }).catch(error => {
-                        console.log(error.message);
-                        return;
-                    })
-                } 
+                const checkPass = response.data[0].password; // CURRENT DATABASE PASSWORD
+
+                axios.get('http://localhost:5000/encrypt',{ params: {password: oldPass }}).then(
+                    response => {
+                    if (checkPass === response.data) // CHECK IF PASSWORDS MATCH
+                    {
+                        // ENCRYPTION
+                        axios.get('http://localhost:5000/encrypt',{ params: {password: newPass }}).then(
+                            response => {
+                                console.log(response.data);
+                                axios.patch('http://localhost:5000/users/password', { // UPDATE PASSWORD
+                                username: user, password: response.data,
+                                }).then (
+                                    response => {
+                                        console.log(response.data);
+                                        document.querySelector(".ls-warning").innerText = response.data.message;
+                                        document.querySelector(".ls-warning").style.color = "lightgreen";
+                                        Reset(false);
+                                    }).catch(error => {
+                                        console.log(error.message);
+                                        return;
+                                    })
+                            })
+                    } 
                 else { // ERROR WARNING IF THEY DONT MATCH
                     document.querySelector(".ls-warning").innerText = "Old Password is Incorrect!";
                     document.querySelector(".ls-warning").style.color = "lightcoral";
                     return;
                 }
+                })
+
         }).catch(error => {
             console.log(error.message);
             return;
@@ -96,8 +108,10 @@ export function Settings() {
         }
     }
 
-    function Reset() {
-        document.querySelector(".ls-warning").style.color = "transparent"; // REMOVES WARNING MESSAGE
+    function Reset(fullReset) {
+        if(fullReset) {
+            document.querySelector(".ls-warning").style.color = "transparent"; // REMOVES WARNING MESSAGE
+        }
         initialized.current = false; // RESETS DELETE TO 2 Clicks
         setOldPass("");
         setNewPass("");
@@ -105,7 +119,7 @@ export function Settings() {
     }
 
     return (<>
-        <span className="nav-link"><Link to="#" onClick={() => {{Reset(), setViz(!viz)}}}>Settings</Link></span>
+        <span className="nav-link"><Link to="#" onClick={() => {{Reset(true), setViz(!viz)}}}>Settings</Link></span>
         <div id="settings-menu">
             <h4>Change Display: </h4>
             <button className="btn"><ToggleTheme /></button>

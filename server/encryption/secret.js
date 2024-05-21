@@ -20,18 +20,22 @@ return temp2 + temp;
         "number-length": 9
     }
 
+    let length;
+
+    pass.length % 2 === 0 ? length = pass.length : length = pass.length + 1; // THIS IS TO SOLVE AN ISSUE WHERE PASSWORDS WILL REVERSE THEMSELVES IF LENGTH IS ODD
+
     let arr = [];
 
-    for(let i = 0; i < pass.length; i++) {
+    for(let i = 0; i < length; i++) {
         let tmp = pass.charCodeAt(i);
 
         if(tmp >= range.uppercase[0] && tmp <= range.uppercase[1]) { // LOWER CASE LETTER
             tmp += 32; // TURNS UPPER TO LOWERCASE LETTER
 
             if(tmp % 2 === 0){ // SHIFTS BY LENGTH OF PASSWORD
-                tmp += pass.length;
+                tmp += length;
             } else {
-                tmp -= pass.length;
+                tmp -= length;
             }
 
             if(tmp > range.lowercase[1]) { // WRAPS AROUND TO MAKE SURE ITS STILL A LETTER
@@ -44,9 +48,9 @@ return temp2 + temp;
             tmp -= 32; // TURNS LOWER TO UPPERCASE LETTER
 
             if(tmp % 2 === 0){ // SHIFTS BY LENGTH OF PASSWORD
-                tmp += pass.length;
+                tmp += length;
             } else {
-                tmp -= pass.length;
+                tmp -= length;
             }
 
             if(tmp > range.uppercase[1]) { // WRAPS AROUND TO MAKE SURE ITS STILL A LETTER
@@ -54,12 +58,13 @@ return temp2 + temp;
             } else if(tmp < range.uppercase[0]) {
                 tmp += range["letter-length"];
             }
+
         } else if(tmp >= range.numbers[0] && tmp <= range.numbers[1]) { // TURNS NUMBERS INTO [!"#$%&'()*]
             tmp -= 15; // TURNS NUMBERS INTO SPECIAL CHRACTERS
             if(tmp % 2 === 0){ // SHIFTS BY LENGTH OF PASSWORD
-                tmp += pass.length;
+                tmp += length;
             } else {
-                tmp -= pass.length;
+                tmp -= length;
             }
 
             if(tmp > range.special[1]) { // WRAPS AROUND TO MAKE SURE ITS STILL A SPECIAL CHARACTER
@@ -70,9 +75,9 @@ return temp2 + temp;
         } else if(tmp >= range.special[0] && tmp <= range.special[1]) { // TURNS [!"#$%&'()*] INTO NUMBERS
             tmp += 15; // TURNS NUMBERS INTO SPECIAL CHRACTERS
             if(tmp % 2 === 0){ // SHIFTS BY LENGTH OF PASSWORD
-                tmp += pass.length;
+                tmp += length;
             } else {
-                tmp -= pass.length;
+                tmp -= length;
             }
 
             if(tmp > range.numbers[1]) { // WRAPS AROUND TO MAKE SURE ITS STILL A NUMBER

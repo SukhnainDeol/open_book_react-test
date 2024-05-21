@@ -55,13 +55,19 @@ export function SignUp() {
         ).catch(error => { // ATTEMPTS TO ADD USER TO THE DATABASE
 
             // ENCRYPTION FUNCTION GOES HERE
-            
-            axios.post('http://localhost:5000/users/', {username: username, password: password}).then( response => {
+
+            axios.get('http://localhost:5000/encrypt',{ params: {password: password }}).then(
+            response => {
+
+                axios.post('http://localhost:5000/users/', {username: username, password: response.data}).then( response => { // MAKES PASSWORD THE NEW ENCRYPTED PASSWORD
                 Cookies.set("username", username, { expires: 7 });
                 navigate('/homepage'); // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
-            }).catch(error => {
+                }).catch(error => {
                 console.log(error.message)
                 console.log(error.response.data)
+                })
+
+
             })
         })
     }
