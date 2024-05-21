@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom"
 import moment from "moment";
 import Cookies from 'js-cookie';
 import { LinkedList } from "./LinkedList";
@@ -8,6 +9,7 @@ export function HomePage() {
 
     // ON LOAD FUNCTIONS/VARIABLES ------------------------------------- |
 
+    const navigate = useNavigate();
     const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
     const initialized = useRef(false); // RE-USABLE HOOK TO MAKE SURE THINGS DON'T DOUBLE LOAD AT START
 
@@ -37,6 +39,9 @@ export function HomePage() {
                     });
                 }
             ).catch(error => {
+                // THIS WOULD LIKELY MEAN THAT THE ACCOUNT DOESN'T EXIST AFTER DELETION
+                Cookies.remove("username"); // REMOVING THE COOKIE
+                navigate('/');
                 console.log(error.message);
                     return;
             })
