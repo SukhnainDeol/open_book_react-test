@@ -47,7 +47,19 @@ export function Snoop() {
             }).catch(error => {
                 console.log(error.message);
             })  
-
+            
+            // IF USER'S ACCOUNT HAS BEEN DELETED, REMOVE COOKIE AND SEND THEM TO SIGN IN
+            axios.get('http://localhost:5000/posts/username', { // PULL THEIR POSTS
+            params: {
+                author: user, // SPECIFIC SEARCH FOR USER
+            } 
+            }).catch(error => {
+                // THIS WOULD LIKELY MEAN THAT THE ACCOUNT DOESN'T EXIST AFTER DELETION
+                console.log(error.message);
+                Cookies.remove("username"); // REMOVING THE COOKIE
+                navigate('/');
+                return;
+            })
         }    
     }, [])
 
