@@ -39,14 +39,14 @@ export function Login() {
             } 
         } ).then(
             response => {
-                console.log(moment().diff(moment(response.data[0].updatedAt), 'hours'));
-                console.log(moment().diff(moment(response.data[0].updatedAt), 'minutes'));
-                console.log(moment().diff(moment(response.data[0].updatedAt), 'seconds'));
                     if (response.data[0].loggedIn === true) { // SO TWO USERS CAN'T LOG IN ON THE SAME ACCOUNT
-
-                        document.querySelector(".ls-warning").innerText = "This Account is Already Logged in on Another Device";
-                        document.querySelector(".ls-warning").style.color = "lightcoral";
-                        return;
+                        if(moment().diff(moment(response.data[0].updatedAt), 'hours') < 24) { // IF USER HAS BEEN LOGGED IN FOR OVER 24 HOURS ON ANOTHER DEVICE (WHICH MEANS THEY HAVE LIKELY CLEARED THEIR COOKIES WITHOUT LOGGING OUT
+                            document.querySelector(".ls-warning").innerText = "This Account is Already Logged in on Another Device. Please Log Out on That Device or Wait " +
+                            (23 - moment().diff(moment(response.data[0].updatedAt), 'hours')) + " Hours & " +
+                            (59 - (moment().diff(moment(response.data[0].updatedAt), 'minutes') % 60)) + " Minutes.";
+                            document.querySelector(".ls-warning").style.color = "lightcoral";
+                            return;
+                        }
                     } 
 
                     const checkPass = response.data[0].password; // CURRENT DATABASE PASSWORD
