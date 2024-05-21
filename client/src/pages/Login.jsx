@@ -2,6 +2,7 @@ import { useNavigate, Link } from "react-router-dom"
 import { useState, useEffect, useRef } from "react"
 import Cookies from 'js-cookie'
 import axios from "axios"
+import moment from "moment";
 
 export function Login() {
 
@@ -38,7 +39,11 @@ export function Login() {
             } 
         } ).then(
             response => {
+                console.log(moment().diff(moment(response.data[0].updatedAt), 'hours'));
+                console.log(moment().diff(moment(response.data[0].updatedAt), 'minutes'));
+                console.log(moment().diff(moment(response.data[0].updatedAt), 'seconds'));
                     if (response.data[0].loggedIn === true) { // SO TWO USERS CAN'T LOG IN ON THE SAME ACCOUNT
+
                         document.querySelector(".ls-warning").innerText = "This Account is Already Logged in on Another Device";
                         document.querySelector(".ls-warning").style.color = "lightcoral";
                         return;

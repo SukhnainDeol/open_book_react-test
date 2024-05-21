@@ -1,4 +1,4 @@
-import React, { useState } from "react";// UseStates from React
+import React, { useState, useEffect } from "react";// UseStates from React
 import { Route, Routes, Outlet, Navigate, Link, useNavigate, useLocation } from "react-router-dom";
 import { SignUp } from "./pages/Signup.jsx";
 import { Login } from "./pages/Login.jsx";
@@ -14,21 +14,71 @@ import axios from "axios"
 
 function App() {
 
-    /*
-    axios.get('http://localhost:5000/encrypt',
-        { params: {password: "SSSSSSS" }}
-    ).then(
-        response => {
-            console.log(response.data);
-        }
-    )
-    */
+    
     const navigate = useNavigate();
     const pName = useLocation().pathname;
     const user = Cookies.get("username");
-
-
     const [menuOpen, setMenuOpen] = useState(false);
+
+    // ------------------------------------ CREATING OUR OWN IDLE TIMER FOR USERS
+    //FUNCTION TO CHECK FOR INACTIVITY
+    const activityCheck = () => {
+        const timeLeft = localStorage.getItem("Time");
+        const currentTime = Date.now();
+        if(user) { // IF USER IS LOGGED IN
+            if(timeLeft < currentTime) { // IF USER HASN'T BEEN ACTIVE FOR 15 MINUTES
+                axios.patch('http://localhost:5000/users/loggedin', {username: user, loggedIn: false},).then(
+                    response => {
+                        Cookies.remove("username");
+                        navigate('/');
+                }).catch( error => {
+                    console.log(error.message);
+                    return;
+                })
+            } else if(timeLeft - currentTime <  60000) { // IF THERE'S LESS THAN A MINUTE BEFORE LOGOUT
+                console.log("YOU WILL BE LOGGED OUT IN 1 MINUTE!");
+            }
+        }
+    }
+
+    // FUNCTION TO UPDATE TIME WHEN USER IS ACTIVE
+    const updateTime = () => {
+        const time = Date.now() + (1000 * 60 * 15); // UPDATES TIME BY 15 Minutes
+        localStorage.setItem("Time",  time);
+    }
+
+    // CHECKS FOR ACTIVITY EVERY SECOND
+    useEffect(() => {
+        const timeLapse = setInterval(() => {
+            activityCheck();
+        }, 1000)
+
+        return () => clearInterval(timeLapse);
+    }, [])
+
+
+    // UPDATES TIME WHEN USER IS ACTIVE
+    useEffect(() => {
+        // SETS INITIAL TIME WHEN USER LANDS ON THE SITE
+        updateTime();
+
+        // EVENT LISTENERS FOR CLICKING, SCROLLING, PRESSING KEYS, MOVING MOUSE
+        window.addEventListener("click", updateTime);
+        window.addEventListener("scroll", updateTime);
+        window.addEventListener("keypress", updateTime);
+        window.addEventListener("mousemove", updateTime);
+
+        return () => { // REMOVES EVENT LISTENERS
+            window.removeEventListener("click", updateTime);
+            window.removeEventListener("scroll", updateTime);
+            window.removeEventListener("keypress", updateTime);
+            window.removeEventListener("mousemove", updateTime);
+        }
+    },
+    [])
+
+
+    // --------------------------------------------
 
     const toggleMenu = () => {
         setMenuOpen(prevMenuOpen => !prevMenuOpen);
@@ -49,6 +99,7 @@ function App() {
         })
         
     }
+
 
     return (
         <>  {/* Set up for the Main Header and top menus */}
