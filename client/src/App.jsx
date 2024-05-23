@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";// UseStates from React
+import React, { useState, useEffect, useRef } from "react";
 import { Route, Routes, Outlet, Navigate, Link, useNavigate, useLocation } from "react-router-dom";
 import { SignUp } from "./pages/Signup.jsx";
 import { Login } from "./pages/Login.jsx";
@@ -8,130 +8,163 @@ import Cookies from 'js-cookie';
 import "./styles.css";
 import book from './assets/book.png'; // BOOK IMAGE FOR HEADER
 import menuIcon from './assets/menuIcon.png'; // HAMBURGER MENU ICON
-import { ToggleTheme } from "./pages/ToggleTheme"
-import { Settings } from "./pages/Settings"
-import axios from "axios"
+import { ToggleTheme } from "./pages/ToggleTheme";
+import { Settings } from "./pages/Settings";
+import axios from "axios";
 
 function App() {
-
-    
     const navigate = useNavigate();
     const pName = useLocation().pathname;
     const user = Cookies.get("username");
     const [menuOpen, setMenuOpen] = useState(false);
+    const [showWarning, setShowWarning] = useState(false); // initally sets show warning to false
+    const [hasBeenWarned, setHasBeenWarned] = useState(false); // initally sets has been warned to false
+    const inactivityTimer = useRef(null); // timer to display warning box after 15 mins
+    const logoutTimer = useRef(null); // timer logs user out after minute on warning box
 
-    // ------------------------------------ CREATING OUR OWN IDLE TIMER FOR USERS
-    //FUNCTION TO CHECK FOR INACTIVITY
     const activityCheck = () => {
-        const timeLeft = localStorage.getItem("Time");
+        const timeLeft = parseInt(localStorage.getItem("Time"), 10);
         const currentTime = Date.now();
-        if(user) { // IF USER IS LOGGED IN
-            if(timeLeft < currentTime) { // IF USER HASN'T BEEN ACTIVE FOR 15 MINUTES
-                axios.patch('http://localhost:5000/users/loggedin', {username: user, loggedIn: false},).then(
-                    response => {
-                        Cookies.remove("username");
-                        navigate('/');
-                }).catch( error => {
-                    console.log(error.message);
-                    return;
-                })
-            } else if(timeLeft - currentTime <  60000) { // IF THERE'S LESS THAN A MINUTE BEFORE LOGOUT
-                console.log("YOU WILL BE LOGGED OUT IN 1 MINUTE!");
+        
+        if (user && !['/', '/login'].includes(pName)) {
+            if (showWarning) {
+                // if warning box is currently visible, start the logout timer
+                clearLogoutTimer();
+                startLogoutTimer();
+            } else {
+                if (timeLeft < currentTime) {
+                    // when the inactivity timer has expired, log out the user
+                    handleLogOut();
+                } else if (timeLeft - currentTime < 60000 && !hasBeenWarned) {
+                    // if the inactivity warning threshold is reached and the user hasn't been warned yet, show the warning box
+                    setShowWarning(true);
+                    setHasBeenWarned(true);
+                    clearLogoutTimer();
+                    startLogoutTimer();
+                }
             }
         }
-    }
+    };
 
-    // FUNCTION TO UPDATE TIME WHEN USER IS ACTIVE
-    const updateTime = () => {
-        const time = Date.now() + (1000 * 60 * 15); // UPDATES TIME BY 15 Minutes
-        localStorage.setItem("Time",  time);
-    }
+    const updateTime = () => { // function updates the timer on user activity
+        const time = Date.now() + 15 * 60 * 1000;; // 15 minutes resets from any activity
+        localStorage.setItem("Time", time);
+        clearInactivityTimer();
+        startInactivityTimer();
+    };
 
-    // CHECKS FOR ACTIVITY EVERY SECOND
+    const startInactivityTimer = () => { // this starts the inactivity timer once the warning box appears, might be REDUNDANT
+                                         // might end up combining with activityCheck but it was easier for me to understand this way 
+        inactivityTimer.current = setTimeout(() => {
+            setShowWarning(true);
+            setHasBeenWarned(true);
+            startLogoutTimer();
+        }, 14 * 60 * 1000); // 10 seconds of inactivity for testing
+    };
+
+    const clearInactivityTimer = () => { // clears the inactivity timer
+        if (inactivityTimer.current) {
+            clearTimeout(inactivityTimer.current);
+            inactivityTimer.current = null;
+        }
+    };
+
+    const startLogoutTimer = () => { // starts the logout timer
+        logoutTimer.current = setTimeout(() => {
+            handleLogOut();
+        }, 60000); // 60 seconds to respond
+    };
+
+    const clearLogoutTimer = () => { // clears the logout timer
+        if (logoutTimer.current) {
+            clearTimeout(logoutTimer.current);
+            logoutTimer.current = null;
+        }
+    };
+
     useEffect(() => {
         const timeLapse = setInterval(() => {
             activityCheck();
-        }, 1000)
+        }, 1000);
 
         return () => clearInterval(timeLapse);
-    }, [])
+    }, []);
 
-
-    // UPDATES TIME WHEN USER IS ACTIVE
     useEffect(() => {
-        // SETS INITIAL TIME WHEN USER LANDS ON THE SITE
         updateTime();
-
-        // EVENT LISTENERS FOR CLICKING, SCROLLING, PRESSING KEYS, MOVING MOUSE
         window.addEventListener("click", updateTime);
         window.addEventListener("scroll", updateTime);
         window.addEventListener("keypress", updateTime);
         window.addEventListener("mousemove", updateTime);
 
-        return () => { // REMOVES EVENT LISTENERS
+        return () => {
             window.removeEventListener("click", updateTime);
             window.removeEventListener("scroll", updateTime);
             window.removeEventListener("keypress", updateTime);
             window.removeEventListener("mousemove", updateTime);
-        }
-    },
-    [])
-
-
-    // --------------------------------------------
+        };
+    }, []);
 
     const toggleMenu = () => {
         setMenuOpen(prevMenuOpen => !prevMenuOpen);
-    };// Function for menu to open or revert to when it was closed
+    };
 
-    function HandleLogOut(e) {
-        e.preventDefault();
+    const handleLogOut = (e) => { // handles logging out the user after time's up or logout button is clicked
+        if (e) e.preventDefault();
+        clearLogoutTimer();
+        clearInactivityTimer();
+        localStorage.removeItem("Time"); // clears the "Time" item in localStorage
+        setHasBeenWarned(false); // resets the hasBeenWarned variable
+        setShowWarning(false); // resets showWarning
+    };
+    
+    useEffect(() => {
+        if (!showWarning && !hasBeenWarned && user) {
+            axios.patch('http://localhost:5000/users/loggedin', { username: user, loggedIn: false })
+                .then(() => {
+                    Cookies.remove("username");
+                    navigate('/');
+                })
+                .catch(error => console.log(error.message));
+        }
+    }, [showWarning, hasBeenWarned]);
 
-        axios.patch('http://localhost:5000/users/loggedin', 
-            {username: user, loggedIn: false},
-        ).then(
-            response => {
-                Cookies.remove("username");
-                navigate('/');
-        }).catch( error => {
-            console.log(error.message);
-            return;
-        })
-        
-    }
-
+    const handleStayLoggedIn = () => { // fucntion for when stay logged in is clicked
+        updateTime(); // reset the inactivity timer
+        setShowWarning(false); // hide the warning box
+        clearLogoutTimer(); // clears logout timer
+        startInactivityTimer(); // restarts the inactivity timer again
+    };
 
     return (
-        <>  {/* Set up for the Main Header and top menus */}
+        <>  
             <header className={`page-title`}>
                 <img src={book} className="logo" alt="Book Logo" />
                 <h1>open_book</h1>
                 <button className="menu-icon" onClick={toggleMenu}>
                     <img src={menuIcon} alt="Menu" />
                 </button>
-                {/* Set up for hamburger menu and drop down link */}
                 {menuOpen && (
                     <nav className={`hamburger-menu ${menuOpen ? 'active' : ''}`}>
                         <ul className="nav-list">
-                            {/* Closes the menu after clicking on one of the options  */}
-
-                            { // IF USER ISN'T SIGNED IN, DON'T SHOW HOME
-                                user && pName !== "/homepage" ? <li><Link to="/homepage" onClick={() => setMenuOpen(false)}>Home</Link></li> : ""
-                            }
-
-                            { // IF ON SNOOP PAGE, DON'T SHOW SNOOP LINK
-                                pName !== "/snoop" ? <li><Link to="/snoop" onClick={() => setMenuOpen(false)}>Snoop</Link></li> : ""
-                            }
-                            { user ? <li><Settings /></li> : <li><ToggleTheme /></li>}
-                            { // IF USER ISN'T SIGNED IN, DON'T SHOW LOG OUT
-                                user ? <li><Link to="/login" onClick={(e) => {setMenuOpen(false), HandleLogOut(e)}}>Log Out</Link></li> : <li><Link to="/login" onClick={() => setMenuOpen(false)}>Log In</Link></li>
-                            }
+                            {user && pName !== "/homepage" ? <li><Link to="/homepage" onClick={() => setMenuOpen(false)}>Home</Link></li> : ""}
+                            {pName !== "/snoop" ? <li><Link to="/snoop" onClick={() => setMenuOpen(false)}>Snoop</Link></li> : ""}
+                            {user ? <li><Settings /></li> : <li><ToggleTheme /></li>}
+                            {user ? <li><Link to="/login" onClick={(e) => {setMenuOpen(false); handleLogOut(e);}}>Log Out</Link></li> : <li><Link to="/login" onClick={() => setMenuOpen(false)}>Log In</Link></li>}
                         </ul>
                     </nav>
                 )}
-                { /* INVISIBLE SPAN FOR THEME COOKIE */}
                 <span style={{visibility: 'hidden'}}><ToggleTheme /></span>
             </header>
+            {user && showWarning && !['/', '/login'].includes(pName) && (
+                <div className="overlay">
+                    <div className="warning-box">
+                        <p>You will be logged out in 1 minute due to inactivity.</p>
+                        <button onClick={handleLogOut}>Log Out</button>
+                        <button onClick={handleStayLoggedIn}>Stay Logged In</button>
+                    </div>
+                </div>
+            )}
             <Routes>
                 <Route element={<PrivateRoutes />} >
                     <Route path="/homepage" element={<HomePage />} />
@@ -144,8 +177,8 @@ function App() {
     );
 }
 
-const PrivateRoutes = () => {//ANY ATTEMPT TO ACCESS HOMEPAGE WITHOUT BEING LOGGED IN WILL NAVIGATE BACK TO LOGIN PAGE
-    const user = Cookies.get("username"); // IF COOKIE DOESN'T EXIST USER CAN'T GO TO HOMEPAGE
+const PrivateRoutes = () => {
+    const user = Cookies.get("username");
     return (
         user ? <Outlet /> : <Navigate to="/" />
     );
