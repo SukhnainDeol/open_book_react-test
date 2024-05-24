@@ -18,61 +18,41 @@ function App() {
     const user = Cookies.get("username");
     const [menuOpen, setMenuOpen] = useState(false);
     const [showWarning, setShowWarning] = useState(false); // initally sets show warning to false
-    const [hasBeenWarned, setHasBeenWarned] = useState(false); // initally sets has been warned to false
-    const inactivityTimer = useRef(null); // timer to display warning box after 15 mins
-    const logoutTimer = useRef(null); // timer logs user out after minute on warning box
+    const logoutTimer = useRef(null); // COUNT DOWN INTERVAL FOR LOG IN SCREEN
+    const timer = useRef((30)); // AMOUNT OF TIME A USER IS ALLOWED TO BE IDLE 14.5 MINUTES
+    const countdown = useRef(30); // COUNT DOWN UNTIL LOGGED OUT
 
-    const activityCheck = () => {
-        const timeLeft = parseInt(localStorage.getItem("Time"), 10);
-        const currentTime = Date.now();
+    useEffect(() => {
+        const timeLapse = setInterval(() => {
+        const user = Cookies.get("username");
         
-        if (user && !['/', '/login'].includes(pName)) {
-            if (showWarning) {
-                // if warning box is currently visible, start the logout timer
-                clearLogoutTimer();
-                startLogoutTimer();
-            } else {
-                if (timeLeft < currentTime) {
-                    // when the inactivity timer has expired, log out the user
-                    handleLogOut();
-                } else if (timeLeft - currentTime < 60000 && !hasBeenWarned) {
-                    // if the inactivity warning threshold is reached and the user hasn't been warned yet, show the warning box
-                    setShowWarning(true);
-                    setHasBeenWarned(true);
-                    clearLogoutTimer();
-                    startLogoutTimer();
-                }
-            }
-        }
-    };
+        if (user) {
+            timer.current = timer.current - 1;
+            console.log("TIME UNTIL LOGOUT: " + timer.current);
+            console.log("STATUS OF SHOW WARNING: " + showWarning);
+            if(timer.current === 0) {
+                setShowWarning(true);
+                countdown.current = 30;
+                document.querySelector(".warning-box-span").innerText = 30;
+                logoutTimer.current = setInterval(() => {
+                    countdown.current = countdown.current -1;
+                    document.querySelector(".warning-box-span").innerText = countdown.current;
+                    if(countdown.current === -1) {
+                        axios.patch('http://localhost:5000/users/loggedin', { username: user, loggedIn: false }).then(() => {
+                            Cookies.remove("username");
+                            navigate('/');
+                            clearInterval(logoutTimer);
+                            clearLogoutTimer();
+                        }).catch(error => console.log(error.message));
+                    }
+                    }, 1000); // 30 seconds to respond
+                }       
+        }}, 1000);
+        return () => clearInterval(timeLapse);
+    }, []);
 
-    const updateTime = () => { // function updates the timer on user activity
-        const time = Date.now() + 15 * 60 * 1000;; // 15 minutes resets from any activity
-        localStorage.setItem("Time", time);
-        clearInactivityTimer();
-        startInactivityTimer();
-    };
-
-    const startInactivityTimer = () => { // this starts the inactivity timer once the warning box appears, might be REDUNDANT
-                                         // might end up combining with activityCheck but it was easier for me to understand this way 
-        inactivityTimer.current = setTimeout(() => {
-            setShowWarning(true);
-            setHasBeenWarned(true);
-            startLogoutTimer();
-        }, 14 * 60 * 1000); // 10 seconds of inactivity for testing
-    };
-
-    const clearInactivityTimer = () => { // clears the inactivity timer
-        if (inactivityTimer.current) {
-            clearTimeout(inactivityTimer.current);
-            inactivityTimer.current = null;
-        }
-    };
-
-    const startLogoutTimer = () => { // starts the logout timer
-        logoutTimer.current = setTimeout(() => {
-            handleLogOut();
-        }, 60000); // 60 seconds to respond
+    const updateTime = () => { // UPDATES TIMER ON USER ACTIVITY
+        timer.current = (30);
     };
 
     const clearLogoutTimer = () => { // clears the logout timer
@@ -83,15 +63,7 @@ function App() {
     };
 
     useEffect(() => {
-        const timeLapse = setInterval(() => {
-            activityCheck();
-        }, 1000);
-
-        return () => clearInterval(timeLapse);
-    }, []);
-
-    useEffect(() => {
-        updateTime();
+        timer.current = (30); // UPDATES THE TIME VIA EVENT LISTENERS
         window.addEventListener("click", updateTime);
         window.addEventListener("scroll", updateTime);
         window.addEventListener("keypress", updateTime);
@@ -109,31 +81,28 @@ function App() {
         setMenuOpen(prevMenuOpen => !prevMenuOpen);
     };
 
-    const handleLogOut = (e) => { // handles logging out the user after time's up or logout button is clicked
-        if (e) e.preventDefault();
-        clearLogoutTimer();
-        clearInactivityTimer();
-        localStorage.removeItem("Time"); // clears the "Time" item in localStorage
-        setHasBeenWarned(false); // resets the hasBeenWarned variable
+    const handleIdleLogOut = () => { // handles logging out the user after time's up or logout button is clicked
         setShowWarning(false); // resets showWarning
+        axios.patch('http://localhost:5000/users/loggedin', { username: user, loggedIn: false })
+        .then(() => {
+            Cookies.remove("username");
+            navigate('/');
+        })
+        .catch(error => console.log(error.message));
     };
-    
-    useEffect(() => {
-        if (!showWarning && !hasBeenWarned && user) {
-            axios.patch('http://localhost:5000/users/loggedin', { username: user, loggedIn: false })
-                .then(() => {
-                    Cookies.remove("username");
-                    navigate('/');
-                })
-                .catch(error => console.log(error.message));
-        }
-    }, [showWarning, hasBeenWarned]);
+
+    function handleLogOut(e) { // handles logging out the user after time's up or logout button is clicked
+         e.preventDefault();
+        axios.patch('http://localhost:5000/users/loggedin', { username: user, loggedIn: false }).then(() => {
+            Cookies.remove("username");
+            navigate('/');
+        }).catch(error => console.log(error.message));
+    };
 
     const handleStayLoggedIn = () => { // fucntion for when stay logged in is clicked
-        updateTime(); // reset the inactivity timer
+        updateTime();
         setShowWarning(false); // hide the warning box
         clearLogoutTimer(); // clears logout timer
-        startInactivityTimer(); // restarts the inactivity timer again
     };
 
     return (
@@ -156,15 +125,13 @@ function App() {
                 )}
                 <span style={{visibility: 'hidden'}}><ToggleTheme /></span>
             </header>
-            {user && showWarning && !['/', '/login'].includes(pName) && (
-                <div className="overlay">
-                    <div className="warning-box">
-                        <p>You will be logged out in 1 minute due to inactivity.</p>
-                        <button onClick={handleLogOut}>Log Out</button>
-                        <button onClick={handleStayLoggedIn}>Stay Logged In</button>
-                    </div>
+            <div className="overlay" style = {showWarning ? {display: "flex"} : {display: "none"}}>
+                <div className="warning-box">
+                    <p>You Will Be Logged Out In <span className="warning-box-span" style={{color: "lightcoral"}}></span> Seconds Due To Inactivity.</p>
+                    <button onClick={handleIdleLogOut}>Log Out</button>
+                    <button onClick={handleStayLoggedIn}>Stay Logged In</button>
                 </div>
-            )}
+                </div>
             <Routes>
                 <Route element={<PrivateRoutes />} >
                     <Route path="/homepage" element={<HomePage />} />
