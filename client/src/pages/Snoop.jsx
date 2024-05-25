@@ -225,7 +225,7 @@ export function Snoop() {
             console.log(error.message);
             return;
         }).then(response => {
-            axios.patch('http://localhost:5000/posts/add-comment',{ params: { id: id, comment: comment, username: user } }) // CALL TO ADD NEW COMMENT
+            axios.patch('http://localhost:5000/posts/add-comment',{ id: id, comment: comment, username: user }) // CALL TO ADD NEW COMMENT
             .catch(error => {
                 console.log(error.message);
                 return;

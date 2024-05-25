@@ -331,21 +331,18 @@ router.route('/add-comment').patch(async (request, response) => {
     try {
         
         // edit post 
-        const id = request.query.id;
-        const comment = request.query.comment;
-        const username = request.query.username;
-
-
-        const newComment = {
-            author: username,
-            comment: comment
-        }
+        const id = request.body.id;
+        const comment = request.body.comment;
+        const username = request.body.username;
 
         const post = await Post.updateOne(
             { _id: id}, // FINDS THE POST BY ID
             {
                 $push: {
-                    comments: newComment
+                    comments: {
+                        author: username,
+                        comment: comment
+                    }
                 } 
             },
         );
