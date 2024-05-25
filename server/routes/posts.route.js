@@ -96,7 +96,7 @@ router.route('/liked').get(async (request, response) => {
 router.route('/disliked').get(async (request, response) => {
     try {
         
-        let mostDisliked = await Post.findOne({
+        let mostDisliked = await Post.find({
             "date": 
             {
                 // greater than date of (right now - 1 day)

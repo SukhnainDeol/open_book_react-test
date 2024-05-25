@@ -4,6 +4,7 @@ import { SignUp } from "./pages/Signup.jsx";
 import { Login } from "./pages/Login.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import { Snoop } from "./pages/Snoop.jsx";
+import { WallOfFame } from "./pages/WallOfFame.jsx";
 import Cookies from 'js-cookie';
 import "./styles.css";
 import book from './assets/book.png'; // BOOK IMAGE FOR HEADER
@@ -97,7 +98,7 @@ function App() {
             Cookies.remove("username");
             navigate('/');
         }).catch(error => console.log(error.message));
-    };
+    }
 
     const handleStayLoggedIn = () => { // fucntion for when stay logged in is clicked
         updateTime();
@@ -117,7 +118,8 @@ function App() {
                     <nav className={`hamburger-menu ${menuOpen ? 'active' : ''}`}>
                         <ul className="nav-list">
                             {user && pName !== "/homepage" ? <li><Link to="/homepage" onClick={() => setMenuOpen(false)}>Home</Link></li> : ""}
-                            {pName !== "/snoop" ? <li><Link to="/snoop" onClick={() => setMenuOpen(false)}>Snoop</Link></li> : ""}
+                            {pName !== "/snoop" && pName !== "/wof" ? <li><Link to="/snoop" onClick={() => setMenuOpen(false)}>Snoop</Link></li> : ""}
+                            {pName !== "/wof" ? <li><Link to="/wof" onClick={() => setMenuOpen(false)} >Wall Of Fame</Link></li>: ""}
                             {user ? <li><Settings /></li> : <li><ToggleTheme /></li>}
                             {user ? <li><Link to="/login" onClick={(e) => {setMenuOpen(false); handleLogOut(e);}}>Log Out</Link></li> : <li><Link to="/login" onClick={() => setMenuOpen(false)}>Log In</Link></li>}
                         </ul>
@@ -137,6 +139,7 @@ function App() {
                     <Route path="/homepage" element={<HomePage />} />
                 </Route>
                 <Route path="/snoop" element={<Snoop />} />
+                <Route path="/wof" element={<WallOfFame />} />
                 <Route path="/" element={<SignUp />} />
                 <Route path="/login" element={<Login />} />
             </Routes>
