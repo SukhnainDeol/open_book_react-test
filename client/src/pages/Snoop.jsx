@@ -37,7 +37,7 @@ export function Snoop() {
 
                             setEntries((entries) => {
                                 const text = currentEntry.text.split("\n"); // SPLITS UP PARAGRAPHS
-                                    return [...entries, { id: currentEntry._id, title: currentEntry.title, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, didL: didLike, didD: didDislike }];
+                                    return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, didL: didLike, didD: didDislike }];
                             });
                         });
                     }
