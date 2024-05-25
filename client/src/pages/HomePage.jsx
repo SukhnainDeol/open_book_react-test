@@ -15,6 +15,7 @@ export function HomePage() {
 
     const [newTitle, setNewTitle] = useState("");
     const [newEntry, setNewEntry] = useState("");
+    const [newImageURL, setNewImageURL] = useState("");
     const [entries, setEntries] = useState([]);
     const [entryLength, setEntryLength]= useState(0);
     const currentDate = moment().format('lll');
@@ -34,7 +35,7 @@ export function HomePage() {
                 response => {
                     response.data.forEach(currentEntry => {
                             setEntries((entries) => {
-                                return [...entries, { id: currentEntry._id, title: currentEntry.title, entry: currentEntry.text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count }];
+                                return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: currentEntry.text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count }];
                         });
                     });
                 }
@@ -63,6 +64,7 @@ export function HomePage() {
 
         axios.post('http://localhost:5000/posts/', { // MAKE A NEW POST
         author: user,
+        imageURL: newImageURL,
         title: newTitle,
         text: newEntry,
         date: currentDate
@@ -76,7 +78,7 @@ export function HomePage() {
                 }).then(
                     response => {
                         setEntries((currentEntries) => { // RENDERS NEW POST ON THE SCREEN
-                            return [...currentEntries, { id: response.data[0]._id, title: response.data[0].title, entry: response.data[0].text, date: response.data[0].date, L: response.data[0].likes.count, D: response.data[0].dislikes.count }];
+                            return [...currentEntries, { id: response.data[0]._id, title: response.data[0].title, imageURL: response.data[0].imageURL, entry: response.data[0].text, date: response.data[0].date, L: response.data[0].likes.count, D: response.data[0].dislikes.count }];
                          });
 
                         setNewTitle("");
@@ -170,6 +172,11 @@ export function HomePage() {
                             value={newTitle}
                             onChange={e => setNewTitle(e.target.value)}
                          maxLength={25} required/>
+                         <label htmlFor="image">Image URL (Optional)</label>
+                        <input type="text" id="image"
+                            value={newImageURL}
+                            onChange={e => setNewImageURL(e.target.value)}
+                         maxLength={100} />
                         <label htmlFor="entry">Entry Content</label>
                         <textarea cols="50" rows="5"
                             value={newEntry} maxLength={1000}
@@ -178,11 +185,14 @@ export function HomePage() {
                         <button id="post-entry" className="btn">Post Journal Entry</button>
                     </form>
                     <div id="entries-container">
-                        {entries.map((entry) => {
+                        {entries.toReversed().map((entry) => {
                             return (
                                 <div className="entry-container" key={entry.id}>
                                     <p className="entries">
                                         <span className="current-entry-title">{entry.title} ({moment(entry.date).format('lll')}):</span>
+                                        {
+                                            entry.imageURL ? <img src={entry.imageURL}/> : "" // ONLY ADD AN IMAGE IF IT EXISTS
+                                        }
                                         <span className="current-entry">{entry.entry}</span>
                                         <span className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></span>
                                     </p>

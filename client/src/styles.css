@@ -251,6 +251,15 @@ textarea:focus {
     margin-bottom: 10px;
 }
 
+.entry-container img {
+    display: block;
+    margin: 10px auto;
+    border: 2px solid;
+    border-radius: 5px;
+    width: 100%;
+    height: auto;
+}
+
 .entry-container .cc {
     font-weight: bold;
 }
