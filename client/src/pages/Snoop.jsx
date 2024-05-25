@@ -208,18 +208,6 @@ export function Snoop() {
           setEntries(newArray);
     }
 
-    // IF AN IMAGE URL IS BROKEN OR NONESENSE, DON'T RENDER IT
-    function imageFixer(id) {
-        const newArray = entries.map((entry) => {
-            if (id === entry.id){ // UPDATES USESTATE BASED ON WHICH ACTIONS WERE TAKEN IN THE DATABASE
-                entry.imageURL = null;
-            }
-            return entry;
-          });
-          setEntries(newArray);
-    }
-
-
     return <>
         <div className = "homepage-container">
         <aside className="left-aside">
@@ -233,7 +221,7 @@ export function Snoop() {
             <p className="entries">
                 <span className="current-entry-title">{entry.title} ({moment(entry.date).format('lll')}):</span>
                 {
-                    entry.imageURL ? <img src={entry.imageURL} onError={ imageFixer(entry.id)} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS
+                    entry.imageURL ? <img src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS
                 }
                 <span className="current-entry">{entry.entry}</span>
                 <span className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></span>

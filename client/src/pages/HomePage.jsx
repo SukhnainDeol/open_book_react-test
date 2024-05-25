@@ -83,6 +83,7 @@ export function HomePage() {
 
                         setNewTitle("");
                         setNewEntry("");
+                        setNewImageURL("");
                         setEntryLength(0);
                 }).catch(error => {
                 console.log(error.message);
@@ -108,17 +109,6 @@ export function HomePage() {
             console.log(error.message);
                 return;
         })
-    }
-
-    // IF AN IMAGE URL IS BROKEN OR NONESENSE, DON'T RENDER IT
-    function imageFixer(id) {
-        const newArray = entries.map((entry) => {
-            if (id === entry.id){ // UPDATES USESTATE BASED ON WHICH ACTIONS WERE TAKEN IN THE DATABASE
-                entry.imageURL = null;
-            }
-            return entry;
-          });
-          setEntries(newArray);
     }
 
     // initialize the new linked list for left
@@ -187,7 +177,7 @@ export function HomePage() {
                         <input type="text" id="image"
                             value={newImageURL}
                             onChange={e => setNewImageURL(e.target.value)}
-                         maxLength={100} />
+                         maxLength={150} />
                         <label htmlFor="entry">Entry Content</label>
                         <textarea cols="50" rows="5"
                             value={newEntry} maxLength={1000}
@@ -202,7 +192,7 @@ export function HomePage() {
                                     <p className="entries">
                                         <span className="current-entry-title">{entry.title} ({moment(entry.date).format('lll')}):</span>
                                         {
-                                            entry.imageURL ? <img src={entry.imageURL} onError={ imageFixer(entry.id)} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS
+                                            entry.imageURL ? <img src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS
                                         }
                                         <span className="current-entry">{entry.entry}</span>
                                         <span className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></span>
