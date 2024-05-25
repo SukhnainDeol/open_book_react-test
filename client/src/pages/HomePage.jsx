@@ -35,7 +35,8 @@ export function HomePage() {
                 response => {
                     response.data.forEach(currentEntry => {
                             setEntries((entries) => {
-                                return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: currentEntry.text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count }];
+                                const text = currentEntry.text.split("\n"); // SPLITS UP PARAGRAPHS
+                                return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count }];
                         });
                     });
                 }
@@ -78,7 +79,8 @@ export function HomePage() {
                 }).then(
                     response => {
                         setEntries((currentEntries) => { // RENDERS NEW POST ON THE SCREEN
-                            return [...currentEntries, { id: response.data[0]._id, title: response.data[0].title, imageURL: response.data[0].imageURL, entry: response.data[0].text, date: response.data[0].date, L: response.data[0].likes.count, D: response.data[0].dislikes.count }];
+                            const text = response.data[0].text.split("\n"); // SPLITS UP PARAGRAPHS
+                            return [...currentEntries, { id: response.data[0]._id, title: response.data[0].title, imageURL: response.data[0].imageURL, entry: text, date: response.data[0].date, L: response.data[0].likes.count, D: response.data[0].dislikes.count }];
                          });
 
                         setNewTitle("");
@@ -194,7 +196,7 @@ export function HomePage() {
                                         {
                                             entry.imageURL ? <img src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS
                                         }
-                                        <span className="current-entry">{entry.entry}</span>
+                                        { entry.entry.map((paragraph, index) => { return ( <span className="current-entry" key={index}>{paragraph}</span>);})}
                                         <span className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></span>
                                     </p>
                                     <button className="delete" onClick={() => deleteEntry(entry.id)}>Delete</button>

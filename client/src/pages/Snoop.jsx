@@ -36,7 +36,8 @@ export function Snoop() {
                             const didDislike = currentEntry.dislikes.users.includes(user); // CHECKED TO SEE IF THE USER HAS DISLIKED THE POST
 
                             setEntries((entries) => {
-                                    return [...entries, { id: currentEntry._id, title: currentEntry.title, entry: currentEntry.text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, didL: didLike, didD: didDislike }];
+                                const text = currentEntry.text.split("\n"); // SPLITS UP PARAGRAPHS
+                                    return [...entries, { id: currentEntry._id, title: currentEntry.title, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, didL: didLike, didD: didDislike }];
                             });
                         });
                     }
@@ -223,7 +224,7 @@ export function Snoop() {
                 {
                     entry.imageURL ? <img src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS.
                 }
-                <span className="current-entry">{entry.entry}</span>
+                { entry.entry.map((paragraph, index) => { return ( <span className="current-entry" key={index}>{paragraph}</span>);})}
                 <span className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></span>
             </p>
                 <div className="rating">
