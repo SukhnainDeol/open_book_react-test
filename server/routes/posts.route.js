@@ -53,7 +53,7 @@ router.route('/random').get(async (request, response) => {
 router.route('/username').get(async (request, response) => {
     try {
         const author = request.query.author;
-        const posts = await Post.find({author: {$eq: author}}).sort({createdAt: -1});
+        const posts = await Post.find({author: {$eq: author}}).sort({"createdAt": 1});
         response.setHeader('Content-Type', 'application/json');
         return response.status(200).json(posts);
     } catch (error) {
