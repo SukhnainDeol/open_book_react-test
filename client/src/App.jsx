@@ -29,7 +29,7 @@ function App() {
         
         if (user) {
             timer.current = timer.current - 1;
-            console.log("TIME UNTIL LOGOUT: " + timer.current);
+            //console.log("TIME UNTIL LOGOUT: " + timer.current);
             if(timer.current === 0) {
                 setShowWarning(true);
                 countdown.current = 30;

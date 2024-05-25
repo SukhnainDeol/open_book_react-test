@@ -211,41 +211,28 @@ export function Snoop() {
 
     function handleComment(e, comment, id) {
         e.preventDefault();
+        console.log(id);
 
         if(comment.length === 0) { // IF THE COMMENT IS AN EMPTY STRING, DO NOTHING
             console.log("EMPTY STRING");
             return;
         }
 
-        axios.get('http://localhost:5000/posts/id', {
-            params: {
-                id: id
-            }
-        }).then( response => {
-                    const filteredComments = response.data[0].comments.filter(function(comment) {
-                        return comment.author !== user;
-                    }) // REMOVES CURRENT USER COMMENT
-                    // REMOVES OLD COMMENT AND ADDS NEW COMMENT
-                    axios.patch('http://localhost:5000/posts/comment',
-                        {
-                            comments: filteredComments.push({author: user, comment: comment}) // ADDS NEW USER COMMENT
-                        },
-                        {
-                            params: {
-                                id: id
-                            }
-                        })   
-            }).catch(error => {
+        const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
+
+            axios.patch('http://localhost:5000/posts/remove-comment',{ params: { id: id, username: user } })
+            .catch(error => {
                 console.log(error.message);
                 return;
+            }).then(response => {
+                axios.patch('http://localhost:5000/posts/add-comment',{ params: { id: id, comment: comment, username: user } })
+                .catch(error => {
+                    console.log(error.message);
+                 return;
+                }).then(response => {
+                console.log(response.data);
+                })
             })
-
-        
-        console.log(comment);
-
-        // CHECK TO SEE IF THE USER HAS ALREADY MADE A COMMENT
-        // DELETE EXISTING COMMENT
-        // ADD NEW COMMENT
 
         // RENDER COMMENTS ON THE SCREEN
         const newArray = entries.map((entry) => {

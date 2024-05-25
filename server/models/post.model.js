@@ -1,18 +1,5 @@
 const mongoose = require('mongoose')
 
-const commentSchema = mongoose.Schema(
-    {
-        author : {
-            type: String,
-            required: true,
-        },
-        comment : {
-            type: String,
-            required: true,
-        },
-    }
-);
-
 const postSchema = mongoose.Schema(
     {
         author : {
@@ -56,7 +43,16 @@ const postSchema = mongoose.Schema(
                 default: [],
             },
         },
-        comments: [commentSchema],
+        comments: [{
+            author : {
+                type: String,
+                required: true,
+            },
+            comment : {
+                type: String,
+                required: true,
+            },
+        }],
     }, {
         timestamps: true
     }

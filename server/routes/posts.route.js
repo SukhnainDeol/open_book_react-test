@@ -298,22 +298,18 @@ router.route('/id').delete(async (request, response) => {
     }
 })
 
-
-
-// COMMENT PATCH REQUEST
-router.route('/comment').patch(async (request, response) => {
+// COMMENT PATCH REQUEST TO PUSH NEW COMMENT
+router.route('/remove-comment').patch(async (request, response) => {
     try {
         
         // edit post 
         const id = request.query.id;
-        const comments = request.body.comment;
+        const username = request.query.username;
 
-        const post = await Post.findOneAndUpdate(
-            { _id: id}, // get post
+        const post = await Post.updateOne(
+            { _id: id}, // FINDS THE POST BY ID
             {
-                $set: { // update post
-                    "comments": comments
-                }
+                $pull: { "comments.author": username } 
             },
         );
 
@@ -323,7 +319,42 @@ router.route('/comment').patch(async (request, response) => {
         }
 
         // success Response
-        return response.status(200).send({message: "Post's Dislike Count and Users Updated Successfully!"});
+        return response.status(200).send({message: "Your Comment Has Been Added Successfully"});
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
+// COMMENT PATCH REQUEST TO PUSH NEW COMMENT
+router.route('/add-comment').patch(async (request, response) => {
+    try {
+        
+        // edit post 
+        const id = request.query.id;
+        const comment = request.query.comments;
+        const username = request.query.username;
+
+        const post = await Post.updateOne(
+            { _id: id}, // FINDS THE POST BY ID
+            {
+                $push: {
+                    comments: {
+                        author: username, comment: comment
+                    }
+                } 
+            },
+        );
+
+        console.log("DONE");
+
+        // not found Response
+        if (!post) {
+            return response.status(404).send({message: "Post not found"});
+        }
+
+        // success Response
+        return response.status(200).send({message: "Your Comment Has Been Added Successfully"});
     } catch (error) {
         console.log("ERROR:", error.message);
         response.status(500).send({message: error.message});
