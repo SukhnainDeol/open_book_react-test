@@ -37,13 +37,7 @@ function App() {
                     countdown.current = countdown.current -1;
                     document.querySelector(".warning-box-span").innerText = countdown.current;
                     if(countdown.current === -1) {
-                        axios.patch('http://localhost:5000/users/loggedin', { username: user, loggedIn: false }).then(() => {
-                            Cookies.remove("username");
-                            navigate('/');
-                            clearInterval(logoutTimer);
-                            clearLogoutTimer();
-                            setShowWarning(false);
-                        }).catch(error => console.log(error.message));
+                        handleIdleLogOut();
                     }
                     }, 1000); // 30 seconds to respond
                 }       
@@ -82,11 +76,13 @@ function App() {
     };
 
     const handleIdleLogOut = () => { // handles logging out the user after time's up or logout button is clicked
-        setShowWarning(false); // resets showWarning
         axios.patch('http://localhost:5000/users/loggedin', { username: user, loggedIn: false })
         .then(() => {
             Cookies.remove("username");
             navigate('/');
+            clearInterval(logoutTimer);
+            clearLogoutTimer();
+            setShowWarning(false);
         })
         .catch(error => console.log(error.message));
     };
