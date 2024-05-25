@@ -36,7 +36,7 @@ export function HomePage() {
                     response.data.forEach(currentEntry => {
                             setEntries((entries) => {
                                 const text = currentEntry.text.split("\n"); // SPLITS UP PARAGRAPHS
-                                return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count }];
+                                return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, comments: response.data[0].replies }];
                         });
                     });
                 }
@@ -80,7 +80,7 @@ export function HomePage() {
                     response => {
                         setEntries((currentEntries) => { // RENDERS NEW POST ON THE SCREEN
                             const text = response.data[0].text.split("\n"); // SPLITS UP PARAGRAPHS
-                            return [...currentEntries, { id: response.data[0]._id, title: response.data[0].title, imageURL: response.data[0].imageURL, entry: text, date: response.data[0].date, L: response.data[0].likes.count, D: response.data[0].dislikes.count }];
+                            return [...currentEntries, { id: response.data[0]._id, title: response.data[0].title, imageURL: response.data[0].imageURL, entry: text, date: response.data[0].date, L: response.data[0].likes.count, D: response.data[0].dislikes.count, comments: response.data[0].replies }];
                          });
 
                         setNewTitle("");
@@ -191,14 +191,18 @@ export function HomePage() {
                         {entries.toReversed().map((entry) => {
                             return (
                                 <div className="entry-container" key={entry.id}>
-                                    <p className="entries">
-                                        <span className="current-entry-title">{entry.title} ({moment(entry.date).format('lll')}):</span>
+                                    <div className="entries">
+                                        <h4 className="current-entry-title">{entry.title} ({moment(entry.date).format('lll')}):</h4>
                                         {
                                             entry.imageURL ? <img src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS
                                         }
-                                        { entry.entry.map((paragraph, index) => { return ( <span className="current-entry" key={index}>{paragraph}</span>);})}
-                                        <span className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></span>
-                                    </p>
+                                        { entry.entry.map((paragraph, index) => { return ( <p className="current-entry" key={"p" + index}>{paragraph}</p>);})}
+                                        <p className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></p>
+                                        <div className="comment-section" style={ entry.comments.length === 0 ? {display: "none"} : {display: "block"}}>
+                                        <h4>Comment Section:</h4>
+                                        { entry.comments.map((comment, index) => { return ( <p className="current-entry" key={"c" + index}>{comment.reply}</p>);}) }
+                                        </div>
+                                    </div>
                                     <button className="delete" onClick={() => deleteEntry(entry.id)}>Delete</button>
                                 </div>
                             );

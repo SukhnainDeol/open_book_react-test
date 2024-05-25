@@ -219,14 +219,14 @@ export function Snoop() {
     {entries.toReversed().map(entry => {
 
         return <div className="entry-container" key={entry.id}>
-            <p className="entries">
-                <span className="current-entry-title">{entry.title} ({moment(entry.date).format('lll')}):</span>
+            <div className="entries">
+                <h4 className="current-entry-title">{entry.title} ({moment(entry.date).format('lll')}):</h4>
                 {
                     entry.imageURL ? <img src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS.
                 }
-                { entry.entry.map((paragraph, index) => { return ( <span className="current-entry" key={index}>{paragraph}</span>);})}
-                <span className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></span>
-            </p>
+                { entry.entry.map((paragraph, index) => { return ( <p className="current-entry" key={index}>{paragraph}</p>);})}
+                <p className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></p>
+            </div>
                 <div className="rating">
                     { 
                     user ? <p className="like" style={ entry.didL ? {color: "lightgreen"} : {color: "inherit"}} onClick={(e)=>{addLikeDislike(e, entry.id, true)}}><a href="#">cool</a></p> : ""

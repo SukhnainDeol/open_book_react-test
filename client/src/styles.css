@@ -241,14 +241,23 @@ textarea:focus {
     background-color: #fdfdf3;
 }
 
-.entry-container .current-entry-title {
-    display: block;
-    font-weight: bold;
-}
-
 .entry-container .current-entry {
     display: block;
     margin: 10px 0px;
+}
+
+.entry-container .comment-section {
+    text-align: center;
+    margin-top: 5px;
+    padding: 5px;
+    border: 2px solid;
+    border-radius: 5px;
+    width: 100%;
+    height: auto;
+}
+
+.entry-container .comment-section h4 {
+    text-decoration-line: underline;
 }
 
 .entry-container img {
