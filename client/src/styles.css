@@ -222,6 +222,10 @@ textarea:focus {
     height: 91vh;
 }
 
+.wof-container {
+    display: grid;
+    grid-template-columns: 40% 20% 40%;
+}
 
 .entry-container {
     display: grid;
