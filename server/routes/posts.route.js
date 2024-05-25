@@ -346,8 +346,6 @@ router.route('/add-comment').patch(async (request, response) => {
             },
         );
 
-        console.log("DONE");
-
         // not found Response
         if (!post) {
             return response.status(404).send({message: "Post not found"});
