@@ -249,7 +249,6 @@ textarea:focus {
 .entry-container .comment-section {
     text-align: center;
     margin-top: 20px;
-    padding: 5px;
     border: 2px solid;
     border-radius: 5px;
     width: 100%;
@@ -257,7 +256,14 @@ textarea:focus {
 }
 
 .entry-container .comment-section h4 {
+    margin-top: 10px;
     text-decoration-line: underline;
+}
+.entry-container .current-comment {
+    margin: 5px;
+    padding: 5px;
+    border: 2px solid;
+    border-radius: 5px;
 }
 
 .entry-container img {

@@ -37,7 +37,7 @@ export function Snoop() {
 
                             setEntries((entries) => {
                                 const text = currentEntry.text.split("\n"); // SPLITS UP PARAGRAPHS
-                                    return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, didL: didLike, didD: didDislike, comments: currentEntry.replies }];
+                                    return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, didL: didLike, didD: didDislike, comments: currentEntry.comments }];
                             });
                         });
                     }
@@ -209,6 +209,55 @@ export function Snoop() {
           setEntries(newArray);
     }
 
+    function handleComment(e, comment, id) {
+        e.preventDefault();
+
+        if(comment.length === 0) { // IF THE COMMENT IS AN EMPTY STRING, DO NOTHING
+            console.log("EMPTY STRING");
+            return;
+        }
+
+        axios.get('http://localhost:5000/posts/id', {
+            params: {
+                id: id
+            }
+        }).then( response => {
+                    const filteredComments = response.data[0].comments.filter(function(comment) {
+                        return comment.author !== user;
+                    }) // REMOVES CURRENT USER COMMENT
+                    // REMOVES OLD COMMENT AND ADDS NEW COMMENT
+                    axios.patch('http://localhost:5000/posts/comment',
+                        {
+                            comments: filteredComments.push({author: user, comment: comment}) // ADDS NEW USER COMMENT
+                        },
+                        {
+                            params: {
+                                id: id
+                            }
+                        })   
+            }).catch(error => {
+                console.log(error.message);
+                return;
+            })
+
+        
+        console.log(comment);
+
+        // CHECK TO SEE IF THE USER HAS ALREADY MADE A COMMENT
+        // DELETE EXISTING COMMENT
+        // ADD NEW COMMENT
+
+        // RENDER COMMENTS ON THE SCREEN
+        const newArray = entries.map((entry) => {
+            if (id === entry.id){ // UPDATES USESTATE BASED ON WHICH ACTIONS WERE TAKEN IN THE DATABASE
+                entry.comments.push({author: user, comment: comment});
+            }
+            return entry;
+          });
+          setEntries(newArray);
+
+    }
+
     return <>
         <div className = "homepage-container">
         <aside className="left-aside">
@@ -228,13 +277,13 @@ export function Snoop() {
                 <p className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></p>
                 <div className="comment-section">
                     <h4>Comment Section:</h4>
-                    { user ? <form onSubmit={(e)=>{e.preventDefault(); console.log(e.target.children[0].value); e.target.children[0].value = "";}}>
-                                <textarea placeholder="[ Comment on This Post ]" style={{ margin: "10px auto", padding: "5px", width: "80%"}}></textarea>
+                    { user ? <form onSubmit={(e)=>{handleComment(e, e.target.children[0].value, entry.id); e.target.children[0].value = "";}}>
+                                <textarea placeholder="[ Comment on This Post ]" style={{ margin: "10px auto", padding: "5px", width: "80%"}} maxLength={100}></textarea>
                                 <button className="btn">Post Comment</button>
                             </form> : ""
                     }
                     { 
-                    entry.comments.length > 0 ? entry.comments.map((comment, index) => { return ( <p className="current-entry" key={"c" + index}>{comment.reply}</p>);}) : <p style={{marginTop: "5px", fontWeight: "bold"}}>There Are No Comments On This Post</p> 
+                    entry.comments.length > 0 ? entry.comments.toReversed().map((comment, index) => { return ( <p className="current-comment" key={"c" + index}>{comment.comment}</p>);}) : <p style={{margin: "5px", fontWeight: "bold"}}>There Are No Comments On This Post</p> 
                     }
                 </div>
             </div>

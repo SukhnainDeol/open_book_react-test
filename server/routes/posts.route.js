@@ -299,4 +299,36 @@ router.route('/id').delete(async (request, response) => {
 })
 
 
+
+// COMMENT PATCH REQUEST
+router.route('/comment').patch(async (request, response) => {
+    try {
+        
+        // edit post 
+        const id = request.query.id;
+        const comments = request.body.comment;
+
+        const post = await Post.findOneAndUpdate(
+            { _id: id}, // get post
+            {
+                $set: { // update post
+                    "comments": comments
+                }
+            },
+        );
+
+        // not found Response
+        if (!post) {
+            return response.status(404).send({message: "Post not found"});
+        }
+
+        // success Response
+        return response.status(200).send({message: "Post's Dislike Count and Users Updated Successfully!"});
+    } catch (error) {
+        console.log("ERROR:", error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
+
 module.exports = router

@@ -36,7 +36,7 @@ export function HomePage() {
                     response.data.forEach(currentEntry => {
                             setEntries((entries) => {
                                 const text = currentEntry.text.split("\n"); // SPLITS UP PARAGRAPHS
-                                return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, comments: response.data[0].replies }];
+                                return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, comments: response.data[0].comments }];
                         });
                     });
                 }
@@ -74,13 +74,13 @@ export function HomePage() {
                 console.log(response.data);
                 axios.get('http://localhost:5000/posts/username-recent', { // GRABS THE POST WE JUST MADE TO THE DATABASE
                     params: {
-                    author: user, // SPECIFIC SEARCH FOR RANDOM USER
+                    author: user, // SPECIFIC SEARCH FOR USER
                 } 
                 }).then(
                     response => {
                         setEntries((currentEntries) => { // RENDERS NEW POST ON THE SCREEN
                             const text = response.data[0].text.split("\n"); // SPLITS UP PARAGRAPHS
-                            return [...currentEntries, { id: response.data[0]._id, title: response.data[0].title, imageURL: response.data[0].imageURL, entry: text, date: response.data[0].date, L: response.data[0].likes.count, D: response.data[0].dislikes.count, comments: response.data[0].replies }];
+                            return [...currentEntries, { id: response.data[0]._id, title: response.data[0].title, imageURL: response.data[0].imageURL, entry: text, date: response.data[0].date, L: response.data[0].likes.count, D: response.data[0].dislikes.count, comments: response.data[0].comments }];
                          });
 
                         setNewTitle("");
@@ -201,7 +201,7 @@ export function HomePage() {
                                         <div className="comment-section">
                                         <h4>Comment Section:</h4>
                                         { 
-                                            entry.comments.length > 0 ? entry.comments.map((comment, index) => { return ( <p className="current-entry" key={"c" + index}>{comment.reply}</p>);}) : <p style={{marginTop: "5px", fontWeight: "bold"}}>There Are No Comments On This Post</p> 
+                                            entry.comments.length > 0 ? entry.comments.toReversed().map((comment, index) => { return ( <p className="current-comment" key={"c" + index}>{comment.comment}</p>);}) : <p style={{margin: "5px", fontWeight: "bold"}}>There Are No Comments On This Post</p> 
                                         }
                                         </div>
                                     </div>

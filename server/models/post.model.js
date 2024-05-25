@@ -1,21 +1,15 @@
 const mongoose = require('mongoose')
 
-const replySchema = mongoose.Schema(
+const commentSchema = mongoose.Schema(
     {
         author : {
             type: String,
             required: true,
         },
-        text : {
+        comment : {
             type: String,
             required: true,
         },
-        date : {
-            type: Date,
-            required: true,
-        },
-    }, {
-        timestamps: true
     }
 );
 
@@ -62,7 +56,7 @@ const postSchema = mongoose.Schema(
                 default: [],
             },
         },
-        replies: [replySchema],
+        comments: [commentSchema],
     }, {
         timestamps: true
     }
