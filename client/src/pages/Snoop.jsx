@@ -221,7 +221,7 @@ export function Snoop() {
             <p className="entries">
                 <span className="current-entry-title">{entry.title} ({moment(entry.date).format('lll')}):</span>
                 {
-                    entry.imageURL ? <img src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS
+                    entry.imageURL ? <img src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS. IF ONERROR URL IS BAD SO DISPLAY NONE
                 }
                 <span className="current-entry">{entry.entry}</span>
                 <span className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></span>
