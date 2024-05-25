@@ -216,7 +216,7 @@ export function Snoop() {
         </aside>
         <div>
 
-    {entries.reverse().map(entry => {
+    {entries.map(entry => {
 
         return <div className="entry-container" key={entry.id}>
             <p className="entries">

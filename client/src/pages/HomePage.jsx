@@ -178,7 +178,7 @@ export function HomePage() {
                         <button id="post-entry" className="btn">Post Journal Entry</button>
                     </form>
                     <div id="entries-container">
-                        {entries.toReversed().map((entry) => {
+                        {entries.map((entry) => {
                             return (
                                 <div className="entry-container" key={entry.id}>
                                     <p className="entries">

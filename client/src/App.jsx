@@ -19,7 +19,7 @@ function App() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [showWarning, setShowWarning] = useState(false); // initally sets show warning to false
     const logoutTimer = useRef(null); // COUNT DOWN INTERVAL FOR LOG IN SCREEN
-    const timer = useRef((30)); // AMOUNT OF TIME A USER IS ALLOWED TO BE IDLE 14.5 MINUTES
+    const timer = useRef((60 * 14.5)); // AMOUNT OF TIME A USER IS ALLOWED TO BE IDLE 14.5 MINUTES
     const countdown = useRef(30); // COUNT DOWN UNTIL LOGGED OUT
 
     useEffect(() => {
@@ -29,7 +29,6 @@ function App() {
         if (user) {
             timer.current = timer.current - 1;
             console.log("TIME UNTIL LOGOUT: " + timer.current);
-            console.log("STATUS OF SHOW WARNING: " + showWarning);
             if(timer.current === 0) {
                 setShowWarning(true);
                 countdown.current = 30;
@@ -43,6 +42,7 @@ function App() {
                             navigate('/');
                             clearInterval(logoutTimer);
                             clearLogoutTimer();
+                            setShowWarning(false);
                         }).catch(error => console.log(error.message));
                     }
                     }, 1000); // 30 seconds to respond
@@ -52,7 +52,7 @@ function App() {
     }, []);
 
     const updateTime = () => { // UPDATES TIMER ON USER ACTIVITY
-        timer.current = (30);
+        timer.current = ((60 * 14.5));
     };
 
     const clearLogoutTimer = () => { // clears the logout timer
@@ -63,7 +63,7 @@ function App() {
     };
 
     useEffect(() => {
-        timer.current = (30); // UPDATES THE TIME VIA EVENT LISTENERS
+        timer.current = ((60 * 14.5)); // UPDATES THE TIME VIA EVENT LISTENERS
         window.addEventListener("click", updateTime);
         window.addEventListener("scroll", updateTime);
         window.addEventListener("keypress", updateTime);
