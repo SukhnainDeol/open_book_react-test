@@ -177,7 +177,7 @@ export function HomePage() {
                         <input type="text" id="image"
                             value={newImageURL}
                             onChange={e => setNewImageURL(e.target.value)}
-                         maxLength={150} />
+                         maxLength={500} />
                         <label htmlFor="entry">Entry Content</label>
                         <textarea cols="50" rows="5"
                             value={newEntry} maxLength={1000}
