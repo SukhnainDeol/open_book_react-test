@@ -309,7 +309,7 @@ router.route('/remove-comment').patch(async (request, response) => {
         const post = await Post.updateOne(
             { _id: id}, // FINDS THE POST BY ID
             {
-                $pull: { "comments.author": username } 
+                $pull: { comments: { author: username }} 
             },
         );
 
@@ -319,7 +319,7 @@ router.route('/remove-comment').patch(async (request, response) => {
         }
 
         // success Response
-        return response.status(200).send({message: "Your Comment Has Been Added Successfully"});
+        return response.status(200).send({message: "Your Comment Has Been Removed Successfully"});
     } catch (error) {
         console.log("ERROR:", error.message);
         response.status(500).send({message: error.message});
@@ -332,16 +332,20 @@ router.route('/add-comment').patch(async (request, response) => {
         
         // edit post 
         const id = request.query.id;
-        const comment = request.query.comments;
+        const comment = request.query.comment;
         const username = request.query.username;
+
+
+        const newComment = {
+            author: username,
+            comment: comment
+        }
 
         const post = await Post.updateOne(
             { _id: id}, // FINDS THE POST BY ID
             {
                 $push: {
-                    comments: {
-                        author: username, comment: comment
-                    }
+                    comments: newComment
                 } 
             },
         );
