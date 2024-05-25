@@ -220,7 +220,7 @@ export function Snoop() {
 
         const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
 
-        axios.patch('http://localhost:5000/posts/remove-comment',{ params: { id: id, username: user } }) // CALL TO REMOVE EXISTING COMMENT FROM USER
+        axios.patch('http://localhost:5000/posts/remove-comment',{ id: id, username: user }) // CALL TO REMOVE EXISTING COMMENT FROM USER
         .catch(error => {
             console.log(error.message);
             return;

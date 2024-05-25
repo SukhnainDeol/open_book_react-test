@@ -303,8 +303,8 @@ router.route('/remove-comment').patch(async (request, response) => {
     try {
         
         // edit post 
-        const id = request.query.id;
-        const username = request.query.username;
+        const id = request.body.id;
+        const username = request.body.username;
 
         const post = await Post.updateOne(
             { _id: id}, // FINDS THE POST BY ID
