@@ -220,19 +220,19 @@ export function Snoop() {
 
         const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
 
-            axios.patch('http://localhost:5000/posts/remove-comment',{ params: { id: id, username: user } })
+        axios.patch('http://localhost:5000/posts/remove-comment',{ params: { id: id, username: user } }) // CALL TO REMOVE EXISTING COMMENT FROM USER
+        .catch(error => {
+            console.log(error.message);
+            return;
+        }).then(response => {
+            axios.patch('http://localhost:5000/posts/add-comment',{ params: { id: id, comment: comment, username: user } }) // CALL TO ADD NEW COMMENT
             .catch(error => {
                 console.log(error.message);
                 return;
-            }).then(response => {
-                axios.patch('http://localhost:5000/posts/add-comment',{ params: { id: id, comment: comment, username: user } })
-                .catch(error => {
-                    console.log(error.message);
-                 return;
-                }).then(response => {
-                console.log(response.data);
-                })
+             }).then(response => {
+            console.log(response.data);
             })
+        })
 
         // RENDER COMMENTS ON THE SCREEN
         const newArray = entries.map((entry) => {
