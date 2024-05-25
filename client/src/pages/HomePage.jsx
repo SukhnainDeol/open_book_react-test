@@ -182,9 +182,9 @@ export function HomePage() {
                          maxLength={500} />
                         <label htmlFor="entry">Entry Content</label>
                         <textarea cols="50" rows="5"
-                            value={newEntry} maxLength={1000}
+                            value={newEntry} maxLength={10000}
                             onChange={e => { setNewEntry(e.target.value); setEntryLength(e.target.value.length) }} required></textarea>
-                            <p id="entry-length">Character Limit: {entryLength}/1000</p>
+                            <p id="entry-length">Character Limit: {entryLength}/10000</p>
                         <button id="post-entry" className="btn">Post Journal Entry</button>
                     </form>
                     <div id="entries-container">
