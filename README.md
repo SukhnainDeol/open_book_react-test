@@ -1,5 +1,3 @@
-*In Development*
-
 # Open Book
 This is website that allows users to anonymously write a public diary that others can read. Users create an account to post on and have the ability to "Snoop" others' profiles.
 
@@ -11,11 +9,3 @@ This is website that allows users to anonymously write a public diary that other
 - in terminal 2, navigate to the client folder and run `npm install`
 - next, run `npm dev` in *both* terminals, the server folder terminal first
 - If it all works you'll see the website at `http://localhost:5173/`
-
-
-#### Todo
-- [ ] testing backend routes for functionality & security
-- [ ] properly setting up interactions between server and MongoDB Atlas
-- [ ] Cleaning up backend codebase
-- [ ] Research Cloud hosting solutions
-- [ ] Integrated backend and frontend
