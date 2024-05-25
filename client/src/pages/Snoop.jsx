@@ -37,7 +37,7 @@ export function Snoop() {
 
                             setEntries((entries) => {
                                 const text = currentEntry.text.split("\n"); // SPLITS UP PARAGRAPHS
-                                    return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, didL: didLike, didD: didDislike }];
+                                    return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, didL: didLike, didD: didDislike, comments: currentEntry.replies }];
                             });
                         });
                     }
@@ -226,6 +226,17 @@ export function Snoop() {
                 }
                 { entry.entry.map((paragraph, index) => { return ( <p className="current-entry" key={index}>{paragraph}</p>);})}
                 <p className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></p>
+                <div className="comment-section">
+                    <h4>Comment Section:</h4>
+                    { user ? <form onSubmit={(e)=>{e.preventDefault(); console.log(e.target.children[0].value); e.target.children[0].value = "";}}>
+                                <textarea placeholder="[ Comment on This Post ]" style={{ margin: "10px auto", padding: "5px", width: "80%"}}></textarea>
+                                <button className="btn">Post Comment</button>
+                            </form> : ""
+                    }
+                    { 
+                    entry.comments.length > 0 ? entry.comments.map((comment, index) => { return ( <p className="current-entry" key={"c" + index}>{comment.reply}</p>);}) : <p style={{marginTop: "5px", fontWeight: "bold"}}>There Are No Comments On This Post</p> 
+                    }
+                </div>
             </div>
                 <div className="rating">
                     { 
