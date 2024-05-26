@@ -219,17 +219,14 @@ export function HomePage() {
                                         }
                                         { entry.entry.map((paragraph, index) => { return ( <p className="current-entry" key={"p" + index}>{paragraph}</p>);})}
                                         <p className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></p>
-                                        <div className="comment-section">
-                                        <h4>Comment Section:</h4>
                                         { 
                                             entry.comments.length > 0 ? entry.comments.toReversed().map((comment, index) => { return ( 
                                                 <div className="comment-container" key={"c" + index}>
                                                     <p className="current-comment">{comment.comment}</p> 
                                                     <button className="delete" style={{justifySelf: "start", margin: "5px", padding: "5px"}} onClick={()=>{handleCommentDelete(entry.id, comment.author)}}>Delete</button>
                                                 </div>
-                                            );}) : <p style={{margin: "5px", fontWeight: "bold"}}>There Are No Comments On This Post</p> 
+                                            );}) : <p className="no-comment">There Are No Comments On This Post</p> 
                                         }
-                                        </div>
                                     </div>
                                     <button className="delete" onClick={() => deleteEntry(entry.id)}>Delete</button>
                                 </div>

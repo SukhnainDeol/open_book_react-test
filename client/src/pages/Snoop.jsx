@@ -274,7 +274,6 @@ export function Snoop() {
                 { entry.entry.map((paragraph, index) => { return ( <p className="current-entry" key={index}>{paragraph}</p>);})}
                 <p className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></p>
                 <div className="comment-section">
-                    <h4>Comment Section:</h4>
                     { user ? <form onSubmit={(e)=>{handleAddComment(e, e.target.children[0].value, entry.id); e.target.children[0].value = "";}}>
                                 <textarea placeholder="[ Comment on This Post ]" style={{ margin: "10px auto", padding: "5px", width: "80%"}} maxLength={100}></textarea>
                                 <button className="btn">Post Comment</button>
@@ -288,7 +287,7 @@ export function Snoop() {
                                 comment.author === user ? <button className="delete" style={{justifySelf: "start", margin: "5px", padding: "5px"}} onClick={()=>{handleCommentDelete(entry.id)}}>Delete</button> : ""
                             }
                         </div>);}) 
-                    : <p style={{margin: "5px", fontWeight: "bold"}}>There Are No Comments On This Post</p> 
+                    : <p className="no-comment">There Are No Comments On This Post</p> 
                     }
                 </div>
             </div>

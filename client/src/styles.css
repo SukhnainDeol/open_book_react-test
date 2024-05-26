@@ -251,7 +251,6 @@ textarea:focus {
 
 .entry-container .entries {
     margin: auto;
-    padding: 5px;
     width: 425px;
     border: 2px solid black;
     border-radius: 5px;
@@ -259,20 +258,18 @@ textarea:focus {
 }
 
 .entry-container .current-entry-title {
+    margin-top: 5px;
     text-align: center;
 }
 
 .entry-container .current-entry {
     display: block;
-    margin: 10px 0px;
+    margin: 10px;
     text-align: center;
 }
 
 .entry-container .comment-section {
     text-align: center;
-    margin-top: 20px;
-    border: 2px solid;
-    border-radius: 5px;
     width: 100%;
     height: auto;
 }
@@ -283,12 +280,19 @@ textarea:focus {
 }
 
 .entry-container .comment-container {
+    text-align: center;
     display: grid;
     grid-template-columns: auto 15%;
-    width: 95%;
-    margin: 5px auto;
-    border: 2px solid;
-    border-radius: 5px;
+    width: 100%;
+    border-top: 2px solid;
+}
+
+.entry-container .no-comment {
+    text-align: center;
+    width: 100%;
+    border-top: 2px solid;
+    font-weight: bold;
+    padding: 5px;
 }
 
 .entry-container .current-comment {
@@ -300,8 +304,8 @@ textarea:focus {
 .entry-container img {
     display: block;
     margin: 10px auto;
-    border: 2px solid;
-    border-radius: 5px;
+    border-top: 2px solid;
+    border-bottom: 2px solid;
     width: 100%;
     height: auto;
 }
@@ -309,6 +313,7 @@ textarea:focus {
 .entry-container .cc {
     font-weight: bold;
     text-align: center;
+    margin-bottom: 10px;
 }
 
 .entry-container .cool {
