@@ -82,7 +82,7 @@ export function SignUp() {
             <label>Confirm Password</label>
             <input type="password" value={conPassword} onChange={e => setConPassword(e.target.value)} maxLength={15} />
             <p className="ls-warning">Sample Warning Message</p>
-            <p id="terms">By Creating an Account, You Agree To Our <Link to="#" onClick={() => alert("Currently There Are No Terms & Conditions")}>Terms & Conditions</Link>.</p>
+            <p id="terms">By Creating an Account, You Agree To Our <Link to="#" onClick={() => alert('Currently there are no "Terms & Conditions". This is a final project for Whatcom Community College\'s SD299 Capstone course. If you stumble onto this site, just don\'t post anything illegal, I guess...')}>Terms & Conditions</Link>.</p>
             <button className="btn">Sign Up</button>
             </form>
     </>
