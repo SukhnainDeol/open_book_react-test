@@ -266,7 +266,7 @@ export function Snoop() {
 
         return <div className="entry-container" key={entry.id}>
             <div className="entries" style={{width: "650px"}}>
-                <h4 className="current-entry-title">{entry.title} ({moment(entry.date).format('lll')}):</h4>
+                <h4 className="current-entry-title" style={{fontSize: "20px"}}>{entry.title} ({moment(entry.date).format('lll')}):</h4>
                 {
                     entry.imageURL ? <img src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS.
                 }

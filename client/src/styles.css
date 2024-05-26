@@ -258,9 +258,14 @@ textarea:focus {
     background-color: #fdfdf3;
 }
 
+.entry-container .current-entry-title {
+    text-align: center;
+}
+
 .entry-container .current-entry {
     display: block;
     margin: 10px 0px;
+    text-align: center;
 }
 
 .entry-container .comment-section {
@@ -303,6 +308,7 @@ textarea:focus {
 
 .entry-container .cc {
     font-weight: bold;
+    text-align: center;
 }
 
 .entry-container .cool {
