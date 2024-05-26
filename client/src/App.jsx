@@ -105,8 +105,10 @@ function App() {
     return (
         <>  
             <header className={`page-title`}>
-                <img src={book} className="logo" alt="Book Logo" />
+                <div className="logo">
+                <img src={book} alt="Book Logo" />
                 <h1>open_book</h1>
+                </div>
                 <button className="menu-icon" onClick={toggleMenu}>
                     <img src={menuIcon} alt="Menu" />
                 </button>
@@ -114,7 +116,7 @@ function App() {
                     <nav className={`hamburger-menu ${menuOpen ? 'active' : ''}`}>
                         <ul className="nav-list">
                             {user && pName !== "/homepage" ? <li><Link to="/homepage" onClick={() => setMenuOpen(false)}>Home</Link></li> : ""}
-                            {pName !== "/snoop" && pName !== "/wof" ? <li><Link to="/snoop" onClick={() => setMenuOpen(false)}>Snoop</Link></li> : ""}
+                            {pName !== "/snoop" ? <li><Link to="/snoop" onClick={() => setMenuOpen(false)}>Snoop</Link></li> : ""}
                             {pName !== "/wof" ? <li><Link to="/wof" onClick={() => setMenuOpen(false)} >Wall Of Fame</Link></li>: ""}
                             {user ? <li><Settings /></li> : <li><ToggleTheme /></li>}
                             {user ? <li><Link to="/login" onClick={(e) => {setMenuOpen(false); handleLogOut(e);}}>Log Out</Link></li> : <li><Link to="/login" onClick={() => setMenuOpen(false)}>Log In</Link></li>}

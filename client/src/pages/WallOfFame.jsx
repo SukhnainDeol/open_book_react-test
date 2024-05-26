@@ -66,7 +66,7 @@ export function WallOfFame() {
 
         <div className="liked-container">
 
-            <h1 style={{"textAlign": "center"}}>Most Liked Posts of the Day</h1>
+            <h1 style={{"textAlign": "center"}}>Hall of Fame</h1>
             {likedEntries.toReversed().map(entry => {
 
                 return <div className="entry-container" key={entry.id}>
@@ -89,7 +89,7 @@ export function WallOfFame() {
         
         <div className="disliked-container">
 
-            <h1 style={{"textAlign": "center"}}>Most Disliked Posts of the Day</h1>
+            <h1 style={{"textAlign": "center"}}>Hall of Shame</h1>
             {dislikedEntries.toReversed().map(entry => {
 
                 return <div className="entry-container" key={entry.id}>

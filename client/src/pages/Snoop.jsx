@@ -261,16 +261,11 @@ export function Snoop() {
     }
 
     return <>
-        <div className = "homepage-container">
-        <aside className="left-aside">
-            <p className="sample-text">Left Aside Content</p>
-        </aside>
-        <div>
 
     {entries.toReversed().map(entry => {
 
         return <div className="entry-container" key={entry.id}>
-            <div className="entries">
+            <div className="entries" style={{width: "650px"}}>
                 <h4 className="current-entry-title">{entry.title} ({moment(entry.date).format('lll')}):</h4>
                 {
                     entry.imageURL ? <img src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS.
@@ -306,11 +301,5 @@ export function Snoop() {
                 </div>
         </div>
     })}
-    <br></br>
-    </div>
-    <aside className="right-aside">
-        <p className="sample-text">Right Aside Content</p>
-    </aside>
-    </div>
     </>
    }

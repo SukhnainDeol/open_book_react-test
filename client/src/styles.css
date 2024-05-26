@@ -6,20 +6,26 @@
 }
 
 .page-title {
-    margin: 5px;
-    padding: 5px;
-    text-align: center;
-    border: 2px solid black;
-    border-radius: 5px;
+    height: 65px;
 }
 
 .page-title .logo {
+    display: inline-block;
+    position:fixed;
+    top: 0px;
+    padding: 5px;
+    width: 100%;
+    border-bottom: 2px solid;
+    background-color: var(--background-color);
+}
+
+.page-title .logo img {
     width: 60px;
     position:relative;
     top: 5px;
 }
 
-.page-title h1 {
+.page-title .logo h1 {
     display: inline-block;
     padding-left: 5px;
     font-size: 40px;
@@ -52,7 +58,6 @@ nav {
     position: fixed; /* position: absolute */
     right: 0px;
     top: 0px;
-    margin: 5px;
     padding: 15px;
     display: grid;
     column-gap: 15px;
@@ -470,8 +475,8 @@ body {
 
 .menu-icon {
     position: fixed;
-    top: 10px;
-    right: 10px;
+    top: 5px;
+    right: 5px;
     cursor: pointer;
     z-index: 999; /* Ensure the icon is above other elements */
     width: 60px; /* Set the width */
