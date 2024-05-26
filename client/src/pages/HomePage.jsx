@@ -124,7 +124,7 @@ export function HomePage() {
             // RENDER COMMENTS ON THE SCREEN
             const newArray = entries.map((entry) => {
                 if (id === entry.id){ // UPDATES USESTATE BASED ON WHICH ACTIONS WERE TAKEN IN THE DATABASE
-                    let newComments = entry.comments.filter(function(com) {return com.author !== user;}); // FILTERS OUT OLD COMMENT
+                    let newComments = entry.comments.filter(function(com) {return com.author !== author;}); // FILTERS OUT OLD COMMENT
                     entry.comments = newComments; // 
                 }
                 return entry;
