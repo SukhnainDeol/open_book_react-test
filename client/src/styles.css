@@ -27,6 +27,8 @@
 
 .page-title .logo h1 {
     display: inline-block;
+    position: relative;
+    bottom: 3px;
     padding-left: 5px;
     font-size: 40px;
 }
@@ -106,10 +108,10 @@ nav a:hover {
     border: 2px solid black;
     border-radius: 5px;
     padding: 10px;
-    width: 33%;
+    width: 28%;
     margin: auto;
     height: 90%;
-    position: fixed; /* position: relative */
+    position: fixed;
     overflow: hidden; /* hides the overflow */
     display: flex; 
     align-items: center; 
