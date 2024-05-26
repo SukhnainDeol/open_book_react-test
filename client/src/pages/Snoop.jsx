@@ -22,7 +22,6 @@ export function Snoop() {
             response => {
                 console.log(response.data);
                 const username = response.data[0].author; // USERNAME VARIABLE FOR RANDOM USER
-                console.log("USERNAME: " + username);
 
                 axios.get('http://localhost:5000/posts/username', { // PULL THEIR POSTS
                 params: {
@@ -209,16 +208,14 @@ export function Snoop() {
           setEntries(newArray);
     }
 
-    function handleComment(e, comment, id) {
+    function handleAddComment(e, comment, id) {
         e.preventDefault();
-        console.log(id);
+        const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
 
         if(comment.length === 0) { // IF THE COMMENT IS AN EMPTY STRING, DO NOTHING
             console.log("EMPTY STRING");
             return;
         }
-
-        const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
 
         axios.patch('http://localhost:5000/posts/remove-comment',{ id: id, username: user }) // CALL TO REMOVE EXISTING COMMENT FROM USER
         .catch(error => {
@@ -230,19 +227,37 @@ export function Snoop() {
                 console.log(error.message);
                 return;
              }).then(response => {
-            console.log(response.data);
+            // RENDER COMMENTS ON THE SCREEN
+                const newArray = entries.map((entry) => {
+                if (id === entry.id){ // UPDATES USESTATE BASED ON WHICH ACTIONS WERE TAKEN IN THE DATABASE
+                    let newComments = entry.comments.filter(function(com) {return com.author !== user;}); // FILTERS OUT OLD COMMENT
+                    newComments.push({author: user, comment: comment});  // ADDS NEW COMMENT
+                    entry.comments = newComments; // 
+                }
+                return entry;
+                });
+                setEntries(newArray);
             })
         })
+    }
 
-        // RENDER COMMENTS ON THE SCREEN
-        const newArray = entries.map((entry) => {
-            if (id === entry.id){ // UPDATES USESTATE BASED ON WHICH ACTIONS WERE TAKEN IN THE DATABASE
-                entry.comments.push({author: user, comment: comment});
-            }
-            return entry;
-          });
-          setEntries(newArray);
+    function handleCommentDelete(id) {
 
+        axios.patch('http://localhost:5000/posts/remove-comment',{ id: id, username: user }) // CALL TO REMOVE EXISTING COMMENT FROM USER
+        .catch(error => {
+            console.log(error.message);
+            return;
+        }).then(response => {
+            // RENDER COMMENTS ON THE SCREEN
+            const newArray = entries.map((entry) => {
+                if (id === entry.id){ // UPDATES USESTATE BASED ON WHICH ACTIONS WERE TAKEN IN THE DATABASE
+                    let newComments = entry.comments.filter(function(com) {return com.author !== user;}); // FILTERS OUT OLD COMMENT
+                    entry.comments = newComments; // 
+                }
+                return entry;
+            });
+            setEntries(newArray);
+        })
     }
 
     return <>
@@ -264,13 +279,20 @@ export function Snoop() {
                 <p className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></p>
                 <div className="comment-section">
                     <h4>Comment Section:</h4>
-                    { user ? <form onSubmit={(e)=>{handleComment(e, e.target.children[0].value, entry.id); e.target.children[0].value = "";}}>
+                    { user ? <form onSubmit={(e)=>{handleAddComment(e, e.target.children[0].value, entry.id); e.target.children[0].value = "";}}>
                                 <textarea placeholder="[ Comment on This Post ]" style={{ margin: "10px auto", padding: "5px", width: "80%"}} maxLength={100}></textarea>
                                 <button className="btn">Post Comment</button>
                             </form> : ""
                     }
                     { 
-                    entry.comments.length > 0 ? entry.comments.toReversed().map((comment, index) => { return ( <p className="current-comment" key={"c" + index}>{comment.comment}</p>);}) : <p style={{margin: "5px", fontWeight: "bold"}}>There Are No Comments On This Post</p> 
+                    entry.comments.length > 0 ? entry.comments.toReversed().map((comment, index) => { return (
+                        <div className="comment-container" key={"c" + index}>
+                            <p className="current-comment">{comment.comment}</p> 
+                            {
+                                comment.author === user ? <button className="delete" style={{justifySelf: "start", margin: "5px", padding: "5px"}} onClick={()=>{handleCommentDelete(entry.id)}}>Delete</button> : ""
+                            }
+                        </div>);}) 
+                    : <p style={{margin: "5px", fontWeight: "bold"}}>There Are No Comments On This Post</p> 
                     }
                 </div>
             </div>

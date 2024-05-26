@@ -271,11 +271,20 @@ textarea:focus {
     margin-top: 10px;
     text-decoration-line: underline;
 }
-.entry-container .current-comment {
-    margin: 5px;
-    padding: 5px;
+
+.entry-container .comment-container {
+    display: grid;
+    grid-template-columns: auto 15%;
+    width: 95%;
+    margin: 5px auto;
     border: 2px solid;
     border-radius: 5px;
+}
+
+.entry-container .current-comment {
+    margin: 5px auto;
+    padding: 5px;
+    width: 100%;
 }
 
 .entry-container img {

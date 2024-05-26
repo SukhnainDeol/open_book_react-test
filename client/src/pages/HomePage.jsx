@@ -36,7 +36,7 @@ export function HomePage() {
                     response.data.forEach(currentEntry => {
                             setEntries((entries) => {
                                 const text = currentEntry.text.split("\n"); // SPLITS UP PARAGRAPHS
-                                return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, comments: response.data[0].comments }];
+                                return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, comments: currentEntry.comments }];
                         });
                     });
                 }
@@ -110,6 +110,26 @@ export function HomePage() {
         ).catch(error => {
             console.log(error.message);
                 return;
+        })
+    }
+
+    function handleCommentDelete(id, author) {
+
+        axios.patch('http://localhost:5000/posts/remove-comment',{ id: id, username: author }) // CALL TO REMOVE EXISTING COMMENT FROM USER
+        .catch(error => {
+            console.log(error.message);
+            return;
+        }).then(response => {
+            console.log(response.data);
+            // RENDER COMMENTS ON THE SCREEN
+            const newArray = entries.map((entry) => {
+                if (id === entry.id){ // UPDATES USESTATE BASED ON WHICH ACTIONS WERE TAKEN IN THE DATABASE
+                    let newComments = entry.comments.filter(function(com) {return com.author !== user;}); // FILTERS OUT OLD COMMENT
+                    entry.comments = newComments; // 
+                }
+                return entry;
+            });
+            setEntries(newArray);
         })
     }
 
@@ -201,7 +221,12 @@ export function HomePage() {
                                         <div className="comment-section">
                                         <h4>Comment Section:</h4>
                                         { 
-                                            entry.comments.length > 0 ? entry.comments.toReversed().map((comment, index) => { return ( <p className="current-comment" key={"c" + index}>{comment.comment}</p>);}) : <p style={{margin: "5px", fontWeight: "bold"}}>There Are No Comments On This Post</p> 
+                                            entry.comments.length > 0 ? entry.comments.toReversed().map((comment, index) => { return ( 
+                                                <div className="comment-container" key={"c" + index}>
+                                                    <p className="current-comment">{comment.comment}</p> 
+                                                    <button className="delete" style={{justifySelf: "start", margin: "5px", padding: "5px"}} onClick={()=>{handleCommentDelete(entry.id, comment.author)}}>Delete</button>
+                                                </div>
+                                            );}) : <p style={{margin: "5px", fontWeight: "bold"}}>There Are No Comments On This Post</p> 
                                         }
                                         </div>
                                     </div>
