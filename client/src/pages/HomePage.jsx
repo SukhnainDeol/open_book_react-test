@@ -194,7 +194,7 @@ export function HomePage() {
                         <input type="text" id="title"
                             value={newTitle}
                             onChange={e => setNewTitle(e.target.value)}
-                         maxLength={25} required/>
+                         maxLength={30} required/>
                          <label htmlFor="image">Image URL (Optional)</label>
                         <input type="text" id="image"
                             value={newImageURL}
@@ -212,7 +212,8 @@ export function HomePage() {
                             return (
                                 <div className="entry-container" key={entry.id}>
                                     <div className="entries">
-                                        <h4 className="current-entry-title">{entry.title} ({moment(entry.date).format('lll')}):</h4>
+                                        <h4 className="current-entry-title">{entry.title}</h4>
+                                        <h4 className="current-entry-title">Posted on {moment(entry.date).format('lll')}</h4>
                                         {
                                             entry.imageURL ? <img src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS
                                         }

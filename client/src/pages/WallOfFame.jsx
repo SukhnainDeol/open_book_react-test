@@ -70,15 +70,15 @@ export function WallOfFame() {
             {likedEntries.toReversed().map(entry => {
 
                 return <div className="entry-container" key={entry.id}>
-                    <p className="entries">
-                        <span className="current-entry-title">{entry.title} ({moment(entry.date).format('lll')}):</span>
+                    <div className="entries">
+                        <h4 className="current-entry-title">{entry.title}</h4>
+                        <h4 className="current-entry-title">Posted on {moment(entry.date).format('lll')}</h4>
                         {
                             entry.imageURL ? <img src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS. IF ONERROR URL IS BAD SO DISPLAY NONE
                         }
-                        <span className="current-entry">{entry.entry}</span>
-                        <span className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></span>
-                    </p>
-
+                        <p className="current-entry">{entry.entry}</p>
+                        <p className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></p>
+                    </div>
                 </div>
             })}
         </div>
@@ -93,14 +93,15 @@ export function WallOfFame() {
             {dislikedEntries.toReversed().map(entry => {
 
                 return <div className="entry-container" key={entry.id}>
-                    <p className="entries">
-                        <span className="current-entry-title">{entry.title} ({moment(entry.date).format('lll')}):</span>
+                    <div className="entries">
+                        <h4 className="current-entry-title">{entry.title}</h4>
+                        <h4 className="current-entry-title">Posted on {moment(entry.date).format('lll')}</h4>
                         {
                             entry.imageURL ? <img src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS. IF ONERROR URL IS BAD SO DISPLAY NONE
                         }
-                        <span className="current-entry">{entry.entry}</span>
-                        <span className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></span>
-                    </p>
+                        <p className="current-entry">{entry.entry}</p>
+                        <p className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></p>
+                    </div>
 
                 </div>
             })}
