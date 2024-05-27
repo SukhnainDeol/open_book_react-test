@@ -82,7 +82,7 @@ export function SignUp() {
             <label>Confirm Password</label>
             <input type="password" value={conPassword} onChange={e => setConPassword(e.target.value)} maxLength={15} />
             <p className="ls-warning">Sample Warning Message</p>
-            <p id="terms">By Creating an Account, You Agree To Our <Link to="#" onClick={() => { document.querySelector("#terms-conditions").style.display="block";}}>Terms & Conditions</Link>.</p>
+            <p id="terms">By Creating an Account, You Agree To Our <Link to="#" onClick={() => { document.querySelector("#terms-conditions").style.display="block"; document.querySelector("#terms-conditions").scrollTop = 0}}>Terms & Conditions</Link>.</p>
             <button className="btn">Sign Up</button>
             </form>
             <div id="terms-conditions">
@@ -99,7 +99,7 @@ export function SignUp() {
                 </em><br/>
                 <p>Now Sign Up and Join Our Crew!</p><br/>
                 <p><em>PS: Our site uses two cookies to handle light/dark mode and user context that are created when you sign up/log in (so by signing up/loging in you agree to the use of these cookies).</em></p><br/>
-                <button className="btn" onClick={() => { document.querySelector("#terms-conditions").style.display="none";}}>Close Terms & Conditions</button>
+                <button className="btn" onClick={() => { document.querySelector("#terms-conditions").style.display="none"; document.querySelector("#terms-conditions").scrollTop = 0}}>Close Terms & Conditions</button>
             </div>
     </>
    }
