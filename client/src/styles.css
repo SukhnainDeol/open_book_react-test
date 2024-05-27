@@ -45,7 +45,7 @@
 }
 
 .btn:hover {
-    background-color: #c7e0c7;
+    background-color: MediumSeaGreen;
     color:#000000;
 }
 
@@ -65,10 +65,6 @@ nav {
     column-gap: 15px;
 }
 
-nav a:hover {
-    font-weight: bolder;
-}
-
 .nav-list {
     list-style-type: none;
     padding: 0;
@@ -85,10 +81,6 @@ nav a:hover {
 .nav-list li a {
     text-decoration: none;
     color: black; 
-}
-
-.nav-list li a:hover {
-    font-weight: bolder;
 }
 
 #middle-container {
@@ -198,27 +190,6 @@ textarea:focus {
     width: 400px;
     margin: auto;
     font-size: 12px;
-}
-
-#post-entry {
-    display: block;
-    margin: 10px auto;
-    padding: 5px;
-    background-color: #ffffff;
-    border: 2px solid black;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-#post-entry:hover {
-    background-color: #c7e0c7;
-    color:#000000;
-}
-
-#post-entry:active {
-    background-color: #588c7e; 
-    color: #ffffff;
 }
 
 .homepage-container {
@@ -443,18 +414,14 @@ body {
 }
 
 
-.dark-theme #post-entry:hover {
+.dark-theme .btn:hover {
     background-color: #588c7e !important;
     border-color: #ffffff;
     color: white;
 }
 
-.dark-theme #post-entry:active {
+.dark-theme .btn:active {
     background-color: #7dc0ae !important;
-}
-
-.nav-list .nav-link:hover {
-    font-weight: bolder;
 }
 
 /* LOG IN/SIGN IN */
@@ -535,7 +502,6 @@ body {
 
 .hamburger-menu ul li a:hover {
     font-weight: bold;
-    color: #18755d;
 }
 
 
