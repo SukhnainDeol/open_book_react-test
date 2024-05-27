@@ -383,7 +383,6 @@ body {
     border-color: #ffffff;
 }
 
-.dark-theme #post-entry,
 .dark-theme .btn {
     background-color: var(--dark-background-color);
     border-color: #ffffff;
