@@ -60,7 +60,7 @@ export function SignUp() {
             response => {
 
                 axios.post('http://localhost:5000/users/', {username: username, password: response.data}).then( response => { // MAKES PASSWORD THE NEW ENCRYPTED PASSWORD
-                Cookies.set("username", username, { expires: 7 });
+                Cookies.set("username", username, { sameSite:'strict' });
                 navigate('/homepage'); // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
                 }).catch(error => {
                 console.log(error.message)
@@ -98,6 +98,7 @@ export function SignUp() {
                 <p><strong>Rule #6 of "The Pirate's Code":</strong> Always Remember to Have Fun!</p>
                 </em><br/>
                 <p>Now Sign Up and Join Our Crew!</p><br/>
+                <p><em>PS: Our site uses two cookies to handle light/dark mode and user context that are created when you sign up/log in (so by signing up/loging in you agree to the use of these cookies).</em></p><br/>
                 <button className="btn" onClick={() => { document.querySelector("#terms-conditions").style.display="none";}}>Close Terms & Conditions</button>
             </div>
     </>
