@@ -86,9 +86,9 @@ export function SignUp() {
             <button className="btn">Sign Up</button>
             </form>
             <div id="terms-conditions">
-                <h3>Terms & Conditions</h3><br/>
+                <h2>Terms & Conditions</h2><br/>
                 <p>Ahoy! Currently, there be no "Terms & Conditions" for this vessel. This be a final project for Whatcom Community College's SD299 Capstone course. If ye lay anchor upon this site, be sure to follow <strong>"The Pirate's Code"</strong>.</p><br/>
-                <h4>The Pirate's Code:</h4><br/>
+                <h3>The Pirate's Code:</h3><br/>
                 <em>
                 <p><strong>Rule #1 of "The Pirate's Code":</strong> Never Make Another Pirate Cry.</p>
                 <p><strong>Rule #2 of "The Pirate's Code":</strong> No Naughty Words.</p>
