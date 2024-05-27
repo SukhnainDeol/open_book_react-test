@@ -98,7 +98,7 @@ export function SignUp() {
                 <p><strong>Rule #6 of "The Pirate's Code":</strong> Always Remember to Have Fun!</p>
                 </em><br/>
                 <p>Now Sign Up and Join Our Crew!</p><br/>
-                <p><em>PS: Our site uses two cookies to handle light/dark mode and user context that are created when you sign up/log in (so by signing up/loging in you agree to the use of these cookies).</em></p><br/>
+                <p><em>PS: Our site uses two cookies to handle light/dark mode and user context that are created when you sign up/log in, and subsequently removes them when logging out (so by signing up/loging in you agree to the use of these cookies).</em></p><br/>
                 <button className="btn" onClick={() => { document.querySelector("#terms-conditions").style.display="none"; document.querySelector("#terms-conditions").scrollTop = 0}}>Close Terms & Conditions</button>
             </div>
     </>
