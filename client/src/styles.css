@@ -602,3 +602,18 @@ body {
     background-color: #7dc0ae; 
     color: #fff;
 }
+
+#terms-conditions {
+    position: fixed;
+    display: none;
+    top: 25%;
+    left: 30%;
+    width: 600px;
+    height: 200px;
+    overflow-y: auto; 
+    text-align: center;
+    border: 2px solid;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: var(--background-color);
+}

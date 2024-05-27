@@ -82,8 +82,23 @@ export function SignUp() {
             <label>Confirm Password</label>
             <input type="password" value={conPassword} onChange={e => setConPassword(e.target.value)} maxLength={15} />
             <p className="ls-warning">Sample Warning Message</p>
-            <p id="terms">By Creating an Account, You Agree To Our <Link to="#" onClick={() => alert('Currently there are no "Terms & Conditions". This is a final project for Whatcom Community College\'s SD299 Capstone course. If you stumble onto this site, just don\'t post anything illegal, I guess...')}>Terms & Conditions</Link>.</p>
+            <p id="terms">By Creating an Account, You Agree To Our <Link to="#" onClick={() => { document.querySelector("#terms-conditions").style.display="block";}}>Terms & Conditions</Link>.</p>
             <button className="btn">Sign Up</button>
             </form>
+            <div id="terms-conditions">
+                <h3>Terms & Conditions</h3><br/>
+                <p>Ahoy! Currently, there be no "Terms & Conditions" for this vessel. This be a final project for Whatcom Community College's SD299 Capstone course. If ye lay anchor upon this site, be sure to follow <strong>"The Pirate's Code"</strong>.</p><br/>
+                <h4>The Pirate's Code:</h4><br/>
+                <em>
+                <p><strong>Rule #1 of "The Pirate's Code":</strong> Never Make Another Pirate Cry.</p>
+                <p><strong>Rule #2 of "The Pirate's Code":</strong> No Naughty Words.</p>
+                <p><strong>Rule #3 of "The Pirate's Code":</strong> Bedtime at 8 O'Clock.</p>
+                <p><strong>Rule #4 of "The Pirate's Code":</strong> Never Talk to Strangers.</p>
+                <p><strong>Rule #5 of "The Pirate's Code":</strong> Sharing is Caring.</p>
+                <p><strong>Rule #6 of "The Pirate's Code":</strong> Always Remember to Have Fun!</p>
+                </em><br/>
+                <p>Now Sign Up and Join Our Crew!</p><br/>
+                <button className="btn" onClick={() => { document.querySelector("#terms-conditions").style.display="none";}}>Close Terms & Conditions</button>
+            </div>
     </>
    }
