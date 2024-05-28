@@ -138,7 +138,7 @@ export function HomePage() {
 
     //sample left prompts
     leftPromptsList.insert("What is a childhood memory that stands out to you... like your favorite flavor of paint chips or how you used to collect old toenails in a jar.");
-    leftPromptsList.insert("Write about one of your favorite hobbies... just so we're clear, bingeing Netflix ISN'T a hobby.");
+    leftPromptsList.insert("Write about one of your favorite hobbies... just so we're clear, binging Netflix ISN'T a hobby.");
     leftPromptsList.insert("Imagine you were trapped inside of this website, forced to write nonsense prompts. How would you escape? I'm serious.");
     leftPromptsList.insert("If you could have any superpower, what would it be? ...Like the power to open cans without a can opener or leaving a trail of mucus while you walk like a slug.");
     leftPromptsList.insert("Create a fake conspiracy theory...like the flat earth conspiracy was made to distract people from the fact that the earth is actually donut shaped.");
