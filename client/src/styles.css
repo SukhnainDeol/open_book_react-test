@@ -200,34 +200,46 @@ textarea:focus {
     height: 91vh;
 }
 
+.wof {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.wof-sub {
+    flex: 50%;
+}
+
 .wof-container {
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: 10%;
+    margin: 10px auto;
+    padding: 2px;
+    width: 97%;
+    min-width: 500px;
+    font-size: 1.75vw;
 }
 
 .entry-container {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 85% 15%;
+    gap: 1%;
     margin: 10px auto;
     padding: 2px;
     width: 600px;
     font-size: 14px;
 }
 
-.entry-container .entries {
+.entry-container .entries, .wof-container .entries {
     margin: auto;
     border: 2px solid black;
     border-radius: 5px;
     background-color: #fdfdf3;
 }
 
-.entry-container .current-entry-title {
+.entry-container .current-entry-title, .wof-container .current-entry-title {
     margin-top: 5px;
     text-align: center;
 }
 
-.entry-container .current-entry {
+.entry-container .current-entry, .wof-container .current-entry {
     display: block;
     margin: 10px;
     text-align: center;
@@ -266,7 +278,7 @@ textarea:focus {
     width: 100%;
 }
 
-.entry-container img {
+.entry-container img, .wof-container img {
     display: block;
     margin: 10px auto;
     border-top: 2px solid;
@@ -275,16 +287,16 @@ textarea:focus {
     height: auto;
 }
 
-.entry-container .cc {
+.entry-container .cc, .wof-container .cc {
     font-weight: bold;
     text-align: center;
     margin-bottom: 10px;
 }
 
-.entry-container .cool {
+.entry-container .cool, .wof-container .cool {
     color: lightgreen;
 }
-.entry-container .cringe {
+.entry-container .cringe, .wof-container .cringe {
     color: lightcoral;
 }
 
@@ -311,7 +323,7 @@ textarea:focus {
 }
 
 .entry-container .like  {
-    font-size: 20px;
+    font-size: 2vw;
     color: lightgreen;
 }
 
@@ -321,7 +333,7 @@ textarea:focus {
 }
 
 .entry-container .dislike  {
-    font-size: 20px;
+    font-size: 2vw;
     color: lightcoral;
 }
 

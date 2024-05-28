@@ -264,8 +264,8 @@ export function Snoop() {
 
     {entries.toReversed().map(entry => {
 
-        return <div className="entry-container" key={entry.id}>
-            <div className="entries" style={{width: "650px"}}>
+        return <div className="entry-container" style={user ? {width: "50vw"} : {width: "50vw", display: "block"}} key={entry.id}>
+            <div className="entries" style={ user ? {width: "100%"} : {width: "100%"}}>
                 <h4 className="current-entry-title">{entry.title}</h4>
                 <h4 className="current-entry-title">Posted on {moment(entry.date).format('lll')}</h4>
                 {
@@ -291,7 +291,7 @@ export function Snoop() {
                     }
                 </div>
             </div>
-                <div className="rating">
+                <div className="rating" style={{justifySelf: "left"}}>
                     { 
                     user ? <p className="like" style={ entry.didL ? {color: "lightgreen"} : {color: "inherit"}} onClick={(e)=>{addLikeDislike(e, entry.id, true)}}><a href="#">cool</a></p> : ""
                     }
