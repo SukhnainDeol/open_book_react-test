@@ -130,20 +130,16 @@ function App() {
                     <button onClick={handleStayLoggedIn}>Stay Logged In</button>
                 </div>
             </div>
-            <div className="landscape-prompt">
-                <p>Please rotate your device to landscape mode to view the website.</p>
-            </div>
-            <div className="app-content">
-                <Routes>
-                    <Route element={<PrivateRoutes />} >
-                        <Route path="/homepage" element={<HomePage />} />
-                    </Route>
-                    <Route path="/snoop" element={<Snoop />} />
-                    <Route path="/wof" element={<WallOfFame />} />
-                    <Route path="/" element={<SignUp />} />
-                    <Route path="/login" element={<Login />} />
-                </Routes>
-            </div>
+            
+            <Routes>
+                <Route element={<PrivateRoutes />} >
+                    <Route path="/homepage" element={<HomePage />} />
+                </Route>
+                <Route path="/snoop" element={<Snoop />} />
+                <Route path="/wof" element={<WallOfFame />} />
+                <Route path="/" element={<SignUp />} />
+                <Route path="/login" element={<Login />} />
+            </Routes>
         </>
     );
 }
