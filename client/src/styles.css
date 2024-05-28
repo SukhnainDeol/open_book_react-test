@@ -206,7 +206,7 @@ textarea:focus {
 #entry-length {
     display: block;
     width: 80%;
-    margin: auto;
+    margin: 10px auto 20px auto;
 }
 
 /* WALL OF FAME STYLING */
