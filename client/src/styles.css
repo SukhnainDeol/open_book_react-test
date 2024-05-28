@@ -624,7 +624,7 @@ body {
     border-radius: 10px;
     text-align: center;
     z-index: 10000;
-  }
+}
 
 .landscape-prompt.active {
     display: flex;
@@ -645,4 +645,4 @@ body {
     .app-content, .page-title {
       display: none;
     }
-  }
+}
