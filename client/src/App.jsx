@@ -18,7 +18,6 @@ function App() {
     const pName = useLocation().pathname;
     const user = Cookies.get("username");
     const [menuOpen, setMenuOpen] = useState(false);
-    const [showWarning, setShowWarning] = useState(false); // initally sets show warning to false
     const logoutTimer = useRef(null); // COUNT DOWN INTERVAL FOR LOG IN SCREEN
     const timer = useRef((60 * 14.5)); // AMOUNT OF TIME A USER IS ALLOWED TO BE IDLE 14.5 MINUTES
     const countdown = useRef(30); // COUNT DOWN UNTIL LOGGED OUT
@@ -29,15 +28,14 @@ function App() {
         
         if (user) {
             timer.current = timer.current - 1;
-            //console.log("TIME UNTIL LOGOUT: " + timer.current);
             if(timer.current === 0) {
-                setShowWarning(true);
+                document.querySelector(".overlay").style.display = "flex";
                 countdown.current = 30;
                 document.querySelector(".warning-box-span").innerText = 30;
                 logoutTimer.current = setInterval(() => {
                     countdown.current = countdown.current -1;
                     document.querySelector(".warning-box-span").innerText = countdown.current;
-                    if(countdown.current === -1) {
+                    if(countdown.current === 0) {
                         handleIdleLogOut();
                     }
                     }, 1000); // 30 seconds to respond
@@ -79,11 +77,11 @@ function App() {
     const handleIdleLogOut = () => { // handles logging out the user after time's up or logout button is clicked
         axios.patch('http://localhost:5000/users/loggedin', { username: user, loggedIn: false })
         .then(() => {
-            Cookies.remove("username");
-            navigate('/');
             clearInterval(logoutTimer);
             clearLogoutTimer();
-            setShowWarning(false);
+            document.querySelector(".overlay").style.display = "none";
+            Cookies.remove("username");
+            navigate('/');
         })
         .catch(error => console.log(error.message));
     };
@@ -98,8 +96,8 @@ function App() {
 
     const handleStayLoggedIn = () => { // fucntion for when stay logged in is clicked
         updateTime();
-        setShowWarning(false); // hide the warning box
         clearLogoutTimer(); // clears logout timer
+        document.querySelector(".overlay").style.display = "none";
     };
 
     return (
@@ -125,7 +123,7 @@ function App() {
                 )}
                 <span style={{visibility: 'hidden'}}><ToggleTheme /></span>
             </header>
-            <div className="overlay" style = {showWarning ? {display: "flex"} : {display: "none"}}>
+            <div className="overlay">
                 <div className="warning-box">
                     <p>You Will Be Logged Out In <span className="warning-box-span" style={{color: "lightcoral"}}></span> Seconds Due To Inactivity.</p>
                     <button onClick={handleIdleLogOut}>Log Out</button>
