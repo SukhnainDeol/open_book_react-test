@@ -48,12 +48,13 @@ p {
 .btn {
     display: block;
     margin: 10px auto;
-    padding: 5px;
+    padding: 10px;
     background-color: white;
     border: 2px solid black;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
+    font-size: 1.5vw;
 }
 
 .btn:hover {
@@ -168,31 +169,31 @@ label {
     margin: auto;
     display: block;
     text-align: center;
-    width: 50%;
-    font-size: 2vw;
+    width: 80%;
+    font-size: 1.75vw;
 }
 
 input {
     display: block;
     margin: 10px auto;
-    width: 100%;
+    width: 80%;
     border-radius: 5px;
     border: 2px solid black;
     background-color:#fdfdf3;
     padding: 5px;
-    font-size: 2vw;
+    font-size: 1.75vw;
 }
 
 textarea {
     display: block;
     margin: 10px auto;
-    width: 100%;
+    width: 80%;
     border-radius: 5px;
     border: 2px solid black;
     background-color: #fdfdf3;
     padding: 5px;
     resize: none;
-    font-size: 2vw;
+    font-size: 1.75vw;
 }
 
 input:focus,
@@ -202,7 +203,7 @@ textarea:focus {
 
 #entry-length {
     display: block;
-    width: 100%;
+    width: 80%;
     margin: auto;
 }
 
@@ -439,7 +440,7 @@ body {
     padding: 10px;
     border: 2px solid;
     border-radius: 5px;
-    width: 97%;
+    width: 50%;
     height: auto
 }
 
@@ -653,6 +654,10 @@ body {
 
     .snoop .rating  a {
         font-size: 3.5vw;
+    }
+
+    .ls-form {
+        width: 90%;
     }
 
     h2 {
