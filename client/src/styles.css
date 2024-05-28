@@ -137,6 +137,7 @@ p {
 
 /* sample text for asides*/
 .sample-text {
+    padding: 5px;
     animation: floatInOut 15s infinite;
     white-space: normal;
     word-wrap: break-word;
@@ -144,7 +145,8 @@ p {
     position: absolute; 
     left: 0%; /* start at the left */
     right: 0; 
-    text-align: center; 
+    text-align: center;
+    font-size: 2.4vw;
 }
 
 @keyframes floatInOut {
