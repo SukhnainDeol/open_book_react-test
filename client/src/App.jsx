@@ -101,7 +101,7 @@ function App() {
     };
 
     return (
-        <>  
+        <>
             <header className={`page-title`}>
                 <div className="logo">
                 <img src={book} alt="Book Logo" />
@@ -129,16 +129,21 @@ function App() {
                     <button onClick={handleIdleLogOut}>Log Out</button>
                     <button onClick={handleStayLoggedIn}>Stay Logged In</button>
                 </div>
-                </div>
-            <Routes>
-                <Route element={<PrivateRoutes />} >
-                    <Route path="/homepage" element={<HomePage />} />
-                </Route>
-                <Route path="/snoop" element={<Snoop />} />
-                <Route path="/wof" element={<WallOfFame />} />
-                <Route path="/" element={<SignUp />} />
-                <Route path="/login" element={<Login />} />
-            </Routes>
+            </div>
+            <div className="landscape-prompt">
+                <p>Please rotate your device to landscape mode to view the website.</p>
+            </div>
+            <div className="app-content">
+                <Routes>
+                    <Route element={<PrivateRoutes />} >
+                        <Route path="/homepage" element={<HomePage />} />
+                    </Route>
+                    <Route path="/snoop" element={<Snoop />} />
+                    <Route path="/wof" element={<WallOfFame />} />
+                    <Route path="/" element={<SignUp />} />
+                    <Route path="/login" element={<Login />} />
+                </Routes>
+            </div>
         </>
     );
 }

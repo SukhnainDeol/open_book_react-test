@@ -610,3 +610,39 @@ body {
     padding: 5px;
     background-color: var(--background-color);
 }
+
+/* Overlay for landscape mode prompt */
+.landscape-prompt {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 10000;
+  }
+
+.landscape-prompt.active {
+    display: flex;
+}
+
+.landscape-prompt .message {
+    font-size: 20px;
+    padding: 20px;
+    border: 2px solid white;
+    border-radius: 10px;
+}
+
+@media only screen and (max-width: 768px) and (orientation: portrait) {
+    .landscape-prompt {
+      display: block;
+    }
+  
+    .app-content, .page-title {
+      display: none;
+    }
+  }
