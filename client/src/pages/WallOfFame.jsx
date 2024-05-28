@@ -24,12 +24,9 @@ export function WallOfFame() {
                 response => {
                     response.data.forEach(currentEntry => {
 
-                        const didLike = currentEntry.likes.users.includes(user); // CHECKS TO SEE IF THE USER HAS LIKED THE POST
-                        const didDislike = currentEntry.dislikes.users.includes(user); // CHECKED TO SEE IF THE USER HAS DISLIKED THE POST
-
                         setLikedEntries((entries) => {
                             const text = currentEntry.text.split("\n"); // SPLITS UP PARAGRAPHS
-                                return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, didL: didLike, didD: didDislike }];
+                                return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count}];
                 });
                     });
                 }
@@ -43,12 +40,9 @@ export function WallOfFame() {
                 response => {
                     response.data.forEach(currentEntry => {
 
-                        const didLike = currentEntry.likes.users.includes(user); // CHECKS TO SEE IF THE USER HAS LIKED THE POST
-                        const didDislike = currentEntry.dislikes.users.includes(user); // CHECKED TO SEE IF THE USER HAS DISLIKED THE POST
-
                         setDislikedEntries((entries) => {
                             const text = currentEntry.text.split("\n"); // SPLITS UP PARAGRAPHS
-                                return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, didL: didLike, didD: didDislike }];
+                                return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count}];
                 });
                     });
                 }
@@ -59,14 +53,12 @@ export function WallOfFame() {
         }    
     }, [])
 
-
-
     return <>
     <div className = "wof-container">
 
-        <div className="liked-container">
+        <div className="liked-container" style={{justifySelf: "right"}}>
 
-            <h1 style={{"textAlign": "center"}}>Hall of Fame</h1>
+            <h1 style={{textAlign: "center"}}><u>Hall of Fame</u></h1>
             {likedEntries.map(entry => {
 
                 return <div className="entry-container" key={entry.id}>
@@ -84,12 +76,9 @@ export function WallOfFame() {
         </div>
         
         
-        <div className="entry-container"></div>
-        
-        
-        <div className="disliked-container">
+        <div className="disliked-container" style={{justifySelf: "left"}}>
 
-            <h1 style={{"textAlign": "center"}}>Hall of Shame</h1>
+            <h1 style={{"textAlign": "center"}}><u>Hall of Shame</u></h1>
             {dislikedEntries.map(entry => {
 
                 return <div className="entry-container" key={entry.id}>
