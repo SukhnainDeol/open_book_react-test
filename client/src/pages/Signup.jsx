@@ -84,7 +84,6 @@ export function SignUp() {
             <p className="ls-warning">Sample Warning Message</p>
             <p id="terms">By Creating an Account, You Agree To Our <Link to="#" onClick={() => { document.querySelector("#terms-conditions").style.display="block"; document.querySelector("#terms-conditions").scrollTop = 0}}>Terms & Conditions</Link>.</p>
             <button className="btn">Sign Up</button>
-            </form>
             <div id="terms-conditions">
                 <h2>Terms & Conditions</h2><br/>
                 <p>Ahoy! Currently, there be no "Terms & Conditions" for this vessel. This be a final project for Whatcom Community College's SD299 Capstone course. If ye lay anchor upon this site, be sure to follow <strong>"The Pirate's Code"</strong>.</p><br/>
@@ -101,5 +100,6 @@ export function SignUp() {
                 <p><em>PS: Our site uses two cookies to handle light/dark theme and user context that are created when you sign up/log in, and subsequently removes the context cookie when logging out and the theme cookie after 7 days (so by signing up/logging in you agree to the use of these cookies).</em></p><br/>
                 <button className="btn" onClick={() => { document.querySelector("#terms-conditions").style.display="none"; document.querySelector("#terms-conditions").scrollTop = 0}}>Close Terms & Conditions</button>
             </div>
+        </form>
     </>
    }

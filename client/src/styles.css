@@ -5,6 +5,18 @@
     font-family: Tahoma, Arial, Helvetica, sans-serif;
 }
 
+h2 {
+    font-size: 2.25vw;
+}
+
+h3 {
+    font-size: 2vw;
+}
+
+p {
+    font-size: 1.70vw;
+}
+
 .page-title {
     height: 65px;
 }
@@ -56,26 +68,21 @@
 
 /* HOME PAGE/SNOOP */
 
-nav {
-    position: fixed; /* position: absolute */
-    right: 0px;
-    top: 0px;
-    padding: 15px;
-    display: grid;
-    column-gap: 15px;
-}
-
 .nav-list {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    grid-template-columns: auto auto auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-color);
 }
 
 .nav-list li {
-    display: inline-block;
-    margin: 8px;
-    
+    flex: auto;
+    margin: 10px;
+    font-size: 16px;
 }
 
 .nav-list li a {
@@ -83,17 +90,22 @@ nav {
     color: black; 
 }
 
+.homepage-container {
+    display: flex;
+    margin: 10px 5px 5px 5px;
+    height: 91vh;
+}
+
 #middle-container {
     display: block;
     margin: 10px auto;
-    width: 625px;
+    width: 45%;
 }
 
 #entries-container { /* delete if needed */
     margin: auto;
     padding: 5px;
-    width: 600px;
-    height: 500px;
+    width: 100%;
 }
 
 .left-aside, .right-aside {
@@ -156,28 +168,31 @@ label {
     margin: auto;
     display: block;
     text-align: center;
-    width: auto;
+    width: 50%;
+    font-size: 2.25vw;
 }
 
 input {
     display: block;
     margin: 10px auto;
-    width: 250px;
+    width: 50%;
     border-radius: 5px;
     border: 2px solid black;
     background-color:#fdfdf3;
     padding: 5px;
+    font-size: 2vw;
 }
 
 textarea {
     display: block;
     margin: 10px auto;
-    width: 400px;
+    width: 75%;
     border-radius: 5px;
     border: 2px solid black;
     background-color: #fdfdf3;
     padding: 5px;
     resize: none;
+    font-size: 2vw;
 }
 
 input:focus,
@@ -187,18 +202,12 @@ textarea:focus {
 
 #entry-length {
     display: block;
-    width: 400px;
+    width: 75%;
     margin: auto;
-    font-size: 12px;
+    font-size: 2vw;
 }
 
-.homepage-container {
-    /*display: grid;
-    grid-template-columns: auto auto auto;
-    */
-    margin: 10px 5px 5px 5px;
-    height: 91vh;
-}
+/* WALL OF FAME STYLING */
 
 .wof {
     display: flex;
@@ -217,46 +226,73 @@ textarea:focus {
     font-size: 1.75vw;
 }
 
-.entry-container {
+/* SNOOP STYLING */
+
+.snoop {
     display: grid;
     grid-template-columns: 85% 15%;
     gap: 1%;
     margin: 10px auto;
     padding: 2px;
-    width: 600px;
+    width: 50vw;
     font-size: 14px;
 }
 
-.entry-container .entries, .wof-container .entries {
+.snoop .rating  {
+    padding: 10px;
+    text-align: center;
+}
+
+.snoop .rating  a {
+    color: inherit;
+}
+
+.snoop .like  {
+    font-size: 2vw;
+    color: lightgreen;
+}
+
+.snoop .dislike  {
+    font-size: 2vw;
+    color: lightcoral;
+}
+
+.snoop .like:hover,
+.snoop .dislike:hover {
+    font-weight: bolder;
+}
+
+.entry-container {
+    margin: 10px auto;
+    padding: 2px;
+    width: 100%;
+}
+
+.entries {
     margin: auto;
     border: 2px solid black;
     border-radius: 5px;
     background-color: #fdfdf3;
 }
 
-.entry-container .current-entry-title, .wof-container .current-entry-title {
+.current-entry-title {
     margin-top: 5px;
     text-align: center;
 }
 
-.entry-container .current-entry, .wof-container .current-entry {
+.current-entry {
     display: block;
     margin: 10px;
     text-align: center;
 }
 
-.entry-container .comment-section {
+.comment-section {
     text-align: center;
     width: 100%;
     height: auto;
 }
 
-.entry-container .comment-section h4 {
-    margin-top: 10px;
-    text-decoration-line: underline;
-}
-
-.entry-container .comment-container {
+.comment-container {
     text-align: center;
     display: grid;
     grid-template-columns: auto 15%;
@@ -264,7 +300,7 @@ textarea:focus {
     border-top: 2px solid;
 }
 
-.entry-container .no-comment {
+.no-comment {
     text-align: center;
     width: 100%;
     border-top: 2px solid;
@@ -272,13 +308,13 @@ textarea:focus {
     padding: 5px;
 }
 
-.entry-container .current-comment {
+.current-comment {
     margin: 5px auto;
     padding: 5px;
     width: 100%;
 }
 
-.entry-container img, .wof-container img {
+.entry-image {
     display: block;
     margin: 10px auto;
     border-top: 2px solid;
@@ -287,54 +323,33 @@ textarea:focus {
     height: auto;
 }
 
-.entry-container .cc, .wof-container .cc {
+.cc {
     font-weight: bold;
     text-align: center;
     margin-bottom: 10px;
 }
 
-.entry-container .cool, .wof-container .cool {
+.cool {
     color: lightgreen;
 }
-.entry-container .cringe, .wof-container .cringe {
+.cringe {
     color: lightcoral;
 }
 
-.entry-container .delete {
+.delete {
+    width: 100%;
+    padding: 5px;
+    font-size: 1.5vw;
     color: lightcoral;
     background-color: white;
     border: 2px red solid;
     border-radius: 5px;
 }
 
-.entry-container .delete:hover {
+.delete:hover {
     color: white;
     background-color: red;
     border: 2px red solid;
-}
-
-.entry-container .rating  {
-    padding: 10px;
-    text-align: center;
-}
-
-.entry-container .rating  a {
-    color: inherit;
-}
-
-.entry-container .like  {
-    font-size: 2vw;
-    color: lightgreen;
-}
-
-.entry-container .like:hover,
-.entry-container .dislike:hover {
-    font-weight: bolder;
-}
-
-.entry-container .dislike  {
-    font-size: 2vw;
-    color: lightcoral;
 }
 
 :root {
@@ -434,7 +449,7 @@ body {
     padding: 10px;
     border: 2px solid;
     border-radius: 5px;
-    width: 600px;
+    width: 50%;
     height: auto
 }
 
@@ -451,7 +466,20 @@ body {
 #terms {
     margin: auto;
     text-align: center;
-    width: 500px;
+    width: 100%;
+    font-size: 2.25vw;
+}
+
+#terms-conditions {
+    display: none;
+    width: 100%;
+    height: 25vh;
+    overflow-y: auto; 
+    text-align: center;
+    border: 2px solid;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: var(--background-color);
 }
 
 /* STYLING FOR THE HAMBURGER MENU */
@@ -517,7 +545,7 @@ body {
     right: 10px;
     padding: 10px;
     text-align: center;
-    width: 33%;
+    width: 25%;
     height: 90%;
     border: 2px black solid;
     border-radius: 5px;
@@ -607,21 +635,6 @@ body {
     color: #fff;
 }
 
-#terms-conditions {
-    position: fixed;
-    display: none;
-    top: 25%;
-    left: 30%;
-    width: 600px;
-    height: 200px;
-    overflow-y: auto; 
-    text-align: center;
-    border: 2px solid;
-    border-radius: 5px;
-    padding: 5px;
-    background-color: var(--background-color);
-}
-
 /* Overlay for landscape mode prompt */
 .landscape-prompt {
     display: none;
@@ -649,11 +662,47 @@ body {
 }
 
 @media only screen and (max-width: 768px) and (orientation: portrait) {
+    /*
     .landscape-prompt {
       display: block;
     }
+    */
   
+    /*
     .app-content, .page-title {
       display: none;
+    }
+    */
+
+    .nav-list {
+        flex-direction: column;
+        border: 2px solid;
+        border-radius: 5px;
+    }
+
+    .nav-list li {
+        flex: auto;
+        margin: 5px;
+        font-size: 14px;
+    }
+
+    .left-aside, .right-aside {
+        display: none;
+    }
+
+    #middle-container {
+        width: 95%;
+    }
+
+    h2 {
+        font-size: 3vw;
+    }
+
+    h3 {
+        font-size: 2.5vw;
+    }
+    
+     p {
+        font-size: 2.25vw;
     }
   }
