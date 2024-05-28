@@ -212,10 +212,10 @@ export function HomePage() {
                             return (
                                 <div className="entry-container" key={entry.id}>
                                     <div className="entries">
-                                        <h4 className="current-entry-title">{entry.title}</h4>
-                                        <h4 className="current-entry-title">Posted on {moment(entry.date).format('lll')}</h4>
+                                        <h2 className="current-entry-title">{entry.title}</h2>
+                                        <h3 className="current-entry-title">Posted on {moment(entry.date).format('lll')}</h3>
                                         {
-                                            entry.imageURL ? <img src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS
+                                            entry.imageURL ? <img  className="entry-image" src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS
                                         }
                                         { entry.entry.map((paragraph, index) => { return ( <p className="current-entry" key={"p" + index}>{paragraph}</p>);})}
                                         <p className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></p>
@@ -227,8 +227,8 @@ export function HomePage() {
                                                 </div>
                                             );}) : <p className="no-comment">There Are No Comments On This Post</p> 
                                         }
+                                        <button className="delete" onClick={() => deleteEntry(entry.id)}>Delete Post</button>
                                     </div>
-                                    <button className="delete" onClick={() => deleteEntry(entry.id)}>Delete</button>
                                 </div>
                             );
                         })}

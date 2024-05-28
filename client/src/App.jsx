@@ -116,7 +116,7 @@ function App() {
                             {user && pName !== "/homepage" ? <li><Link to="/homepage" onClick={() => setMenuOpen(false)}>Home</Link></li> : ""}
                             {pName !== "/snoop" ? <li><Link to="/snoop" onClick={() => setMenuOpen(false)}>Snoop</Link></li> : ""}
                             {pName !== "/wof" ? <li><Link to="/wof" onClick={() => setMenuOpen(false)} >Wall Of Fame</Link></li>: ""}
-                            {user ? <li><Settings /></li> : <li><ToggleTheme /></li>}
+                            {user ? <li><Settings /></li> : <li><Link to="#"><ToggleTheme /></Link></li>}
                             {user ? <li><Link to="/login" onClick={(e) => {setMenuOpen(false); handleLogOut(e);}}>Log Out</Link></li> : <li><Link to="/login" onClick={() => setMenuOpen(false)}>Log In</Link></li>}
                         </ul>
                     </nav>

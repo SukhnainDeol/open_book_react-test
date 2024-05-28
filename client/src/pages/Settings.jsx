@@ -121,10 +121,10 @@ export function Settings() {
     return (<>
         <span className="nav-link"><Link to="#" onClick={() => {{Reset(true), setViz(!viz)}}}>Settings</Link></span>
         <div id="settings-menu">
-            <h4>Change Display: </h4>
+            <h3>Change Display: </h3>
             <button className="btn"><ToggleTheme /></button>
             <form onSubmit={(e) => {changepass(e)}}>
-                <h4>Change Password:</h4><br/>
+                <h3>Change Password:</h3><br/>
                 <label>Old Password:</label>
                 <input type="password" value={oldPass} onChange={e => setOldPass(e.target.value)} maxLength={15} />
                 <label>New Password:</label>
