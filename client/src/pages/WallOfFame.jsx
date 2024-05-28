@@ -62,7 +62,7 @@ export function WallOfFame() {
             {likedEntries.map(entry => {
 
                 return <div className="entry-container" key={entry.id}>
-                    <div className="entries">
+                    <div className="entries" style={{width: "600px"}}>
                         <h4 className="current-entry-title">{entry.title}</h4>
                         <h4 className="current-entry-title">Posted on {moment(entry.date).format('lll')}</h4>
                         {
@@ -82,7 +82,7 @@ export function WallOfFame() {
             {dislikedEntries.map(entry => {
 
                 return <div className="entry-container" key={entry.id}>
-                    <div className="entries">
+                    <div className="entries" style={{width: "600px"}}>
                         <h4 className="current-entry-title">{entry.title}</h4>
                         <h4 className="current-entry-title">Posted on {moment(entry.date).format('lll')}</h4>
                         {
