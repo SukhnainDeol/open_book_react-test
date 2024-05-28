@@ -51,7 +51,7 @@ export function HomePage() {
     }, [])
 
     useEffect(() => {
-        const intervalId = setInterval(promptNext, 10000); // calls promptNext every 10 seconds
+        const intervalId = setInterval(promptNext, 15000); // calls promptNext every 10 seconds
 
             return () => {
                 clearInterval(intervalId); // clears the interval after unmount or useEffect dependancies change for cleanup purposes
@@ -137,35 +137,23 @@ export function HomePage() {
     const leftPromptsList = new LinkedList();
 
     //sample left prompts
-    leftPromptsList.insert("Write something about yourself...");
-    leftPromptsList.insert("What is a childhood memory that stands out to you?");
-    leftPromptsList.insert("What are some of your goals?");
-    leftPromptsList.insert("What is your biggest fear?");
-    leftPromptsList.insert("Write a letter to your future self...");
-    leftPromptsList.insert("If you could have any superpower, what would it be?");
-    leftPromptsList.insert("What are your favorite and least favorite foods?");
-    leftPromptsList.insert("Create a fake conspiracy theory...");
-    leftPromptsList.insert("If you could travel anywhere in the world, where would it be and why?");
-    leftPromptsList.insert("Write about your dream career...");
-    leftPromptsList.insert("You have been elected the leader of your country, what is the first thing you do?");
-    leftPromptsList.insert("What is the most embarrasing thing that has ever happened to you?");
+    leftPromptsList.insert("What is a childhood memory that stands out to you... like your favorite flavor of paint chips or how you used to collect old toe nails in a jar.");
+    leftPromptsList.insert("Write about one of your favorite hobbies... just so we're clear, bingeing Netflix ISN'T a hobby.");
+    leftPromptsList.insert("Imagine you were trapped inside of this website, forced to write nonsense prompts. How would you escape? I'm serious.");
+    leftPromptsList.insert("If you could have any superpower, what would it be? ...Like the power to open cans without a can opener or leaving a trail of mucus while you walk like a slug.");
+    leftPromptsList.insert("Create a fake conspiracy theory...like the flat earth conspiracy was made to distract people from the fact that the earth is actually donut shaped.");
+    leftPromptsList.insert("You have been elected the leader of your country, what is the first thing you do? Declare a new holiday? Lower taxes? Raise taxes? Nuclear war?");
 
     // initialize new linked list for right
     const rightPromptsList = new LinkedList();
 
     //right sample prompts
-    rightPromptsList.insert("Describe a dream you had recently...");
-    rightPromptsList.insert("Write a poem or short story...");
-    rightPromptsList.insert("How do you unwind after a busy day?");
-    rightPromptsList.insert("What is the funniest thing that has ever happened to you?");
-    rightPromptsList.insert("What are three things you are grateful for?");
-    rightPromptsList.insert("Reflect on a recent accomplishment...");
-    rightPromptsList.insert("What are you most passionate about?");
-    rightPromptsList.insert("What are some of your guilty pleasures?");
-    rightPromptsList.insert("What person made the biggest impact on your life and why?");
-    rightPromptsList.insert("What is the biggest challenge you have overcome?");
-    rightPromptsList.insert("What are three things you'd like the change about yourself?");
-    rightPromptsList.insert("What does a perfect day look like to you?");
+    rightPromptsList.insert("Describe a dream you had recently... or describe that nightmare where you're running from an army of cannibal clowns, you're late for your driving test, and when you look down you aren't wearing pants.");
+    rightPromptsList.insert("Answer an age-old question like \"could you beat a lion in a fist fight?\"... I mean, obviously yes. Lions can't make fists.");
+    rightPromptsList.insert("Write about your dream career... Then make a list of ACTIONABLE steps that you can take to make your dreams a reality.");
+    rightPromptsList.insert("What are three things you'd like the change about yourself? I know, this prompt is intense, right?");
+    rightPromptsList.insert("Describe your most embarrassing moment in excruciating detail... and don't hold back on the cringe.");
+    rightPromptsList.insert("Write a eulogy for your favorite pair of socks... because they've been through a lot, okay?")
 
     // gets the current prompts for the asides
     const [currentPrompts, setCurrentPrompts] = useState({

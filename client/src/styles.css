@@ -137,7 +137,7 @@ p {
 
 /* sample text for asides*/
 .sample-text {
-    animation: floatInOut 10s infinite;
+    animation: floatInOut 15s infinite;
     white-space: normal;
     word-wrap: break-word;
     overflow: hidden;
@@ -151,13 +151,13 @@ p {
     0% {
         transform: translateX(-100%); /* starts at left of aside*/
     }
-    35% {
+    25% {
         transform: translateX(0%); /* float to the middle */
     }
-    65% {
+    50% {
         transform: translateX(0%); /* holds in the middle */
     }
-    85% {
+    75% {
         transform: translateX(100%); /* floats off screen to the right */
     }
     100% {
