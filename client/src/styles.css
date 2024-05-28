@@ -203,7 +203,7 @@ textarea:focus {
 .wof-container {
     display: grid;
     grid-template-columns: auto auto;
-    gap: 5%;
+    gap: 10%;
 }
 
 .entry-container {
