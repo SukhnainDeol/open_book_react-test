@@ -3,23 +3,6 @@ const Post = require('../models/post.model');
 const User = require('../models/user.model');
 
 
-// todo
-    // password encryption / hashing
-    // test requests
-    // security checks
-    // hosting
-    // request
-        // random user
-        // user's post
-    // validaters
-        // likes / dislikes >= 0
-            // likes count == users.count
-            // users cant like & dislike same post
-        // no space in author name
-        // text and title less than max
-        // arrays are strings
-
-
 // GET REQUEST FOR MOST RECENT USER POST
 router.route('/username-recent').get(async (request, response) => {
     try {
@@ -53,7 +36,7 @@ router.route('/random').get(async (request, response) => {
 router.route('/username').get(async (request, response) => {
     try {
         const author = request.query.author;
-        const posts = await Post.find({author: {$eq: author}});
+        const posts = await Post.find({author: {$eq: author}}).sort({"createdAt": 1});
         response.setHeader('Content-Type', 'application/json');
         return response.status(200).json(posts);
     } catch (error) {
@@ -93,13 +76,7 @@ router.route('/id').get(async (request, response) => {
 router.route('/liked').get(async (request, response) => {
     try {
         
-        let mostLiked = await Post.find({
-            "date": 
-            {
-                // greater than date of (right now - 1 day)
-                $gte: new Date (new Date().getTime() - (24 * 60 * 60 * 1000)),
-            }
-        }).limit(10).sort({ "likes.count": -1}); // sort by most likes first
+        let mostLiked = await Post.find({}).limit(10).sort({ "likes.count": -1}); // sort by most likes first
        
         return response.status(200).json(mostLiked);
     } catch (error) {
@@ -113,13 +90,7 @@ router.route('/liked').get(async (request, response) => {
 router.route('/disliked').get(async (request, response) => {
     try {
         
-        let mostDisliked = await Post.findOne({
-            "date": 
-            {
-                // greater than date of (right now - 1 day)
-                $gte: new Date (new Date().getTime() - (24 * 60 * 60 * 1000))
-            }
-        }).limit(10).sort({ "dislikes.count": -1}); // sort by most dislikes first
+        let mostDisliked = await Post.find({}).limit(10).sort({ "dislikes.count": -1}); // sort by most dislikes first
        
         return response.status(200).json(mostDisliked);
     } catch (error) {
@@ -139,7 +110,7 @@ router.route('/').post(async (request, response) => {
             request.body.author && request.body.title && request.body.text && request.body.date 
         )) {
             return response.status(400).send({
-                message: "Author, Title, Text, Date, Likes Count, and Dislikes Count fields are required",
+                message: "Author, Title, Text, Date and fields are required",
             });
         }
         
@@ -315,166 +286,67 @@ router.route('/id').delete(async (request, response) => {
     }
 })
 
-
-// GET REPLY REQUESTS
-router.route('/id').get(async (request, response) => {
+// COMMENT PATCH REQUEST TO PUSH NEW COMMENT
+router.route('/remove-comment').patch(async (request, response) => {
     try {
-        // get replies from specific post & and return them
-        const replies = await Post.find({_id: request.query.id}).select("replies -_id");
-        response.setHeader('Content-Type', 'application/json');
-        return response.status(200).json(replies);
-    } catch (error) {
-        console.log("ERROR:", error.message);
-        response.status(500).send({message: error.message});
-    }
-})
-
-
-// POST REPLY REQUESTS
-router.route('/id').post(async (request, response) => {
-    try {
-        // check if required fields are filled
-        if (!(
-            request.body.author && request.body.text && request.body.date 
-        )) {
-            return response.status(400).send({
-                message: "Author, Text, and Date fields are required",
-            });
-        }
         
-        // create new reply
-        const newReply = {
-            author: request.body.author,
-            text: request.body.text,
-            date: request.body.date,
-        }
+        // edit post 
+        const id = request.body.id;
+        const username = request.body.username;
 
-        // add reply
-        const id = request.query.id;
-        const post = await Post.findByIdAndUpdate(id, { $push: { replies: newReply } });
-
-        // not found Response
-        if (!post) {
-            return response.status(404).send({message: "Post not found"});
-        }
-        
-        return response.status(201).send({message: "Reply Created Successfully"});
-    } catch (error) {
-        console.log("ERROR:", error.message);
-        response.status(500).send({message: error.message});
-    }
-})
-
-
-
-
-// PUT REPLY REQUESTS
-router.route('/reply').put(async (request, response) => {
-    try {
-        // check if required fields are filled
-        if (!(
-            request.body.author && request.body.text && request.body.date 
-        )) {
-            return response.status(400).send({
-                message: "Author, Text, and Date fields are required",
-            });
-        }
-        
-        // find post & its reply then update
-        const postId = request.query.id;
-        const replyId = request.query.replyId;
-        const post = await Post.findOneAndUpdate(
-            { _id: postId, "replies._id": replyId}, // get specific reply in post
+        const post = await Post.updateOne(
+            { _id: id}, // FINDS THE POST BY ID
             {
-                $set: { // update reply
-                    "replies.$.author": request.body.author,
-                    "replies.$.text": request.body.text,
-                    "replies.$.date": request.body.date,
-                },
+                $pull: { comments: { author: username }} 
             },
-            {
-                new: true,
-            }
         );
 
         // not found Response
         if (!post) {
             return response.status(404).send({message: "Post not found"});
         }
-        
-        return response.status(201).send({message: "Reply Updated Successfully"});
+
+        // success Response
+        return response.status(200).send({message: "Your Comment Has Been Removed Successfully"});
     } catch (error) {
         console.log("ERROR:", error.message);
         response.status(500).send({message: error.message});
     }
 })
 
-
-
-
-// PATCH REPLY REQUESTS
-// patch reply text
-router.route('/reply/text').patch(async (request, response) => {
+// COMMENT PATCH REQUEST TO PUSH NEW COMMENT
+router.route('/add-comment').patch(async (request, response) => {
     try {
-        // check if required fields are filled
-        if (!(request.body.text)) {
-            return response.status(400).send({
-                message: "Text field is required",
-            });
-        }
         
-        // find post & its reply then update
-        const postId = request.query.id;
-        const replyId = request.query.replyId;
-        const post = await Post.findOneAndUpdate(
-            { _id: postId, "replies._id": replyId}, // get specific reply in post
+        // edit post 
+        const id = request.body.id;
+        const comment = request.body.comment;
+        const username = request.body.username;
+
+        const post = await Post.updateOne(
+            { _id: id}, // FINDS THE POST BY ID
             {
-                $set: { // update reply
-                    "replies.$.text": request.body.text,
-                },
+                $push: {
+                    comments: {
+                        author: username,
+                        comment: comment
+                    }
+                } 
             },
-            {
-                new: true,
-            }
         );
 
         // not found Response
         if (!post) {
             return response.status(404).send({message: "Post not found"});
         }
-        
-        return response.status(201).send({message: "Reply Updated Successfully"});
+
+        // success Response
+        return response.status(200).send({message: "Your Comment Has Been Added Successfully"});
     } catch (error) {
         console.log("ERROR:", error.message);
         response.status(500).send({message: error.message});
     }
 })
-
-
-
-
-// DELETE REPLY REQUESTS
-router.route('/reply').delete(async (request, response) => {
-    try {
-        // find post & delete reply
-        const postId = request.query.id;
-        const replyId = request.query.replyId;
-        // Pulls specific reply from specific post
-        const post = await Post.findOneAndUpdate({ _id: postId }, { $pull: { replies: { _id: replyId }} });
-
-        // not found Response
-        if (!post) {
-            return response.status(404).send({message: "Post not found"});
-        }
-        
-        return response.status(201).send({message: "Reply Deleted Successfully"});
-    } catch (error) {
-        console.log("ERROR:", error.message);
-        response.status(500).send({message: error.message});
-    }
-})
-
-
 
 
 module.exports = router

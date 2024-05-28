@@ -1,24 +1,5 @@
 const mongoose = require('mongoose')
 
-const replySchema = mongoose.Schema(
-    {
-        author : {
-            type: String,
-            required: true,
-        },
-        text : {
-            type: String,
-            required: true,
-        },
-        date : {
-            type: Date,
-            required: true,
-        },
-    }, {
-        timestamps: true
-    }
-);
-
 const postSchema = mongoose.Schema(
     {
         author : {
@@ -28,6 +9,10 @@ const postSchema = mongoose.Schema(
         title : {
             type: String,
             required: true,
+        },
+        imageURL : {
+            type: String,
+            required: false,
         },
         text : {
             type: String,
@@ -58,7 +43,16 @@ const postSchema = mongoose.Schema(
                 default: [],
             },
         },
-        replies: [replySchema],
+        comments: [{
+            author : {
+                type: String,
+                required: true,
+            },
+            comment : {
+                type: String,
+                required: true,
+            },
+        }],
     }, {
         timestamps: true
     }

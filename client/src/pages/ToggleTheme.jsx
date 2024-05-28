@@ -7,11 +7,11 @@ export function ToggleTheme() {
     function toggleTheme() {
         setIsDarkMode((prevMode) => !prevMode);
         if (!isDarkMode) {
-            Cookies.set('theme', true, { expires: 7 }); // SETS COOKIE TRUE
+            Cookies.set('theme', true, { expires: 7, sameSite:'strict' }); // SETS COOKIE TRUE
             document.documentElement.classList.add("dark-theme");
             document.documentElement.classList.remove("light-theme");
         } else {
-            Cookies.set('theme', false, { expires: 7 }); // SETS COOKIE FALSE
+            Cookies.set('theme', false, { expires: 7, sameSite:'strict' }); // SETS COOKIE FALSE
             document.documentElement.classList.add("light-theme");
             document.documentElement.classList.remove("dark-theme");
         }

@@ -60,7 +60,7 @@ export function SignUp() {
             response => {
 
                 axios.post('http://localhost:5000/users/', {username: username, password: response.data}).then( response => { // MAKES PASSWORD THE NEW ENCRYPTED PASSWORD
-                Cookies.set("username", username, { expires: 7 });
+                Cookies.set("username", username, { sameSite:'strict' });
                 navigate('/homepage'); // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
                 }).catch(error => {
                 console.log(error.message)
@@ -82,8 +82,24 @@ export function SignUp() {
             <label>Confirm Password</label>
             <input type="password" value={conPassword} onChange={e => setConPassword(e.target.value)} maxLength={15} />
             <p className="ls-warning">Sample Warning Message</p>
-            <p id="terms">By Creating an Account, You Agree To Our <Link to="#" onClick={() => alert("Currently There Are No Terms & Conditions")}>Terms & Conditions</Link>.</p>
+            <p id="terms">By Creating an Account, You Agree To Our <Link to="#" onClick={() => { document.querySelector("#terms-conditions").style.display="block"; document.querySelector("#terms-conditions").scrollTop = 0}}>Terms & Conditions</Link>.</p>
             <button className="btn">Sign Up</button>
             </form>
+            <div id="terms-conditions">
+                <h2>Terms & Conditions</h2><br/>
+                <p>Ahoy! Currently, there be no "Terms & Conditions" for this vessel. This be a final project for Whatcom Community College's SD299 Capstone course. If ye lay anchor upon this site, be sure to follow <strong>"The Pirate's Code"</strong>.</p><br/>
+                <h3>The Pirate's Code:</h3><br/>
+                <em>
+                <p><strong>Rule #1 of "The Pirate's Code":</strong> Never Make Another Pirate Cry.</p>
+                <p><strong>Rule #2 of "The Pirate's Code":</strong> No Naughty Words.</p>
+                <p><strong>Rule #3 of "The Pirate's Code":</strong> Bedtime at 8 O'Clock.</p>
+                <p><strong>Rule #4 of "The Pirate's Code":</strong> Never Talk to Strangers.</p>
+                <p><strong>Rule #5 of "The Pirate's Code":</strong> Sharing is Caring.</p>
+                <p><strong>Rule #6 of "The Pirate's Code":</strong> Always Remember to Have Fun!</p>
+                </em><br/>
+                <p>Now Sign Up and Join Our Crew!</p><br/>
+                <p><em>PS: Our site uses two cookies to handle light/dark theme and user context that are created when you sign up/log in, and subsequently removes the context cookie when logging out and the theme cookie after 7 days (so by signing up/logging in you agree to the use of these cookies).</em></p><br/>
+                <button className="btn" onClick={() => { document.querySelector("#terms-conditions").style.display="none"; document.querySelector("#terms-conditions").scrollTop = 0}}>Close Terms & Conditions</button>
+            </div>
     </>
    }

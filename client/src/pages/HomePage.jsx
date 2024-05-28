@@ -15,6 +15,7 @@ export function HomePage() {
 
     const [newTitle, setNewTitle] = useState("");
     const [newEntry, setNewEntry] = useState("");
+    const [newImageURL, setNewImageURL] = useState("");
     const [entries, setEntries] = useState([]);
     const [entryLength, setEntryLength]= useState(0);
     const currentDate = moment().format('lll');
@@ -34,7 +35,8 @@ export function HomePage() {
                 response => {
                     response.data.forEach(currentEntry => {
                             setEntries((entries) => {
-                                return [...entries, { id: currentEntry._id, title: currentEntry.title, entry: currentEntry.text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count }];
+                                const text = currentEntry.text.split("\n"); // SPLITS UP PARAGRAPHS
+                                return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, comments: currentEntry.comments }];
                         });
                     });
                 }
@@ -63,6 +65,7 @@ export function HomePage() {
 
         axios.post('http://localhost:5000/posts/', { // MAKE A NEW POST
         author: user,
+        imageURL: newImageURL,
         title: newTitle,
         text: newEntry,
         date: currentDate
@@ -71,16 +74,18 @@ export function HomePage() {
                 console.log(response.data);
                 axios.get('http://localhost:5000/posts/username-recent', { // GRABS THE POST WE JUST MADE TO THE DATABASE
                     params: {
-                    author: user, // SPECIFIC SEARCH FOR RANDOM USER
+                    author: user, // SPECIFIC SEARCH FOR USER
                 } 
                 }).then(
                     response => {
                         setEntries((currentEntries) => { // RENDERS NEW POST ON THE SCREEN
-                            return [...currentEntries, { id: response.data[0]._id, title: response.data[0].title, entry: response.data[0].text, date: response.data[0].date, L: response.data[0].likes.count, D: response.data[0].dislikes.count }];
+                            const text = response.data[0].text.split("\n"); // SPLITS UP PARAGRAPHS
+                            return [...currentEntries, { id: response.data[0]._id, title: response.data[0].title, imageURL: response.data[0].imageURL, entry: text, date: response.data[0].date, L: response.data[0].likes.count, D: response.data[0].dislikes.count, comments: response.data[0].comments }];
                          });
 
                         setNewTitle("");
                         setNewEntry("");
+                        setNewImageURL("");
                         setEntryLength(0);
                 }).catch(error => {
                 console.log(error.message);
@@ -105,6 +110,26 @@ export function HomePage() {
         ).catch(error => {
             console.log(error.message);
                 return;
+        })
+    }
+
+    function handleCommentDelete(id, author) {
+
+        axios.patch('http://localhost:5000/posts/remove-comment',{ id: id, username: author }) // CALL TO REMOVE EXISTING COMMENT FROM USER
+        .catch(error => {
+            console.log(error.message);
+            return;
+        }).then(response => {
+            console.log(response.data);
+            // RENDER COMMENTS ON THE SCREEN
+            const newArray = entries.map((entry) => {
+                if (id === entry.id){ // UPDATES USESTATE BASED ON WHICH ACTIONS WERE TAKEN IN THE DATABASE
+                    let newComments = entry.comments.filter(function(com) {return com.author !== author;}); // FILTERS OUT OLD COMMENT
+                    entry.comments = newComments; // 
+                }
+                return entry;
+            });
+            setEntries(newArray);
         })
     }
 
@@ -169,23 +194,40 @@ export function HomePage() {
                         <input type="text" id="title"
                             value={newTitle}
                             onChange={e => setNewTitle(e.target.value)}
-                         maxLength={25} required/>
+                         maxLength={30} required/>
+                         <label htmlFor="image">Image URL (Optional)</label>
+                        <input type="text" id="image"
+                            value={newImageURL}
+                            onChange={e => setNewImageURL(e.target.value)}
+                         maxLength={500} />
                         <label htmlFor="entry">Entry Content</label>
                         <textarea cols="50" rows="5"
-                            value={newEntry} maxLength={1000}
+                            value={newEntry} maxLength={10000}
                             onChange={e => { setNewEntry(e.target.value); setEntryLength(e.target.value.length) }} required></textarea>
-                            <p id="entry-length">Character Limit: {entryLength}/1000</p>
+                            <p id="entry-length">Character Limit: {entryLength}/10000</p>
                         <button id="post-entry" className="btn">Post Journal Entry</button>
                     </form>
                     <div id="entries-container">
                         {entries.toReversed().map((entry) => {
                             return (
                                 <div className="entry-container" key={entry.id}>
-                                    <p className="entries">
-                                        <span className="current-entry-title">{entry.title} ({moment(entry.date).format('lll')}):</span>
-                                        <span className="current-entry">{entry.entry}</span>
-                                        <span className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></span>
-                                    </p>
+                                    <div className="entries">
+                                        <h4 className="current-entry-title">{entry.title}</h4>
+                                        <h4 className="current-entry-title">Posted on {moment(entry.date).format('lll')}</h4>
+                                        {
+                                            entry.imageURL ? <img src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS
+                                        }
+                                        { entry.entry.map((paragraph, index) => { return ( <p className="current-entry" key={"p" + index}>{paragraph}</p>);})}
+                                        <p className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></p>
+                                        { 
+                                            entry.comments.length > 0 ? entry.comments.toReversed().map((comment, index) => { return ( 
+                                                <div className="comment-container" key={"c" + index}>
+                                                    <p className="current-comment">{comment.comment}</p> 
+                                                    <button className="delete" style={{justifySelf: "start", margin: "5px", padding: "5px"}} onClick={()=>{handleCommentDelete(entry.id, comment.author)}}>Delete</button>
+                                                </div>
+                                            );}) : <p className="no-comment">There Are No Comments On This Post</p> 
+                                        }
+                                    </div>
                                     <button className="delete" onClick={() => deleteEntry(entry.id)}>Delete</button>
                                 </div>
                             );

@@ -22,7 +22,6 @@ export function Snoop() {
             response => {
                 console.log(response.data);
                 const username = response.data[0].author; // USERNAME VARIABLE FOR RANDOM USER
-                console.log("USERNAME: " + username);
 
                 axios.get('http://localhost:5000/posts/username', { // PULL THEIR POSTS
                 params: {
@@ -36,7 +35,8 @@ export function Snoop() {
                             const didDislike = currentEntry.dislikes.users.includes(user); // CHECKED TO SEE IF THE USER HAS DISLIKED THE POST
 
                             setEntries((entries) => {
-                                    return [...entries, { id: currentEntry._id, title: currentEntry.title, entry: currentEntry.text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, didL: didLike, didD: didDislike }];
+                                const text = currentEntry.text.split("\n"); // SPLITS UP PARAGRAPHS
+                                    return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, didL: didLike, didD: didDislike, comments: currentEntry.comments }];
                             });
                         });
                     }
@@ -208,22 +208,89 @@ export function Snoop() {
           setEntries(newArray);
     }
 
+    function handleAddComment(e, comment, id) {
+        e.preventDefault();
+        const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
+
+        if(comment.length === 0) { // IF THE COMMENT IS AN EMPTY STRING, DO NOTHING
+            console.log("EMPTY STRING");
+            return;
+        }
+
+        axios.patch('http://localhost:5000/posts/remove-comment',{ id: id, username: user }) // CALL TO REMOVE EXISTING COMMENT FROM USER
+        .catch(error => {
+            console.log(error.message);
+            return;
+        }).then(response => {
+            axios.patch('http://localhost:5000/posts/add-comment',{ id: id, comment: comment, username: user }) // CALL TO ADD NEW COMMENT
+            .catch(error => {
+                console.log(error.message);
+                return;
+             }).then(response => {
+            // RENDER COMMENTS ON THE SCREEN
+                const newArray = entries.map((entry) => {
+                if (id === entry.id){ // UPDATES USESTATE BASED ON WHICH ACTIONS WERE TAKEN IN THE DATABASE
+                    let newComments = entry.comments.filter(function(com) {return com.author !== user;}); // FILTERS OUT OLD COMMENT
+                    newComments.push({author: user, comment: comment});  // ADDS NEW COMMENT
+                    entry.comments = newComments; // 
+                }
+                return entry;
+                });
+                setEntries(newArray);
+            })
+        })
+    }
+
+    function handleCommentDelete(id) {
+
+        axios.patch('http://localhost:5000/posts/remove-comment',{ id: id, username: user }) // CALL TO REMOVE EXISTING COMMENT FROM USER
+        .catch(error => {
+            console.log(error.message);
+            return;
+        }).then(response => {
+            // RENDER COMMENTS ON THE SCREEN
+            const newArray = entries.map((entry) => {
+                if (id === entry.id){ // UPDATES USESTATE BASED ON WHICH ACTIONS WERE TAKEN IN THE DATABASE
+                    let newComments = entry.comments.filter(function(com) {return com.author !== user;}); // FILTERS OUT OLD COMMENT
+                    entry.comments = newComments; // 
+                }
+                return entry;
+            });
+            setEntries(newArray);
+        })
+    }
 
     return <>
-        <div className = "homepage-container">
-        <aside className="left-aside">
-            <p className="sample-text">Left Aside Content</p>
-        </aside>
-        <div>
 
-    {entries.reverse().map(entry => {
+    {entries.toReversed().map(entry => {
 
         return <div className="entry-container" key={entry.id}>
-            <p className="entries">
-                <span className="current-entry-title">{entry.title} ({moment(entry.date).format('lll')}):</span>
-                <span className="current-entry">{entry.entry}</span>
-                <span className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></span>
-            </p>
+            <div className="entries" style={{width: "650px"}}>
+                <h4 className="current-entry-title">{entry.title}</h4>
+                <h4 className="current-entry-title">Posted on {moment(entry.date).format('lll')}</h4>
+                {
+                    entry.imageURL ? <img src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS.
+                }
+                { entry.entry.map((paragraph, index) => { return ( <p className="current-entry" key={index}>{paragraph}</p>);})}
+                <p className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></p>
+                <div className="comment-section">
+                    { user ? <form onSubmit={(e)=>{handleAddComment(e, e.target.children[0].value, entry.id); e.target.children[0].value = "";}}>
+                                <textarea placeholder="[ Comment on This Post ]" style={{ margin: "10px auto", padding: "5px", width: "80%"}} maxLength={100}></textarea>
+                                <button className="btn">Post Comment</button>
+                            </form> : ""
+                    }
+                    { 
+                    entry.comments.length > 0 ? entry.comments.toReversed().map((comment, index) => { return (
+                        <div className="comment-container" key={"c" + index}>
+                            <p className="current-comment">{comment.comment}</p> 
+                            {
+                                comment.author === user ? <button className="delete" style={{justifySelf: "start", margin: "5px", padding: "5px"}} onClick={()=>{handleCommentDelete(entry.id)}}>Delete</button> : ""
+                            }
+                        </div>);}) 
+                    : <p className="no-comment">There Are No Comments On This Post</p> 
+                    }
+                </div>
+            </div>
                 <div className="rating">
                     { 
                     user ? <p className="like" style={ entry.didL ? {color: "lightgreen"} : {color: "inherit"}} onClick={(e)=>{addLikeDislike(e, entry.id, true)}}><a href="#">cool</a></p> : ""
@@ -234,11 +301,5 @@ export function Snoop() {
                 </div>
         </div>
     })}
-    <br></br>
-    </div>
-    <aside className="right-aside">
-        <p className="sample-text">Right Aside Content</p>
-    </aside>
-    </div>
     </>
    }

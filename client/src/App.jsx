@@ -4,6 +4,7 @@ import { SignUp } from "./pages/Signup.jsx";
 import { Login } from "./pages/Login.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import { Snoop } from "./pages/Snoop.jsx";
+import { WallOfFame } from "./pages/WallOfFame.jsx";
 import Cookies from 'js-cookie';
 import "./styles.css";
 import book from './assets/book.png'; // BOOK IMAGE FOR HEADER
@@ -19,7 +20,7 @@ function App() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [showWarning, setShowWarning] = useState(false); // initally sets show warning to false
     const logoutTimer = useRef(null); // COUNT DOWN INTERVAL FOR LOG IN SCREEN
-    const timer = useRef((30)); // AMOUNT OF TIME A USER IS ALLOWED TO BE IDLE 14.5 MINUTES
+    const timer = useRef((60 * 14.5)); // AMOUNT OF TIME A USER IS ALLOWED TO BE IDLE 14.5 MINUTES
     const countdown = useRef(30); // COUNT DOWN UNTIL LOGGED OUT
 
     useEffect(() => {
@@ -28,8 +29,7 @@ function App() {
         
         if (user) {
             timer.current = timer.current - 1;
-            console.log("TIME UNTIL LOGOUT: " + timer.current);
-            console.log("STATUS OF SHOW WARNING: " + showWarning);
+            //console.log("TIME UNTIL LOGOUT: " + timer.current);
             if(timer.current === 0) {
                 setShowWarning(true);
                 countdown.current = 30;
@@ -38,12 +38,7 @@ function App() {
                     countdown.current = countdown.current -1;
                     document.querySelector(".warning-box-span").innerText = countdown.current;
                     if(countdown.current === -1) {
-                        axios.patch('http://localhost:5000/users/loggedin', { username: user, loggedIn: false }).then(() => {
-                            Cookies.remove("username");
-                            navigate('/');
-                            clearInterval(logoutTimer);
-                            clearLogoutTimer();
-                        }).catch(error => console.log(error.message));
+                        handleIdleLogOut();
                     }
                     }, 1000); // 30 seconds to respond
                 }       
@@ -52,7 +47,7 @@ function App() {
     }, []);
 
     const updateTime = () => { // UPDATES TIMER ON USER ACTIVITY
-        timer.current = (30);
+        timer.current = ((60 * 14.5));
     };
 
     const clearLogoutTimer = () => { // clears the logout timer
@@ -63,7 +58,7 @@ function App() {
     };
 
     useEffect(() => {
-        timer.current = (30); // UPDATES THE TIME VIA EVENT LISTENERS
+        timer.current = ((60 * 14.5)); // UPDATES THE TIME VIA EVENT LISTENERS
         window.addEventListener("click", updateTime);
         window.addEventListener("scroll", updateTime);
         window.addEventListener("keypress", updateTime);
@@ -82,11 +77,13 @@ function App() {
     };
 
     const handleIdleLogOut = () => { // handles logging out the user after time's up or logout button is clicked
-        setShowWarning(false); // resets showWarning
         axios.patch('http://localhost:5000/users/loggedin', { username: user, loggedIn: false })
         .then(() => {
             Cookies.remove("username");
             navigate('/');
+            clearInterval(logoutTimer);
+            clearLogoutTimer();
+            setShowWarning(false);
         })
         .catch(error => console.log(error.message));
     };
@@ -97,7 +94,7 @@ function App() {
             Cookies.remove("username");
             navigate('/');
         }).catch(error => console.log(error.message));
-    };
+    }
 
     const handleStayLoggedIn = () => { // fucntion for when stay logged in is clicked
         updateTime();
@@ -108,8 +105,10 @@ function App() {
     return (
         <>  
             <header className={`page-title`}>
-                <img src={book} className="logo" alt="Book Logo" />
+                <div className="logo">
+                <img src={book} alt="Book Logo" />
                 <h1>open_book</h1>
+                </div>
                 <button className="menu-icon" onClick={toggleMenu}>
                     <img src={menuIcon} alt="Menu" />
                 </button>
@@ -118,6 +117,7 @@ function App() {
                         <ul className="nav-list">
                             {user && pName !== "/homepage" ? <li><Link to="/homepage" onClick={() => setMenuOpen(false)}>Home</Link></li> : ""}
                             {pName !== "/snoop" ? <li><Link to="/snoop" onClick={() => setMenuOpen(false)}>Snoop</Link></li> : ""}
+                            {pName !== "/wof" ? <li><Link to="/wof" onClick={() => setMenuOpen(false)} >Wall Of Fame</Link></li>: ""}
                             {user ? <li><Settings /></li> : <li><ToggleTheme /></li>}
                             {user ? <li><Link to="/login" onClick={(e) => {setMenuOpen(false); handleLogOut(e);}}>Log Out</Link></li> : <li><Link to="/login" onClick={() => setMenuOpen(false)}>Log In</Link></li>}
                         </ul>
@@ -137,6 +137,7 @@ function App() {
                     <Route path="/homepage" element={<HomePage />} />
                 </Route>
                 <Route path="/snoop" element={<Snoop />} />
+                <Route path="/wof" element={<WallOfFame />} />
                 <Route path="/" element={<SignUp />} />
                 <Route path="/login" element={<Login />} />
             </Routes>
