@@ -84,7 +84,7 @@ export function Login() {
         })
     }
 
-    return <>
+    return <> 
         <h3 className="sign-log"><Link to="/">Sign Up</Link> or Log In</h3>
         <form className="ls-form" onSubmit={(e)=>{HandleLogIn(e)}}>
             <label>Username</label>
