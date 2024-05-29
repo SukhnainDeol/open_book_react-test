@@ -182,13 +182,12 @@ export function HomePage() {
                 </aside>
                 <div id="middle-container">
                     <form id="new-entry-form" onSubmit={(e) => {handleEntry(e)}}>
-                        <label htmlFor="title">Entry Title</label>
-                        <input type="text" id="title"
+                        <label htmlFor="title">New Journal Entry</label>
+                        <input type="text" id="title" placeholder="Entry Title:"
                             value={newTitle}
                             onChange={e => setNewTitle(e.target.value)}
                          maxLength={30} required/>
-                         <label htmlFor="image">Image URL (Optional)</label>
-                        <input type="text" id="image"
+                        <input type="text" id="image" placeholder="Image URL (Optional):"
                             value={newImageURL}
                             onChange={e => setNewImageURL(e.target.value)}
                          maxLength={500} />
