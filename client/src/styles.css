@@ -14,7 +14,7 @@ h3 {
 }
 
 p {
-    font-size: 1.75vw;
+    font-size: 1.5vw;
 }
 
 .page-title {
@@ -48,7 +48,7 @@ p {
 .btn {
     display: block;
     margin: 10px auto;
-    padding: 10px;
+    padding: 5px;
     background-color: white;
     border: 2px solid black;
     border-radius: 5px;
@@ -99,11 +99,11 @@ p {
 
 #middle-container {
     display: block;
-    margin: 10px auto;
-    width: 45%;
+    margin: auto;
+    width: 38%;
 }
 
-#entries-container { /* delete if needed */
+#entries-container {
     margin: auto;
     padding: 5px;
     width: 100%;
@@ -113,23 +113,22 @@ p {
     border: 2px solid black;
     border-radius: 5px;
     padding: 10px;
-    width: 25%;
+    width: 30%;
     margin: auto;
     height: 90%;
     position: fixed;
-    overflow: hidden; /* hides the overflow */
+    overflow: hidden;
     display: flex; 
     align-items: center; 
     justify-content: center;
-    z-index: -1; /* delete if needed */
+    z-index: -1;
 }
 
-/* delete if needed */
 .left-aside {
     top: 75px;
     left: 10px;
 }
-/* delete if needed */
+
 .right-aside {
     top: 75px;
     right: 10px;
@@ -168,34 +167,34 @@ p {
 }
 
 label {
-    margin: auto;
+    margin: 5px auto;
     display: block;
     text-align: center;
     width: 80%;
-    font-size: 1.75vw;
+    font-size: 1.5vw;
 }
 
 input {
     display: block;
-    margin: 10px auto;
+    margin: 5px auto;
     width: 80%;
     border-radius: 5px;
     border: 2px solid black;
     background-color:#fdfdf3;
     padding: 5px;
-    font-size: 1.75vw;
+    font-size: 1.5vw;
 }
 
 textarea {
     display: block;
-    margin: 10px auto;
+    margin: 5px auto;
     width: 80%;
     border-radius: 5px;
     border: 2px solid black;
     background-color: #fdfdf3;
     padding: 5px;
     resize: none;
-    font-size: 1.75vw;
+    font-size: 1.5vw;
 }
 
 input:focus,
@@ -206,7 +205,8 @@ textarea:focus {
 #entry-length {
     display: block;
     width: 80%;
-    margin: 10px auto 20px auto;
+    margin: 5px auto;
+    font-size: 1.35vw;
 }
 
 /* WALL OF FAME STYLING */
@@ -331,7 +331,7 @@ textarea:focus {
 .delete {
     width: 100%;
     padding: 5px;
-    font-size: 3vw;
+    font-size: 2.25vw;
     color: lightcoral;
     background-color: white;
     border: 2px red solid;
@@ -445,6 +445,10 @@ body {
     height: auto
 }
 
+.ls-form label {
+    font-size: 2vw;
+}
+
 .sign-log {
     text-align: center;
     margin: 20px;
@@ -459,7 +463,7 @@ body {
     margin: auto;
     text-align: center;
     width: 100%;
-    font-size: 2.25vw;
+    font-size: 2vw;
 }
 
 #terms-conditions {
@@ -537,7 +541,7 @@ body {
     right: 10px;
     padding: 10px;
     text-align: center;
-    width: 25%;
+    width: 30%;
     height: 90%;
     border: 2px black solid;
     border-radius: 5px;
@@ -652,17 +656,20 @@ body {
         width: 97%;
     }
 
-    #settings-menu {
-        width: 50%;
-        height: auto;
-    }
-
     .snoop .rating  a {
         font-size: 3.5vw;
     }
 
     .ls-form {
         width: 90%;
+    }
+
+    #entry-length {
+        font-size: 2.5vw;
+    }
+
+    .delete {
+        font-size: 3.5vw;
     }
 
     h2 {

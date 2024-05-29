@@ -192,8 +192,7 @@ export function HomePage() {
                             value={newImageURL}
                             onChange={e => setNewImageURL(e.target.value)}
                          maxLength={500} />
-                        <label htmlFor="entry">Entry Content</label>
-                        <textarea cols="50" rows="5"
+                        <textarea rows="4"
                             value={newEntry} maxLength={10000}
                             onChange={e => { setNewEntry(e.target.value); setEntryLength(e.target.value.length) }} required></textarea>
                             <p id="entry-length">Character Limit: {entryLength}/10000</p>
