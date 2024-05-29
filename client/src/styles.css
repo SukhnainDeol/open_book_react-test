@@ -213,7 +213,7 @@ textarea:focus {
 
 .wof {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
 }
 
 .wof-sub {
@@ -223,8 +223,7 @@ textarea:focus {
 .wof-container {
     margin: 10px auto;
     padding: 2px;
-    width: 97%;
-    min-width: 400px;
+    width: 85%;
     font-size: 1.75vw;
 }
 
@@ -629,6 +628,10 @@ body {
 }
 
 @media only screen and (max-width: 768px) {
+
+    .wof {
+        flex-direction: column;
+    }
 
     .nav-list {
         flex-direction: column-reverse;
