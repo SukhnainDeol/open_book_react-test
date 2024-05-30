@@ -7,7 +7,7 @@ export function ToggleTheme() {
     function toggleTheme() {
         setIsDarkMode((prevMode) => !prevMode);
         if (!isDarkMode) {
-            Cookies.set('theme', true, { expires: 7, sameSite:'strict' }); // SETS COOKIE TRUE
+            Cookies.set('theme', true, { expires: 7, sameSite:'strict', secure: true }); // SETS COOKIE TRUE
             document.documentElement.classList.add("dark-theme");
             document.documentElement.classList.remove("light-theme");
         } else {

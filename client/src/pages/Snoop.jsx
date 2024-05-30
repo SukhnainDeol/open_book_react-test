@@ -275,7 +275,7 @@ export function Snoop() {
                 <p className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></p>
                 <div className="comment-section">
                     { user ? <form onSubmit={(e)=>{handleAddComment(e, e.target.children[0].value, entry.id); e.target.children[0].value = "";}}>
-                                <textarea placeholder="[ Comment on This Post ]" style={{ margin: "10px auto", padding: "5px", width: "80%"}} maxLength={100}></textarea>
+                                <textarea placeholder="[ Comment on This Post ]" style={{ margin: "10px auto", padding: "5px", width: "80%"}} maxLength={200}></textarea>
                                 <button className="btn">Post Comment</button>
                             </form> : ""
                     }

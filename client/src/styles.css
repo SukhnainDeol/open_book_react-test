@@ -235,7 +235,7 @@ textarea:focus {
     gap: 1%;
     margin: 10px auto;
     padding: 2px;
-    width: 97%;
+    width: 70%;
 }
 
 .snoop .rating  {
@@ -463,7 +463,6 @@ body {
     margin: auto;
     text-align: center;
     width: 100%;
-    font-size: 2vw;
 }
 
 #terms-conditions {

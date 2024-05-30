@@ -60,7 +60,7 @@ export function SignUp() {
             response => {
 
                 axios.post('http://localhost:5000/users/', {username: username, password: response.data}).then( response => { // MAKES PASSWORD THE NEW ENCRYPTED PASSWORD
-                Cookies.set("username", username, { sameSite:'strict' });
+                Cookies.set("username", username, { sameSite:'strict', secure: true });
                 navigate('/homepage'); // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
                 }).catch(error => {
                 console.log(error.message)
@@ -82,7 +82,12 @@ export function SignUp() {
             <label>Confirm Password</label>
             <input type="password" value={conPassword} onChange={e => setConPassword(e.target.value)} maxLength={15} />
             <p className="ls-warning">Sample Warning Message</p>
-            <p id="terms">By Creating an Account, You Agree To Our <Link to="#" onClick={() => { document.querySelector("#terms-conditions").style.display="block"; document.querySelector("#terms-conditions").scrollTop = 0}}>Terms & Conditions</Link>.</p>
+            <p id="terms">By Creating an Account, You Agree To Our <Link to="#" onClick={() => { 
+                document.querySelector("#terms-conditions").style.display === "block" ?
+                    document.querySelector("#terms-conditions").style.display="none" : 
+                    document.querySelector("#terms-conditions").style.display="block";
+                document.querySelector("#terms-conditions").scrollTop = 0;
+                }}>Terms & Conditions</Link>.</p>
             <button className="btn">Sign Up</button>
             <div id="terms-conditions">
                 <h2>Terms & Conditions</h2><br/>

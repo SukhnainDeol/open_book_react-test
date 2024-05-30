@@ -60,7 +60,7 @@ export function Login() {
                             }).then (
                                 response => {
                                     console.log(response.data);
-                                    Cookies.set("username", username, { sameSite:'strict' }); // SETS COOKIE AND CONTEXT
+                                    Cookies.set("username", username, { sameSite:'strict', secure: true }); // SETS COOKIE AND CONTEXT
                                     navigate('/homepage') // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
                             }).catch(error => {
                                 console.log(error.message);
