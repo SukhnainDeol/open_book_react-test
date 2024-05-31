@@ -2,7 +2,8 @@
 This is website that allows users to anonymously write a public diary that others can read. Users create an account to post on and have the ability to "Snoop" others' profiles.
 
 
-## Running the Project Locally
+## Running the Project Locall
+- make sure you have Node Package Manager Installed
 - `git clone https://github.com/TJH2/open_book_react`
 - open 2 terminals
 - in terminal 1, navigate to the server folder and run `npm install`
