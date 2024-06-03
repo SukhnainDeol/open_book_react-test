@@ -44,5 +44,5 @@ export function ToggleTheme() {
         <span onClick={toggleTheme} className="nav-link">
             {isDarkMode ? "Light Mode" : "Dark Mode"}
         </span>
-    );
+    ); {/* running the toggleTheme to set css styles to opposite of current */}
 }

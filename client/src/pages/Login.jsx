@@ -75,8 +75,8 @@ export function Login() {
                         }
                     )
             }
-        ).catch(error => {
-            console.log(error.message);
+        ).catch(error => { // IF PASSWORD IS NOT FOUND
+            console.log(error.message); 
             document.querySelector(".ls-warning").innerText = "Username Does Not Exist";
             document.querySelector(".ls-warning").style.color = "lightcoral";
             setPassword("");
@@ -87,12 +87,15 @@ export function Login() {
     return <> 
         <h3 className="sign-log"><Link to="/">Sign Up</Link> or Log In</h3>
         <form className="ls-form" onSubmit={(e)=>{HandleLogIn(e)}}>
+             {/* handling for form when user submits on sign in or log in */}
             <label>Username</label>
+            {/* requirements for password and user name and error for when it is exceeded */}
             <input type="text" value={username} onChange={e => setUsername(e.target.value)} maxLength={10} />
             <label>Password</label>
             <input type="password" value={password} onChange={e => setPassword(e.target.value)} maxLength={15} />
             <p className="ls-warning">Sample Warning Message</p>
             <button className="btn">Login</button>
+            {/* populating warning message, and "login" button for the login functionalities */}
         </form>
     </>
    }

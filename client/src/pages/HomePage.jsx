@@ -175,12 +175,13 @@ export function HomePage() {
     }
 
     return (
-        <>
+        <>  {/* HTML for the homepage */}
             <div className="homepage-container">
                 <aside className="left-aside">
                     <p className="sample-text">{currentPrompts.left}</p>
                 </aside>
                 <div id="middle-container">
+                    {/* handling and organizing of creation center */}
                     <form id="new-entry-form" onSubmit={(e) => {handleEntry(e)}}>
                         <label htmlFor="title">New Journal Entry</label>
                         <input type="text" id="title" placeholder="Entry Title:"
@@ -191,6 +192,7 @@ export function HomePage() {
                             value={newImageURL}
                             onChange={e => setNewImageURL(e.target.value)}
                          maxLength={500} />
+                         {/* setting limits for the optional image with the user post */}
                         <textarea rows="4"
                             value={newEntry} maxLength={10000}
                             onChange={e => { setNewEntry(e.target.value); setEntryLength(e.target.value.length) }} required></textarea>
@@ -209,6 +211,7 @@ export function HomePage() {
                                         }
                                         { entry.entry.map((paragraph, index) => { return ( <p className="current-entry" key={"p" + index}>{paragraph}</p>);})}
                                         <p className="cc">Cool: <span className="cool">{entry.L}</span> Cringe: <span className="cringe">{entry.D}</span></p>
+                                        {/* formatting for home page with title, paragraph, image, cool/cringe ratings */}
                                         { 
                                             entry.comments.length > 0 ? entry.comments.toReversed().map((comment, index) => { return ( 
                                                 <div className="comment-container" key={"c" + index}>
@@ -227,6 +230,7 @@ export function HomePage() {
                 <aside className="right-aside">
                     <p className="sample-text">{currentPrompts.right}</p>
                 </aside>
+                {/* including prompts to give users an idea to write about */}
             </div>
         </>
     );

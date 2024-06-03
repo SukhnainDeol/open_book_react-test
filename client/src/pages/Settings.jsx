@@ -124,6 +124,7 @@ export function Settings() {
             <h3>Change Display: </h3>
             <button className="btn"><ToggleTheme /></button>
             <form onSubmit={(e) => {changepass(e)}}>
+                {/* settings options to change between dark and light mode */}
                 <h3>Change Password:</h3><br/>
                 <label>Old Password:</label>
                 <input type="password" value={oldPass} onChange={e => setOldPass(e.target.value)} maxLength={15} />
@@ -132,8 +133,10 @@ export function Settings() {
                 <label>Confirm New Password:</label>
                 <input type="password" value={conNewPass} onChange={e => setConNewPass(e.target.value)} maxLength={15} />
                 <button className="btn">Change</button>
+                {/* formatting for the box to change/update user information */}
                 <p className="ls-warning">Sample Warning Message</p>
             </form>
+            {/* ability to delete account at the bottom of the options page */}
             <button className="delete" onClick={(e)=>{warnDelete(e)}}>Delete Account</button>
         </div>
         </>

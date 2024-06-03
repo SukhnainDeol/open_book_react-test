@@ -106,7 +106,7 @@ function App() {
                 <div className="logo">
                 <img src={book} alt="Book Logo" />
                 <h1>open_book</h1>
-                </div>
+                </div> {/* setting the banner that is seen the whole time in the app */}
                 <button className="menu-icon" onClick={toggleMenu}>
                     <img src={menuIcon} alt="Menu" />
                 </button>
@@ -119,8 +119,9 @@ function App() {
                             {user ? <li><Settings /></li> : <li><Link to="#"><ToggleTheme /></Link></li>}
                             {user ? <li><Link to="/login" onClick={(e) => {setMenuOpen(false); handleLogOut(e);}}>Log Out</Link></li> : <li><Link to="/login" onClick={() => setMenuOpen(false)}>Log In</Link></li>}
                         </ul>
+                        {/* will present the other pages in the website and give a link to access them */}
                     </nav>
-                )}
+                )} {/* placing the hamburger menu and handling the opening, and closing */}
                 <span style={{visibility: 'hidden'}}><ToggleTheme /></span>
             </header>
             <div className="overlay">
@@ -129,7 +130,7 @@ function App() {
                     <button onClick={handleIdleLogOut}>Log Out</button>
                     <button onClick={handleStayLoggedIn}>Stay Logged In</button>
                 </div>
-            </div>
+            </div>{/* structure for the a warning box to appear when user is idle (option to log out or continue) */}
             
             <Routes>
                 <Route element={<PrivateRoutes />} >

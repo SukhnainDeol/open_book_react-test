@@ -267,6 +267,7 @@ export function Snoop() {
         return <div className="snoop" style={user ? {diplsay: "grid"} : {display: "block"}} key={entry.id}>
             <div className="entries" style={ user ? {width: "100%"} : {width: "100%"}}>
                 <h2 className="current-entry-title">{entry.title}</h2>
+                {/* including the date and time a creation is posted */}
                 <h3 className="current-entry-title">Posted on {moment(entry.date).format('lll')}</h3>
                 {
                     entry.imageURL ? <img className="entry-image" src={entry.imageURL} onError={(e) => {e.currentTarget.style.display="none";}} /> : "" // ONLY ADD AN IMAGE IF IT EXISTS.
@@ -279,6 +280,7 @@ export function Snoop() {
                                 <button className="btn">Post Comment</button>
                             </form> : ""
                     }
+                    {/* commenting for user to be able to share their ideas */}
                     { 
                     entry.comments.length > 0 ? entry.comments.toReversed().map((comment, index) => { return (
                         <div className="comment-container" key={"c" + index}>
@@ -289,6 +291,7 @@ export function Snoop() {
                         </div>);}) 
                     : <p className="no-comment">There Are No Comments On This Post</p> 
                     }
+                    {/* displaying message if there are no comments on a post */}
                 </div>
             </div>
                 <div className="rating" style={{justifySelf: "left"}}>

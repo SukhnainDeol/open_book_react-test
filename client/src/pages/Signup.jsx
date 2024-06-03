@@ -75,6 +75,7 @@ export function SignUp() {
     return <>
         <h3 className="sign-log">Sign Up or <Link to="/login">Log In</Link></h3>
         <form className="ls-form" onSubmit={(e) => {HandleSignIn(e)}}>
+            {/* to run the logic for login/signup when from is submitted */}
             <label>Create Username</label>
             <input type="text" value={username} onChange={e => setUsername(e.target.value)} maxLength={10} />
             <label>Create Password</label>
@@ -82,12 +83,14 @@ export function SignUp() {
             <label>Confirm Password</label>
             <input type="password" value={conPassword} onChange={e => setConPassword(e.target.value)} maxLength={15} />
             <p className="ls-warning">Sample Warning Message</p>
+            {/* lays out the requirements for an account username, password, and password confirmation */}
             <p id="terms">By Creating an Account, You Agree To Our <Link to="#" onClick={() => { 
                 document.querySelector("#terms-conditions").style.display === "block" ?
                     document.querySelector("#terms-conditions").style.display="none" : 
                     document.querySelector("#terms-conditions").style.display="block";
                 document.querySelector("#terms-conditions").scrollTop = 0;
                 }}>Terms & Conditions</Link>.</p>
+                {/* provides a link to terms and services that must be agreed upon to make an account */}
             <button className="btn">Sign Up</button>
             <div id="terms-conditions">
                 <h2>Terms & Conditions</h2><br/>
@@ -105,6 +108,7 @@ export function SignUp() {
                 <p><em>PS: Our site uses two cookies to handle light/dark theme and user context that are created when you sign up/log in, and subsequently removes the context cookie when logging out and the theme cookie after 7 days (so by signing up/logging in you agree to the use of these cookies).</em></p><br/>
                 <button className="btn" onClick={() => { document.querySelector("#terms-conditions").style.display="none"; document.querySelector("#terms-conditions").scrollTop = 0}}>Close Terms & Conditions</button>
             </div>
+            {/* end of div to create a sample terms and conditons for the application */}
         </form>
     </>
    }

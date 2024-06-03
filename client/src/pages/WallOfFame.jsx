@@ -73,7 +73,7 @@ export function WallOfFame() {
                     </div>
                 </div>
             })}
-        </div>
+        </div>{/* formatting to show the most liked post under the title "hall of fame" page is with shared with hall of shame  */}
         
         
         <div className="wof-sub">
@@ -94,7 +94,7 @@ export function WallOfFame() {
 
                 </div>
             })}
-        </div>
+        </div>{/* same ideas as before now just to show off the posts with the most dislikes */}
 
     </div>
     </>
