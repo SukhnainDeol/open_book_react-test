@@ -13,7 +13,7 @@ export function Snoop() {
 
     useEffect(()=>{ // CODE TO PULL USER ENTRIES FROM THE DATABASE
 
-        if (!initialized.current) {
+        if (!initialized.current) { // MAKES SURE USEFFECT TRIGGERS ONLY ONCE
             initialized.current = true
 
             axios.get('http://localhost:5000/posts/random', {params: {

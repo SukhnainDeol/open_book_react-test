@@ -89,7 +89,7 @@ export function Settings() {
             initialized.current = true
             document.querySelector(".ls-warning").innerText = 'Click "Delete Account" Again To Confirm';
             document.querySelector(".ls-warning").style.color = "lightcoral";
-        } else { // AXIOS CALL GOES HERE 
+        } else { 
 
             axios.delete('http://localhost:5000/users', {
                 params: {

@@ -15,7 +15,7 @@ export function WallOfFame() {
 
     useEffect(()=>{ // CODE TO PULL USER ENTRIES FROM THE DATABASE
 
-        if (!initialized.current) {
+        if (!initialized.current) { // MAKES SURE USEFFECT TRIGGERS ONLY ONCE
             initialized.current = true
 
 

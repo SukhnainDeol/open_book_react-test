@@ -4,8 +4,6 @@ import Cookies from 'js-cookie'
 import axios from "axios"
 
 export function SignUp() {
-
-    // AUTH FUNCTIONS ------------------------------------------------------------------------------------------------------------------
     
     const navigate = useNavigate();
     const initialized = useRef(false); // RE-USABLE HOOK TO MAKE SURE THINGS DON'T DOUBLE LOAD AT START

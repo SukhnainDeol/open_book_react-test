@@ -40,7 +40,7 @@ export function Login() {
         } ).then(
             response => {
                     if (response.data[0].loggedIn === true) { // SO TWO USERS CAN'T LOG IN ON THE SAME ACCOUNT
-                        if(moment().diff(moment(response.data[0].updatedAt), 'hours') < 2) { // IF USER HAS BEEN LOGGED IN FOR OVER 24 HOURS ON ANOTHER DEVICE (WHICH MEANS THEY HAVE LIKELY CLEARED THEIR COOKIES WITHOUT LOGGING OUT
+                        if(moment().diff(moment(response.data[0].updatedAt), 'hours') < 2) { // IF USER HAS BEEN LOGGED IN FOR OVER 2 HOURS ON ANOTHER DEVICE (WHICH MEANS THEY HAVE LIKELY CLEARED THEIR COOKIES WITHOUT LOGGING OUT
                             document.querySelector(".ls-warning").innerText = "This Account is Already Logged in on Another Device. Please Log Out on That Device or Wait " +
                             (1 - moment().diff(moment(response.data[0].updatedAt), 'hours')) + " Hours & " +
                             (59 - (moment().diff(moment(response.data[0].updatedAt), 'minutes') % 60)) + " Minutes.";
