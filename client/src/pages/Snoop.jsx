@@ -286,7 +286,7 @@ export function Snoop() {
                         <div className="comment-container" key={"c" + index}>
                             <p className="current-comment">{comment.comment}</p> 
                             {
-                                comment.author === user ? <button className="delete" style={{justifySelf: "start", padding: "5px"}} onClick={()=>{handleCommentDelete(entry.id)}}>Delete</button> : ""
+                                comment.author === user ? <button className="delete" style={{justifySelf: "start"}} onClick={()=>{handleCommentDelete(entry.id)}}>X</button> : ""
                             }
                         </div>);}) 
                     : <p className="no-comment">There Are No Comments On This Post</p> 

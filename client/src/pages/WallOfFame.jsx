@@ -58,7 +58,7 @@ export function WallOfFame() {
 
         <div className="wof-sub">
 
-            <h2 style={{textAlign: "center"}}><u>Hall of Fame</u></h2>
+            <h2 style={{textAlign: "center"}}><u>The Wall of Fame</u></h2>
             {likedEntries.map(entry => {
 
                 return <div className="wof-container" key={entry.id}>
@@ -78,7 +78,7 @@ export function WallOfFame() {
         
         <div className="wof-sub">
 
-            <h2 style={{textAlign: "center"}}><u>Hall of Shame</u></h2>
+            <h2 style={{textAlign: "center"}}><u>The Wall of Shame</u></h2>
             {dislikedEntries.map(entry => {
 
                 return <div className="wof-container" key={entry.id}>

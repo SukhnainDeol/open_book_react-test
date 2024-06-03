@@ -25,7 +25,7 @@ export function HomePage() {
         if (!initialized.current) { // MAKES SURE USEFFECT TRIGGERS ONLY ONCE
             initialized.current = true
 
-        document.querySelector("textarea").placeholder = `Hello, ${user}. What's On Your Mind?`; // SETS TEXTAREA PLACEHOLDER WITH USERNAME SO USER KNOWS LOGIN IS SUCCESSFULL
+        document.querySelector("textarea").placeholder = `Hello, ${user}. What's on Your Mind?`; // SETS TEXTAREA PLACEHOLDER WITH USERNAME SO USER KNOWS LOGIN IS SUCCESSFULL
 
         axios.get('http://localhost:5000/posts/username', { // PULL THEIR POSTS
             params: {
@@ -216,11 +216,11 @@ export function HomePage() {
                                             entry.comments.length > 0 ? entry.comments.toReversed().map((comment, index) => { return ( 
                                                 <div className="comment-container" key={"c" + index}>
                                                     <p className="current-comment">{comment.comment}</p> 
-                                                    <button className="delete" style={{justifySelf: "start", margin: "5px", padding: "5px"}} onClick={()=>{handleCommentDelete(entry.id, comment.author)}}>Delete</button>
+                                                    <button className="delete" style={{justifySelf: "start"}} onClick={()=>{handleCommentDelete(entry.id, comment.author)}}>X</button>
                                                 </div>
                                             );}) : <p className="no-comment">There Are No Comments On This Post</p> 
                                         }
-                                        <button className="delete" onClick={() => deleteEntry(entry.id)}>Delete Post</button>
+                                        <button className="delete" onClick={() => deleteEntry(entry.id)}>Delete Journal Entry</button>
                                     </div>
                                 </div>
                             );

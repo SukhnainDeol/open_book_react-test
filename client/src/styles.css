@@ -331,7 +331,8 @@ textarea:focus {
 .delete {
     width: 100%;
     padding: 5px;
-    font-size: 2.25vw;
+    font-size: 2vw;
+    font-weight: bold;
     color: lightcoral;
     background-color: white;
     border: 2px red solid;
@@ -667,10 +668,6 @@ body {
         font-size: 2.5vw;
     }
 
-    .delete {
-        font-size: 3.5vw;
-    }
-
     .btn {
         font-size: 2.75vw; 
     }
@@ -679,7 +676,9 @@ body {
         height: auto;
     }
     
-
+    .delete {
+        font-size: 3vw;
+    }
 
     h2 {
         font-size: 4.5vw;

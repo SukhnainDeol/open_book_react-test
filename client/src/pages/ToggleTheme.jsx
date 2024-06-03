@@ -34,9 +34,8 @@ export function ToggleTheme() {
                 document.documentElement.classList.remove("dark-theme");
             }
         } else { // FIXES A BUG WHERE IS USER LOGS OUT IN DARKMODE AND LOGS BACK IN, IT'S STILL THE DARK MODE CLASS BUT TOGGLE DOESN'T RECOGNIZE IT
-            if(document.documentElement.classList.contains("dark-theme")) {
+            document.documentElement.classList.add("dark-theme")
                 setIsDarkMode(true);
-            }
         }
     }, [])
 
