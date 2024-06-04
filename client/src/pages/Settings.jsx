@@ -38,7 +38,7 @@ export function Settings() {
         }
 
         // GETS CURRENT PASSWORD TO COMPARE
-        axios.get('http://localhost:5000/users/username', { // GET USER INFO
+        axios.get('https://openbook.azurewebsites.net/users/username', { // GET USER INFO
             params: {
                 username: user,
             }
@@ -46,15 +46,15 @@ export function Settings() {
             response => {
                 const checkPass = response.data[0].password; // CURRENT DATABASE PASSWORD
                 // ENCRYPT ATTEMPT PASSWORD TO COMPARE
-                axios.get('http://localhost:5000/encrypt',{ params: {password: oldPass }}).then(
+                axios.get('https://openbook.azurewebsites.net/encrypt',{ params: {password: oldPass }}).then(
                     response => {
                     if (checkPass === response.data) // CHECK IF PASSWORDS MATCH
                     {
                         // ENCRYPTION
-                        axios.get('http://localhost:5000/encrypt',{ params: {password: newPass }}).then(
+                        axios.get('https://openbook.azurewebsites.net/encrypt',{ params: {password: newPass }}).then(
                             response => {
                                 console.log(response.data);
-                                axios.patch('http://localhost:5000/users/password', { // UPDATE PASSWORD
+                                axios.patch('https://openbook.azurewebsites.net/users/password', { // UPDATE PASSWORD
                                 username: user, password: response.data,
                                 }).then (
                                     response => { // LET USERS KNOW IF PASSWORD CHANGE WAS SUCCESSFUL
@@ -93,7 +93,7 @@ export function Settings() {
             document.querySelector(".ls-warning").style.color = "lightcoral";
         } else { 
 
-            axios.delete('http://localhost:5000/users', {
+            axios.delete('https://openbook.azurewebsites.net/users', {
                 params: {
                     username: user,
                 }

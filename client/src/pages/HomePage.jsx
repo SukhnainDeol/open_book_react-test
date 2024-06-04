@@ -25,7 +25,7 @@ export function HomePage() {
         document.querySelector("textarea").placeholder = `Hello, ${user}. What's on Your Mind?`; // SETS TEXTAREA PLACEHOLDER WITH USERNAME SO USER KNOWS LOGIN IS SUCCESSFULL
 
         // PULLS ALL USER ENTRIES FROM DATABASE
-        axios.get('http://localhost:5000/posts/username', { // PULL THEIR POSTS
+        axios.get('https://openbook.azurewebsites.net/posts/username', { // PULL THEIR POSTS
             params: {
                 author: user, // SPECIFIC SEARCH FOR USER
             } 
@@ -63,7 +63,7 @@ export function HomePage() {
         e.preventDefault();
 
         // POSTS THE NEW ENTRY TO THE DATABASE
-        axios.post('http://localhost:5000/posts/', { // MAKE A NEW ENTRY
+        axios.post('https://openbook.azurewebsites.net/posts/', { // MAKE A NEW ENTRY
         author: user,
         imageURL: newImageURL,
         title: newTitle,
@@ -72,7 +72,7 @@ export function HomePage() {
         }).then(
             response => {
                 console.log(response.data);
-                axios.get('http://localhost:5000/posts/username-recent', { // GRABS THE POST WE JUST MADE TO THE DATABASE
+                axios.get('https://openbook.azurewebsites.net/posts/username-recent', { // GRABS THE POST WE JUST MADE TO THE DATABASE
                     params: {
                     author: user, // SPECIFIC SEARCH FOR USER
                 } 
@@ -101,7 +101,7 @@ export function HomePage() {
     //FUNCTION FOR DELETING AN ENTRY
     function deleteEntry(id) {
         // DELETES ENTRY BY UNIQUE ID
-        axios.delete('http://localhost:5000/posts/id', {params: {id: id }}).then(
+        axios.delete('https://openbook.azurewebsites.net/posts/id', {params: {id: id }}).then(
             response => {
                 console.log(response.data);
                 setEntries(currentEntries => {
@@ -117,7 +117,7 @@ export function HomePage() {
     // FUNCTION FOR DELETING A COMMENT
     function handleCommentDelete(id, author) {
         // A USER CAN ONLY HAVE ONE COMMENT ON EACH ENTRY, SO IF ANOTHER COMMENT BY THAT USER EXISTS, REMOVE IT
-        axios.patch('http://localhost:5000/posts/remove-comment',{ id: id, username: author }) // CALL TO REMOVE EXISTING COMMENT FROM USER
+        axios.patch('https://openbook.azurewebsites.net/posts/remove-comment',{ id: id, username: author }) // CALL TO REMOVE EXISTING COMMENT FROM USER
         .catch(error => {
             console.log(error.message);
             return;

@@ -30,7 +30,7 @@ export function Login() {
             return;
         }
         // AXIOS CALL TO SEE IF USERNAME IS IN OUR DATABASE
-        axios.get('http://localhost:5000/users/username', { 
+        axios.get('https://openbook.azurewebsites.net/users/username', { 
             params: {
                 username: username,
             } 
@@ -48,11 +48,11 @@ export function Login() {
 
                     const checkPass = response.data[0].password; // CURRENT DATABASE PASSWORD
                     // ENCRYPTS PASSWORD USER IS TRYING TO SEE IF IT MATCHES PASSWORD IN DATABASE
-                    axios.get('http://localhost:5000/encrypt',{ params: {password: password }}).then(
+                    axios.get('https://openbook.azurewebsites.net/encrypt',{ params: {password: password }}).then(
                         response => {
                             if(checkPass === response.data) { // IF PASSWORDS MATCH
                         
-                            axios.patch('http://localhost:5000/users/loggedin', { // UPDATE LOGGED IN STATUS
+                            axios.patch('https://openbook.azurewebsites.net/users/loggedin', { // UPDATE LOGGED IN STATUS
                                 username: username, loggedIn: true,
                             }).then (
                                 response => {

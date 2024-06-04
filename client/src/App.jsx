@@ -78,7 +78,7 @@ function App() {
     };
 
     const handleIdleLogOut = () => { // HANDLES LOGOUT FOR IDLE TIMER AND IDLE TIMER BUTTON
-        axios.patch('http://localhost:5000/users/loggedin', { username: user, loggedIn: false })
+        axios.patch('https://openbook.azurewebsites.net/users/loggedin', { username: user, loggedIn: false })
         .then(() => {
             clearInterval(logoutTimer);
             clearLogoutTimer();
@@ -91,7 +91,7 @@ function App() {
 
     function handleLogOut(e) { // HANDLES LOG OUT FOR LOGOUT BUTTON IN HAMBURGER MENU
          e.preventDefault();
-        axios.patch('http://localhost:5000/users/loggedin', { username: user, loggedIn: false }).then(() => {
+        axios.patch('https://openbook.azurewebsites.net/users/loggedin', { username: user, loggedIn: false }).then(() => {
             Cookies.remove("username");
             navigate('/');
         }).catch(error => console.log(error.message));

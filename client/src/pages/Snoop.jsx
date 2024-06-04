@@ -16,7 +16,7 @@ export function Snoop() {
         if (!initialized.current) { // MAKES SURE USEFFECT TRIGGERS ONLY ONCE
             initialized.current = true
 
-            axios.get('http://localhost:5000/posts/random', {params: {
+            axios.get('https://openbook.azurewebsites.net/posts/random', {params: {
                 username: user, // MAKES SURE YOU CAN'T SEE YOUR OWN POSTS
                 }}).then( // SEARCH FOR A RANDOM USER
             response => {
@@ -24,7 +24,7 @@ export function Snoop() {
                 const username = response.data[0].author; // USERNAME VARIABLE FOR RANDOM USER
 
                 // TAKES USERNAME PULLED OFF OF RANDOM POST AND SEARCHES FOR ALL POSTS FROM THAT USER
-                axios.get('http://localhost:5000/posts/username', { // PULL THEIR POSTS
+                axios.get('https://openbook.azurewebsites.net/posts/username', { // PULL THEIR POSTS
                 params: {
                 author: username, // SPECIFIC SEARCH FOR RANDOM USER
                 } 
@@ -58,7 +58,7 @@ export function Snoop() {
 
         let option; // OPTION FOR HOW TO UPDATE THE PAGE AFTER CHANGE
 
-        axios.get('http://localhost:5000/posts/id', {
+        axios.get('https://openbook.azurewebsites.net/posts/id', {
             params: {
                 id: id
             }
@@ -68,7 +68,7 @@ export function Snoop() {
                 if (response.data[0].likes.users.includes(user)) {
                     option = 1;
                     // REMOVE LIKE
-                    axios.patch('http://localhost:5000/posts/likes',
+                    axios.patch('https://openbook.azurewebsites.net/posts/likes',
                         {
                             count: response.data[0].likes.count - 1, // DECREMENT
                             users: response.data[0].likes.users.filter(u => u != user) // REMOVE USER
@@ -86,7 +86,7 @@ export function Snoop() {
                     if(!isLike) {
                         option = 2;
                         // ADD DISLIKE
-                    axios.patch('http://localhost:5000/posts/dislikes',
+                    axios.patch('https://openbook.azurewebsites.net/posts/dislikes',
                     {
                         count: response.data[0].dislikes.count + 1, // INCREMENT
                         users: [...response.data[0].dislikes.users, user] // ADD USER
@@ -106,7 +106,7 @@ export function Snoop() {
                 else if (response.data[0].dislikes.users.includes(user)) {
                     option = 3;
                     // REMOVE DISLIKE
-                    axios.patch('http://localhost:5000/posts/dislikes',
+                    axios.patch('https://openbook.azurewebsites.net/posts/dislikes',
                         {
                             count: response.data[0].dislikes.count - 1, // DECREMENT
                             users: response.data[0].dislikes.users.filter(u => u != user) // REMOVE USER
@@ -124,7 +124,7 @@ export function Snoop() {
                     if(isLike) {
                         option = 4;
                         // ADD LIKE
-                    axios.patch('http://localhost:5000/posts/likes',
+                    axios.patch('https://openbook.azurewebsites.net/posts/likes',
                     {
                         count: response.data[0].likes.count + 1, // INCREMENT
                         users: [...response.data[0].likes.users, user] // ADD USER
@@ -141,7 +141,7 @@ export function Snoop() {
                     if(isLike) {
                         option = 5;
                         // add like
-                    axios.patch('http://localhost:5000/posts/likes',
+                    axios.patch('https://openbook.azurewebsites.net/posts/likes',
                     {
                         count: response.data[0].likes.count + 1, // INCREMENT
                         users: [...response.data[0].likes.users, user] // ADD USER
@@ -153,7 +153,7 @@ export function Snoop() {
                     }   
                     )} else {
                         option = 6;
-                        axios.patch('http://localhost:5000/posts/dislikes',
+                        axios.patch('https://openbook.azurewebsites.net/posts/dislikes',
                         {
                             count: response.data[0].dislikes.count + 1, // INCREMENT
                             users: [...response.data[0].dislikes.users, user] // ADD USER
@@ -219,12 +219,12 @@ export function Snoop() {
             return;
         }
 
-        axios.patch('http://localhost:5000/posts/remove-comment',{ id: id, username: user }) // CALL TO REMOVE EXISTING COMMENT FROM USER
+        axios.patch('https://openbook.azurewebsites.net/posts/remove-comment',{ id: id, username: user }) // CALL TO REMOVE EXISTING COMMENT FROM USER
         .catch(error => {
             console.log(error.message);
             return;
         }).then(response => {
-            axios.patch('http://localhost:5000/posts/add-comment',{ id: id, comment: comment, username: user }) // CALL TO ADD NEW COMMENT
+            axios.patch('https://openbook.azurewebsites.net/posts/add-comment',{ id: id, comment: comment, username: user }) // CALL TO ADD NEW COMMENT
             .catch(error => {
                 console.log(error.message);
                 return;
@@ -246,7 +246,7 @@ export function Snoop() {
     // FUNCTION FOR DELETING A COMMENT IN DATABASE AND ON SCREEN
     function handleCommentDelete(id) {
 
-        axios.patch('http://localhost:5000/posts/remove-comment',{ id: id, username: user }) // CALL TO REMOVE EXISTING COMMENT FROM USER
+        axios.patch('https://openbook.azurewebsites.net/posts/remove-comment',{ id: id, username: user }) // CALL TO REMOVE EXISTING COMMENT FROM USER
         .catch(error => {
             console.log(error.message);
             return;

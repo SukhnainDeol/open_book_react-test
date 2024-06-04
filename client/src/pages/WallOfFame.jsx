@@ -20,7 +20,7 @@ export function WallOfFame() {
 
 
             // LOAD MOST LIKED ENTRIES
-            axios.get('http://localhost:5000/posts/liked').then(
+            axios.get('https://openbook.azurewebsites.net/posts/liked').then(
                 response => {
                     response.data.forEach(currentEntry => {
                         // FILLS LIKEDENTRIES ARRAY WITH 10 MOST LIKED POSTS FROM DATABASE
@@ -36,7 +36,7 @@ export function WallOfFame() {
                 })
 
             // LOAD MOST DISLIKED ENTRIES
-            axios.get('http://localhost:5000/posts/disliked').then(
+            axios.get('https://openbook.azurewebsites.net/posts/disliked').then(
                 response => {
                     response.data.forEach(currentEntry => {
                         // FILLS DISLIKEDENTRIES ARRAY WITH 10 MOST DISLIKED POSTS FROM DATABASE

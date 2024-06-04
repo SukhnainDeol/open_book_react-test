@@ -39,7 +39,7 @@ export function SignUp() {
         }
 
         // CHECKS TO SEE IF USERNAME IS TAKEN
-        axios.get('http://localhost:5000/users/username', { 
+        axios.get('https://openbook.azurewebsites.net/users/username', { 
             params: {
                 username: username,
             } 
@@ -54,10 +54,10 @@ export function SignUp() {
         ).catch(error => { // ATTEMPTS TO ADD USER TO THE DATABASE
 
             // SENDS PASSWORD TO BE ENCRYPTED ON THE SERVER
-            axios.get('http://localhost:5000/encrypt',{ params: {password: password }}).then(
+            axios.get('https://openbook.azurewebsites.net/encrypt',{ params: {password: password }}).then(
             response => {
                 // CREATES ACCOUNT WITH USERNAME AND ENCRYPTED PASSWORD
-                axios.post('http://localhost:5000/users/', {username: username, password: response.data}).then( response => { // MAKES PASSWORD THE NEW ENCRYPTED PASSWORD
+                axios.post('https://openbook.azurewebsites.net/users/', {username: username, password: response.data}).then( response => { // MAKES PASSWORD THE NEW ENCRYPTED PASSWORD
                 Cookies.set("username", username, { sameSite:'strict', secure: true });
                 navigate('/homepage'); // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES
                 }).catch(error => {
