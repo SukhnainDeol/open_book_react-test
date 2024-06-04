@@ -8,7 +8,6 @@ export function Settings() {
 
     const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
     const navigate = useNavigate(); // "react-router-dom" VARIABLE TO NAVIGATE BETWEEN PAGES
-
     const initialized = useRef(false); // RE-USABLE HOOK TO DETERMINE HOW MANY TIMES USER CLICKS DELETE ACCOUNT FOR WARNING OR DELETE
     const [oldPass, setOldPass] = useState(""); // HOLDS INPUT VALUE FOR OLD PASSWORD
     const [newPass, setNewPass] = useState(""); // HOLDS INPUT VALUE FOR NEW PASSWORD
