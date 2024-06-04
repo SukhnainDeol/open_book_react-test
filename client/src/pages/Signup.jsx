@@ -5,21 +5,21 @@ import axios from "axios"
 
 export function SignUp() {
     
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // "react-router-dom" VARIABLE TO NAVIGATE BETWEEN PAGES
     const initialized = useRef(false); // RE-USABLE HOOK TO MAKE SURE THINGS DON'T DOUBLE LOAD AT START
 
     useEffect(() => { // PREVENTS USER FROM GOING BACK TO LOGGIN PAGE IF ALREADY LOGGED IN
         if (!initialized.current) { // MAKES SURE USEFFECT TRIGGERS ONLY ONCE
             initialized.current = true
             const user = Cookies.get("username");
-            if(user) {
+            if(user) { // IF COOKIE EXISTS, USER MUST BE LOGGED IN SO GO TO HOMEPAGE
              navigate('/homepage')
             }
     }}, [])
 
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
-    const [conPassword, setConPassword] = useState("")
+    const [username, setUsername] = useState(""); // HOLDS USERNAME VALUE OF USERNAME INPUT
+    const [password, setPassword] = useState(""); // HOLDS PASSWORD VALUE OF PASSWORD INPUT
+    const [conPassword, setConPassword] = useState(""); // HOLDS CONFIRM PASSWORD VALUE OF CONFIRM PASSWORD INPUT
 
     function HandleSignIn(e) {
         e.preventDefault()
@@ -38,6 +38,7 @@ export function SignUp() {
             return;
         }
 
+        // CHECKS TO SEE IF USERNAME IS TAKEN
         axios.get('http://localhost:5000/users/username', { 
             params: {
                 username: username,
@@ -52,11 +53,10 @@ export function SignUp() {
             }
         ).catch(error => { // ATTEMPTS TO ADD USER TO THE DATABASE
 
-            // ENCRYPTION FUNCTION GOES HERE
-
+            // SENDS PASSWORD TO BE ENCRYPTED ON THE SERVER
             axios.get('http://localhost:5000/encrypt',{ params: {password: password }}).then(
             response => {
-
+                // CREATES ACCOUNT WITH USERNAME AND ENCRYPTED PASSWORD
                 axios.post('http://localhost:5000/users/', {username: username, password: response.data}).then( response => { // MAKES PASSWORD THE NEW ENCRYPTED PASSWORD
                 Cookies.set("username", username, { sameSite:'strict', secure: true });
                 navigate('/homepage'); // NAVIGATES TO HOMEPAGE AFTER REST OF FUNCTION RESOLVES

@@ -14,21 +14,22 @@ import { Settings } from "./pages/Settings";
 import axios from "axios";
 
 function App() {
-    const navigate = useNavigate();
-    const pName = useLocation().pathname;
-    const user = Cookies.get("username");
-    const [menuOpen, setMenuOpen] = useState(false);
+    const navigate = useNavigate(); // "react-router-dom" VARIABLE TO NAVIGATE BETWEEN PAGES
+    const pName = useLocation().pathname; // PATHNAME
+    const user = Cookies.get("username"); // VALUE FOR COOKIE IF IT EXISTS UPON LANDING ON THE SITE
+    const [menuOpen, setMenuOpen] = useState(false); // USESTATE FOR MANAGING HAMBURGER MENU
     const logoutTimer = useRef(null); // COUNT DOWN INTERVAL FOR LOG IN SCREEN
     const timer = useRef((60 * 14.5)); // AMOUNT OF TIME A USER IS ALLOWED TO BE IDLE 14.5 MINUTES
     const countdown = useRef(30); // COUNT DOWN UNTIL LOGGED OUT
 
+    // USEEFFECT FOR IDLE TIMER. GOES FOR 14.5 MINUTES ON 1 SEC INTERVALS AND REFRESHES EVERY TIME A USER DOES AN EVENT. IF THE USER IS IDLE FOR 14.5 MINUTES A 30 SECOND TIME WILL LOG THE USER OUT IF THEY DONT RESPOND
     useEffect(() => {
         const timeLapse = setInterval(() => {
-        const user = Cookies.get("username");
+        const user = Cookies.get("username"); // COOKIE WILL EXIST IF USER IS LOGGED IN
         
-        if (user) {
-            timer.current = timer.current - 1;
-            if(timer.current === 0) {
+        if (user) { // TIMER ONLY MATTERS IF USER IS LOGGED IN
+            timer.current = timer.current - 1; // SUBTRACT A SECOND FROM THE TIME
+            if(timer.current === 0) { // IF TIMER DROPS TO 0
                 document.querySelector(".overlay").style.display = "flex";
                 countdown.current = 30;
                 document.querySelector(".warning-box-span").innerText = 30;
@@ -36,7 +37,7 @@ function App() {
                     countdown.current = countdown.current -1;
                     document.querySelector(".warning-box-span").innerText = countdown.current;
                     if(countdown.current === 0) {
-                        handleIdleLogOut();
+                        handleIdleLogOut(); // LOGOUT IF USER DOESN'T RESPOND IN 30 SECONDS
                     }
                     }, 1000); // 30 seconds to respond
                 }       
@@ -48,13 +49,14 @@ function App() {
         timer.current = ((60 * 14.5));
     };
 
-    const clearLogoutTimer = () => { // clears the logout timer
+    const clearLogoutTimer = () => { // CLEARS LOGOUT TIMER
         if (logoutTimer.current) {
             clearTimeout(logoutTimer.current);
             logoutTimer.current = null;
         }
     };
 
+    // USEEFFECT TO HANDLE EVENTLISTENERS FOR IDLE TIMER
     useEffect(() => {
         timer.current = ((60 * 14.5)); // UPDATES THE TIME VIA EVENT LISTENERS
         window.addEventListener("click", updateTime);
@@ -70,11 +72,12 @@ function App() {
         };
     }, []);
 
+    // FOR MANAGING HAMBURGER MENU STATE WHEN USER CLICKS ON MENU
     const toggleMenu = () => {
         setMenuOpen(prevMenuOpen => !prevMenuOpen);
     };
 
-    const handleIdleLogOut = () => { // handles logging out the user after time's up or logout button is clicked
+    const handleIdleLogOut = () => { // HANDLES LOGOUT FOR IDLE TIMER AND IDLE TIMER BUTTON
         axios.patch('http://localhost:5000/users/loggedin', { username: user, loggedIn: false })
         .then(() => {
             clearInterval(logoutTimer);
@@ -86,7 +89,7 @@ function App() {
         .catch(error => console.log(error.message));
     };
 
-    function handleLogOut(e) { // handles logging out the user after time's up or logout button is clicked
+    function handleLogOut(e) { // HANDLES LOG OUT FOR LOGOUT BUTTON IN HAMBURGER MENU
          e.preventDefault();
         axios.patch('http://localhost:5000/users/loggedin', { username: user, loggedIn: false }).then(() => {
             Cookies.remove("username");
@@ -145,6 +148,7 @@ function App() {
     );
 }
 
+// FUNCTION FOR PRIVATE ROUTES. HOMEPAGE IS A PRIVATE ROUTE AND ISN'T AVAILABLE UNTIL A USER LOGGS IN. ENSURES USERS DON'T MANUALLY PUT HOMEPAGE INTO THE SEARCH BAR
 const PrivateRoutes = () => {
     const user = Cookies.get("username");
     return (

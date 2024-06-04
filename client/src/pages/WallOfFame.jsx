@@ -9,8 +9,8 @@ export function WallOfFame() {
     const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
     const initialized = useRef(false); // RE-USABLE HOOK TO MAKE SURE THINGS DON'T DOUBLE LOAD AT START
 
-    const [likedEntries, setLikedEntries] = useState([])
-    const [dislikedEntries, setDislikedEntries] = useState([])
+    const [likedEntries, setLikedEntries] = useState([]); // FOR RENDERING LIKED ENTRIES
+    const [dislikedEntries, setDislikedEntries] = useState([]); // FOR RENDERING DISLIKED ENTRIES
 
 
     useEffect(()=>{ // CODE TO PULL USER ENTRIES FROM THE DATABASE
@@ -23,7 +23,7 @@ export function WallOfFame() {
             axios.get('http://localhost:5000/posts/liked').then(
                 response => {
                     response.data.forEach(currentEntry => {
-
+                        // FILLS LIKEDENTRIES ARRAY WITH 10 MOST LIKED POSTS FROM DATABASE
                         setLikedEntries((entries) => {
                             const text = currentEntry.text.split("\n"); // SPLITS UP PARAGRAPHS
                                 return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count}];
@@ -39,7 +39,7 @@ export function WallOfFame() {
             axios.get('http://localhost:5000/posts/disliked').then(
                 response => {
                     response.data.forEach(currentEntry => {
-
+                        // FILLS DISLIKEDENTRIES ARRAY WITH 10 MOST DISLIKED POSTS FROM DATABASE
                         setDislikedEntries((entries) => {
                             const text = currentEntry.text.split("\n"); // SPLITS UP PARAGRAPHS
                                 return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count}];

@@ -9,7 +9,7 @@ export function Snoop() {
     const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
     const initialized = useRef(false); // RE-USABLE HOOK TO MAKE SURE THINGS DON'T DOUBLE LOAD AT START
 
-    const [entries, setEntries] = useState([])
+    const [entries, setEntries] = useState([]); // ARRAY TO RENDER RANDOM USER'S ENTRIES
 
     useEffect(()=>{ // CODE TO PULL USER ENTRIES FROM THE DATABASE
 
@@ -23,6 +23,7 @@ export function Snoop() {
                 console.log(response.data);
                 const username = response.data[0].author; // USERNAME VARIABLE FOR RANDOM USER
 
+                // TAKES USERNAME PULLED OFF OF RANDOM POST AND SEARCHES FOR ALL POSTS FROM THAT USER
                 axios.get('http://localhost:5000/posts/username', { // PULL THEIR POSTS
                 params: {
                 author: username, // SPECIFIC SEARCH FOR RANDOM USER
@@ -50,7 +51,7 @@ export function Snoop() {
         }    
     }, [])
 
-
+    // FUNCTION TO UPDATE ENTRY IN THE DATABASE AFTER USER LIKES/DISLIKES
     function addLikeDislike(e, id, isLike) {
 
         e.preventDefault();
@@ -66,7 +67,7 @@ export function Snoop() {
                 // USER ALREADY LIKED
                 if (response.data[0].likes.users.includes(user)) {
                     option = 1;
-                    // remove like
+                    // REMOVE LIKE
                     axios.patch('http://localhost:5000/posts/likes',
                         {
                             count: response.data[0].likes.count - 1, // DECREMENT
@@ -84,7 +85,7 @@ export function Snoop() {
 
                     if(!isLike) {
                         option = 2;
-                        // add dislike
+                        // ADD DISLIKE
                     axios.patch('http://localhost:5000/posts/dislikes',
                     {
                         count: response.data[0].dislikes.count + 1, // INCREMENT
@@ -104,7 +105,7 @@ export function Snoop() {
                 // USER ALREADY DISLIKED
                 else if (response.data[0].dislikes.users.includes(user)) {
                     option = 3;
-                    // remove dislike
+                    // REMOVE DISLIKE
                     axios.patch('http://localhost:5000/posts/dislikes',
                         {
                             count: response.data[0].dislikes.count - 1, // DECREMENT
@@ -122,7 +123,7 @@ export function Snoop() {
 
                     if(isLike) {
                         option = 4;
-                        // add like
+                        // ADD LIKE
                     axios.patch('http://localhost:5000/posts/likes',
                     {
                         count: response.data[0].likes.count + 1, // INCREMENT
@@ -165,7 +166,7 @@ export function Snoop() {
                         )}
                 }
 
-                // reload post on front end
+                // UPDATE ENTRY ON FRONT END
                 updatePost(id, option);
 
 
@@ -176,6 +177,7 @@ export function Snoop() {
         })
     }
 
+    // FUNCTION TO UPDATE A ENTRY VISUALLY AFTER A USER LIKES/DISLIKES
     function updatePost(id, option) {
         const newArray = entries.map((entry) => {
             if (id === entry.id){ // UPDATES USESTATE BASED ON WHICH ACTIONS WERE TAKEN IN THE DATABASE
@@ -205,15 +207,15 @@ export function Snoop() {
             }
             return entry;
           });
-          setEntries(newArray);
+          setEntries(newArray); // SETS NEW STATUS OF LIKE/DISLIKE ON THE ENTRY
     }
 
+    //FUNCTION FOR ADDING A COMMENT IN DATABASE AND ON SCREEN
     function handleAddComment(e, comment, id) {
         e.preventDefault();
         const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
 
         if(comment.length === 0) { // IF THE COMMENT IS AN EMPTY STRING, DO NOTHING
-            console.log("EMPTY STRING");
             return;
         }
 
@@ -241,6 +243,7 @@ export function Snoop() {
         })
     }
 
+    // FUNCTION FOR DELETING A COMMENT IN DATABASE AND ON SCREEN
     function handleCommentDelete(id) {
 
         axios.patch('http://localhost:5000/posts/remove-comment',{ id: id, username: user }) // CALL TO REMOVE EXISTING COMMENT FROM USER
@@ -248,7 +251,7 @@ export function Snoop() {
             console.log(error.message);
             return;
         }).then(response => {
-            // RENDER COMMENTS ON THE SCREEN
+            // REMOVES COMMENT FROM USESTATE
             const newArray = entries.map((entry) => {
                 if (id === entry.id){ // UPDATES USESTATE BASED ON WHICH ACTIONS WERE TAKEN IN THE DATABASE
                     let newComments = entry.comments.filter(function(com) {return com.author !== user;}); // FILTERS OUT OLD COMMENT

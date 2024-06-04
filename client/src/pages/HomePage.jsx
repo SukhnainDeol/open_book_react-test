@@ -7,18 +7,15 @@ import axios from "axios"
 
 export function HomePage() {
 
-    // ON LOAD FUNCTIONS/VARIABLES ------------------------------------- |
-
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // "react-router-dom" VARIABLE TO NAVIGATE BETWEEN PAGES
     const user = Cookies.get("username"); // COOKIE WILL BE ESTABLISHED IF LOGIN IS WORKED
     const initialized = useRef(false); // RE-USABLE HOOK TO MAKE SURE THINGS DON'T DOUBLE LOAD AT START
-
-    const [newTitle, setNewTitle] = useState("");
-    const [newEntry, setNewEntry] = useState("");
-    const [newImageURL, setNewImageURL] = useState("");
-    const [entries, setEntries] = useState([]);
-    const [entryLength, setEntryLength]= useState(0);
-    const currentDate = moment().format('lll');
+    const [entries, setEntries] = useState([]); // USESTATE ARRAY FOR ENTRIES FROM DATABASE
+    const [newTitle, setNewTitle] = useState(""); // VALUE OF TITLE INPUT
+    const [newEntry, setNewEntry] = useState(""); // VALUE OF ENTRY TEXTAREA 
+    const [newImageURL, setNewImageURL] = useState(""); // VALUE OF IMAGE URL INPUT
+    const [entryLength, setEntryLength]= useState(0); // LENGTH OF POST IN TEXTAREA. MAX 10,000 CHARACTERS
+    const currentDate = moment().format('lll'); // DATE FORMAT FOR ENTRIES
 
     useEffect(() => {
 
@@ -27,6 +24,7 @@ export function HomePage() {
 
         document.querySelector("textarea").placeholder = `Hello, ${user}. What's on Your Mind?`; // SETS TEXTAREA PLACEHOLDER WITH USERNAME SO USER KNOWS LOGIN IS SUCCESSFULL
 
+        // PULLS ALL USER ENTRIES FROM DATABASE
         axios.get('http://localhost:5000/posts/username', { // PULL THEIR POSTS
             params: {
                 author: user, // SPECIFIC SEARCH FOR USER
@@ -34,6 +32,7 @@ export function HomePage() {
             }).then(
                 response => {
                     response.data.forEach(currentEntry => {
+                        // ADDS ENTRIES TO ENTRIES USESTATE
                             setEntries((entries) => {
                                 const text = currentEntry.text.split("\n"); // SPLITS UP PARAGRAPHS
                                 return [...entries, { id: currentEntry._id, title: currentEntry.title, imageURL: currentEntry.imageURL, entry: text, date: currentEntry.date, L:  currentEntry.likes.count, D:  currentEntry.dislikes.count, comments: currentEntry.comments }];
@@ -50,6 +49,7 @@ export function HomePage() {
         }
     }, [])
 
+    // USE EFFECT FOR ASIDES LINKED LIST
     useEffect(() => {
         const intervalId = setInterval(promptNext, 15000); // calls promptNext every 10 seconds
 
@@ -58,12 +58,12 @@ export function HomePage() {
             };
     }, [])
 
-    // ----------------------------------------------------------------------------------------
-
+    // FUNCTION FOR ADDING A NEW ENTRY FROM USER
     function handleEntry(e) {
         e.preventDefault();
 
-        axios.post('http://localhost:5000/posts/', { // MAKE A NEW POST
+        // POSTS THE NEW ENTRY TO THE DATABASE
+        axios.post('http://localhost:5000/posts/', { // MAKE A NEW ENTRY
         author: user,
         imageURL: newImageURL,
         title: newTitle,
@@ -82,7 +82,7 @@ export function HomePage() {
                             const text = response.data[0].text.split("\n"); // SPLITS UP PARAGRAPHS
                             return [...currentEntries, { id: response.data[0]._id, title: response.data[0].title, imageURL: response.data[0].imageURL, entry: text, date: response.data[0].date, L: response.data[0].likes.count, D: response.data[0].dislikes.count, comments: response.data[0].comments }];
                          });
-
+                        // CLEARS FORM VALUES
                         setNewTitle("");
                         setNewEntry("");
                         setNewImageURL("");
@@ -98,8 +98,9 @@ export function HomePage() {
         })
     }
 
+    //FUNCTION FOR DELETING AN ENTRY
     function deleteEntry(id) {
-
+        // DELETES ENTRY BY UNIQUE ID
         axios.delete('http://localhost:5000/posts/id', {params: {id: id }}).then(
             response => {
                 console.log(response.data);
@@ -113,8 +114,9 @@ export function HomePage() {
         })
     }
 
+    // FUNCTION FOR DELETING A COMMENT
     function handleCommentDelete(id, author) {
-
+        // A USER CAN ONLY HAVE ONE COMMENT ON EACH ENTRY, SO IF ANOTHER COMMENT BY THAT USER EXISTS, REMOVE IT
         axios.patch('http://localhost:5000/posts/remove-comment',{ id: id, username: author }) // CALL TO REMOVE EXISTING COMMENT FROM USER
         .catch(error => {
             console.log(error.message);
@@ -165,6 +167,7 @@ export function HomePage() {
         right: rightPromptsList.getCurrent()
     });
 
+    // FUNCTION FOR MOVING THROUGH LINKED LIST
     function promptNext() {
         leftPromptsList.resetOrNext(); // reset at end, move to the next otherwise for right and left
         rightPromptsList.resetOrNext(); 

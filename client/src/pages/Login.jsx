@@ -5,23 +5,20 @@ import axios from "axios"
 import moment from "moment";
 
 export function Login() {
-
-    // AUTH FUNCTIONS ------------------------------------------------------------------------------------------------------------------
     
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // "react-router-dom" VARIABLE TO NAVIGATE BETWEEN PAGES
     const initialized = useRef(false); // RE-USABLE HOOK TO MAKE SURE THINGS DON'T DOUBLE LOAD AT START
+    const [username, setUsername] = useState(""); // HOLDS USERNAME VALUE OF USERNAME INPUT
+    const [password, setPassword] = useState(""); // HOLDS PASSWORD VALUE OF PASSWORD INPUT
 
     useEffect(() => { // PREVENTS USER FROM GOING BACK TO LOGGIN PAGE IF ALREADY LOGGED IN
         if (!initialized.current) { // MAKES SURE USEFFECT TRIGGERS ONLY ONCE
             initialized.current = true
             const user = Cookies.get("username");
-            if(user) {
-             navigate('/homepage')
+            if(user) { // IF COOKIE EXISTS, USER MUST BE LOGGED IN SO GO TO HOMEPAGE
+             navigate('/homepage');
             }
     }}, [])
-
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
 
     function HandleLogIn(e) {
         e.preventDefault()
@@ -32,7 +29,7 @@ export function Login() {
             setPassword("");
             return;
         }
-
+        // AXIOS CALL TO SEE IF USERNAME IS IN OUR DATABASE
         axios.get('http://localhost:5000/users/username', { 
             params: {
                 username: username,
@@ -50,7 +47,7 @@ export function Login() {
                     } 
 
                     const checkPass = response.data[0].password; // CURRENT DATABASE PASSWORD
-
+                    // ENCRYPTS PASSWORD USER IS TRYING TO SEE IF IT MATCHES PASSWORD IN DATABASE
                     axios.get('http://localhost:5000/encrypt',{ params: {password: password }}).then(
                         response => {
                             if(checkPass === response.data) { // IF PASSWORDS MATCH
@@ -66,7 +63,7 @@ export function Login() {
                                 console.log(error.message);
                                 return;
                             })
-                            } else {
+                            } else { // PASSWORD DOESN'T MATCH DATABASE
                                 document.querySelector(".ls-warning").innerText = "Username & Password Do Not Match";
                                 document.querySelector(".ls-warning").style.color = "lightcoral";
                                 setPassword("");
@@ -75,7 +72,7 @@ export function Login() {
                         }
                     )
             }
-        ).catch(error => { // IF PASSWORD IS NOT FOUND
+        ).catch(error => { // IF USERNAME IS NOT FOUND
             console.log(error.message); 
             document.querySelector(".ls-warning").innerText = "Username Does Not Exist";
             document.querySelector(".ls-warning").style.color = "lightcoral";
