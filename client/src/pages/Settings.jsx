@@ -10,15 +10,17 @@ export function Settings() {
     const navigate = useNavigate();
 
     const initialized = useRef(false); // RE-USABLE HOOK TO MAKE SURE THINGS DON'T DOUBLE LOAD AT START
-    const [oldPass, setOldPass] = useState("")
-    const [newPass, setNewPass] = useState("")
-    const [conNewPass, setConNewPass] = useState("")
-    const [viz, setViz] = useState(false)
+    const [oldPass, setOldPass] = useState(""); // HOLDS INPUT VALUE FOR OLD PASSWORD
+    const [newPass, setNewPass] = useState(""); // HOLDS INPUT VALUE FOR NEW PASSWORD
+    const [conNewPass, setConNewPass] = useState(""); // HOLDS INPUT VALUE FOR CONFIRM NEW PASSWORD
+    const [viz, setViz] = useState(false); // USESTATE TO MANAGE SETTINGS APPEARING/DISAPPEARING AFTER BEING CLICKED
     
+    // SHOW OR HIDE SETTINGS
     useEffect(()=>{
         viz ?  document.querySelector("#settings-menu").style.display = "block" : document.querySelector("#settings-menu").style.display = "none"
     },[viz])
 
+    // FUNCTION TO CHANGE PASSWORD
     function changepass(e) {
         e.preventDefault() // PREVENTS FORM SUBMISSION TO NOTHING
 
@@ -36,7 +38,7 @@ export function Settings() {
             return;
         }
 
-        
+        // GETS CURRENT PASSWORD TO COMPARE
         axios.get('http://localhost:5000/users/username', { // GET USER INFO
             params: {
                 username: user,
@@ -44,7 +46,7 @@ export function Settings() {
         }).then(
             response => {
                 const checkPass = response.data[0].password; // CURRENT DATABASE PASSWORD
-
+                // ENCRYPT ATTEMPT PASSWORD TO COMPARE
                 axios.get('http://localhost:5000/encrypt',{ params: {password: oldPass }}).then(
                     response => {
                     if (checkPass === response.data) // CHECK IF PASSWORDS MATCH
@@ -56,7 +58,7 @@ export function Settings() {
                                 axios.patch('http://localhost:5000/users/password', { // UPDATE PASSWORD
                                 username: user, password: response.data,
                                 }).then (
-                                    response => {
+                                    response => { // LET USERS KNOW IF PASSWORD CHANGE WAS SUCCESSFUL
                                         console.log(response.data);
                                         document.querySelector(".ls-warning").innerText = response.data.message;
                                         document.querySelector(".ls-warning").style.color = "lightgreen";
@@ -82,6 +84,7 @@ export function Settings() {
         
     }
 
+    // FUNCTION TO DELETE THE ACCOUNT
     function warnDelete(e) {
         e.preventDefault() // PREVENTS FORM SUBMISSION TO NOTHING
 
@@ -108,11 +111,12 @@ export function Settings() {
         }
     }
 
+    // RESETS ALL INPUTS & WARNING MESSAGE WHEN CLICKING SETTINGS
     function Reset(fullReset) {
         if(fullReset) {
             document.querySelector(".ls-warning").style.color = "transparent"; // REMOVES WARNING MESSAGE
         }
-        initialized.current = false; // RESETS DELETE TO 2 Clicks
+        initialized.current = false; // RESETS DELETE TO 2 CLICKS
         setOldPass("");
         setNewPass("");
         setConNewPass("");
