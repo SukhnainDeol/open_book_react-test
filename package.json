@@ -1,0 +1,13 @@
+{
+  "name": "openbook",
+  "version": "1.0.0",
+  "scripts": {
+      "start": "cd server && npm install && npm start",
+      "build": "cd client && npm install && npm run build"
+    },
+  "main": "server.js",
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

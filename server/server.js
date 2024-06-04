@@ -2,11 +2,12 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 require('dotenv').config()
+const path = require('path')
 
 
 // SERVER
 const app = express()
-const port = process.env.REACT_APP_PORT || 5000;
+const port = 8080;
 
 
 // MIDDLEWARE
@@ -43,7 +44,18 @@ app.use('/posts', postsRouter)
 const eRouter = require('./routes/encrypt.route')
 app.use('/encrypt', eRouter)
 
+
+// Serve static files from the React app's dist directory
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+// Handle all other routes by serving the index.html file from the dist directory
+app.get('*', (req, res) => {
+    console.log("GOT A REQUEST FOR PAGE");
+  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+});
+
+
 // SERVER METHODS
-app.listen(port, () => {
-    console.log(`Server started on PORT: ${port}`);
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Server started on 0.0.0.0 at PORT: ${port}`);
 })
